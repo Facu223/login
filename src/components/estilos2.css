@@ -1,0 +1,100 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #245fdd;
+    font-family: sans-serif;
+  }
+
+
+.contenedor2 {
+  margin: 105px auto;
+  width: 500px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #f8f9fa;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  margin-bottom: 35px;
+}
+
+.label-alert {
+  background-color: rgba(255, 0, 0, 0.5);
+  color: #fff;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border-top: 3px solid greenyellow;
+}
+
+.label-error {
+  background-color: rgba(255, 0, 0, 0.5);
+  color: #fff;
+  border-radius: 8px;
+  border-top: 3px solid greenyellow;
+}
+
+input{
+    border-radius: 5px;
+    border: none;
+    background-color: #D6D6D6;
+    font-size: 21px;
+    margin: 5px;
+}
+
+input:focus-visible{
+    outline: none;
+}
+
+input:focus{
+    outline: 0.5px solid greenyellow;
+    border-radius: 0.5px;
+}
+
+.botonsito{   
+    margin-top: 20px;
+    padding: 5px 20px;
+    background-color: rgb(42, 163, 42);
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+}
+
+.label1{
+    margin-right: 213px;
+}
+
+.label2{
+    margin-right: 187px;
+}
+
+.titulo{
+    margin-top: -5px;
+}
+
+.parrafo{
+    margin: 40px;
+}
+
+@media only screen and (max-width: 619px){
+    .contenedor2{
+        margin-top: 60px;
+        width: 80%;
+        margin: 20px auto;
+        height: 500px;
+    }
+}
+
+@media only screen and (max-width: 346px){
+    input{
+        width: 150px;
+    }
+
+    .label1, .label2{
+        margin: auto;
+    }
+}

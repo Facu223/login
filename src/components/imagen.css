@@ -1,0 +1,35 @@
+.relative{
+    position: relative;
+    height: 150px;
+}
+
+.imagen{
+    position: absolute;
+    block-size: 100px;
+    left: 40px;
+    top: 40px;
+}
+
+@media only screen and (max-width: 876px){
+    .imagen{
+        left: 35px;
+    }
+}
+
+@media only screen and (max-width: 680px){
+    .imagen{
+        left: 30px;
+    }
+}
+
+@media only screen and (max-width: 595px){
+    .imagen{
+        left: 20px;
+    }
+}
+
+@media only screen and (max-width: 344px){
+    .imagen{
+        left: 17px;
+    }
+}
