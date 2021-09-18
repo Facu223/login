@@ -1,13 +1,11 @@
-import Login from './components/Login';
+import Routes from "./components/routes/Routes";
 
 function App() {
-  return (
-    <div className="contenedor1">
-
-      <Login />
-
-    </div>
-  );
+   return (
+      <div className="contenedor1">
+         <Routes />
+      </div>
+   );
 }
 
 export default App;
