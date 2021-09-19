@@ -1,21 +1,23 @@
-import { Fragment } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import Login from "../Login";
+import { Fragment } from "react";
+
+import PrivateRoute from "./PrivateRoute";
 import Principal from "../Principal";
+import Login from "../Login";
+import Crear from "../Crear";
 
 const Routes = () => {
    return (
       <Fragment>
          <Switch>
             <Route path="/" exact>
-               <Redirect to="/login" />
+               <Redirect to="/dashboard" />
             </Route>
             <Route path="/login" exact>
                <Login />
             </Route>
-            <Route path="/dashboard" exact>
-               <Principal />
-            </Route>
+            <PrivateRoute path="/dashboard" exact component={Principal} />
+            <PrivateRoute path="/empleados" exact component={Crear} />
          </Switch>
       </Fragment>
    );
