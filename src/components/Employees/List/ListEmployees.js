@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import api from "./servicios/api";
-import estilos3 from "./estilos3.css";
+import api from "../../servicios/api";
+import styles from "./ListEmployees.module.css";
 
-class Listar extends React.Component {
+class ListEmployees extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
@@ -36,6 +36,7 @@ class Listar extends React.Component {
 
    componentDidMount() {
       this.cargarDatos();
+      console.log(this.props);
    }
 
    render() {
@@ -45,17 +46,17 @@ class Listar extends React.Component {
          return <div>Cargando</div>;
       } else {
          return (
-            <div className="card card2">
-               <div className="card-header">
-                  <Link
-                     to={"/crear"}
-                     type="button"
-                     className="btn btn-success centrar"
-                  >
-                     Agregar nuevo empleado
-                  </Link>
-               </div>
+            <div className={`${styles.card2}`}>
                <div className="card-body card3">
+                  <div className={styles["card-header"]}>
+                     <Link
+                        to={"/dashboard/empleados/nuevo"}
+                        type="button"
+                        className={`button ${styles.new__button}`}
+                     >
+                        Agregar empleado
+                     </Link>
+                  </div>
                   <h4>Lista de empleados</h4>
                   <table className="table">
                      <thead>
@@ -86,15 +87,13 @@ class Listar extends React.Component {
                               <td data-titulo="Rol">{empleado.rol}</td>
                               <td>
                                  <div
-                                    className="btn-group botones"
-                                    role="group"
-                                    aria-label=""
+                                    className={`${styles.button__group} ${styles.botones}`}
                                  >
                                     <Link
                                        to={"/empleados/editar/" + empleado.id}
                                        type="button"
                                        // className="btn btn-warning padding-button"
-                                       // className={styles.btn}
+                                       className={`button ${styles.edit__button}`}
                                     >
                                        Editar
                                     </Link>
@@ -103,7 +102,7 @@ class Listar extends React.Component {
                                           this.borrarRegistros(empleado.id)
                                        }
                                        type="button"
-                                       className="btn btn-danger"
+                                       className={`${styles.delete__button} button`}
                                     >
                                        Borrar
                                     </button>
@@ -114,11 +113,10 @@ class Listar extends React.Component {
                      </tbody>
                   </table>
                </div>
-               <div className="card-footer text-muted"></div>
             </div>
          );
       }
    }
 }
 
-export default Listar;
+export default ListEmployees;

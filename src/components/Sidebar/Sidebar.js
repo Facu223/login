@@ -14,6 +14,15 @@ const Sidebar = (props) => {
          <ul className={styles.sidebar__items}>
             <li className={styles.sidebar__item}>
                <Link
+                  to={`/dashboard`}
+                  onClick={props.closeMenu}
+                  className={styles.sidebar__link}
+               >
+                  Dashboard
+               </Link>
+            </li>
+            <li className={styles.sidebar__item}>
+               <Link
                   to={`${url}/empleados`}
                   onClick={props.closeMenu}
                   className={styles.sidebar__link}

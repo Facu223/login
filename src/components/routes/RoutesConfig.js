@@ -2,9 +2,12 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { Fragment } from "react";
 
 import PrivateRoute from "./PrivateRoute";
+import LoginRoute from "./LoginRoute";
 import Principal from "../Principal";
-import Login from "../Login";
+import Editar from "../Editar";
+import Listar from "../Listar";
 import Crear from "../Crear";
+import Dashboard from "../Dashboard/Dashboard";
 
 const Routes = () => {
    return (
@@ -13,11 +16,8 @@ const Routes = () => {
             <Route path="/" exact>
                <Redirect to="/dashboard" />
             </Route>
-            <Route path="/login" exact>
-               <Login />
-            </Route>
-            <PrivateRoute path="/dashboard" exact component={Principal} />
-            <PrivateRoute path="/empleados" exact component={Crear} />
+            <LoginRoute path="/login" exact />
+            <PrivateRoute path="/dashboard" component={Dashboard} />
          </Switch>
       </Fragment>
    );

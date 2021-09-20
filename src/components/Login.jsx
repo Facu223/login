@@ -70,9 +70,6 @@ const Login = () => {
 
                <div>
                   <label className="label1">Usuario</label>
-               </div>
-
-               <div>
                   <Input
                      attribute={{
                         id: "usuario",
@@ -85,9 +82,6 @@ const Login = () => {
 
                <div>
                   <label className="label2">Contraseña</label>
-               </div>
-
-               <div>
                   <Input
                      attribute={{
                         id: "contraseña",
