@@ -1,0 +1,18 @@
+.card {
+   width: 70%;
+   margin: 5rem auto;
+   background-color: #fff;
+}
+
+.button__group {
+   display: flex;
+   justify-content: center;
+}
+
+.add__button {
+   background-color: rgb(42, 88, 163);
+   color: white;
+   text-transform: uppercase;
+   letter-spacing: 0.8px;
+   margin-right: 10px;
+}

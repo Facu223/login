@@ -3,10 +3,6 @@ import { Fragment } from "react";
 
 import PrivateRoute from "./PrivateRoute";
 import LoginRoute from "./LoginRoute";
-import Principal from "../Principal";
-import Editar from "../Editar";
-import Listar from "../Listar";
-import Crear from "../Crear";
 import Dashboard from "../Dashboard/Dashboard";
 
 const Routes = () => {

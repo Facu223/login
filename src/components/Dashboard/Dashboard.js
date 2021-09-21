@@ -9,6 +9,8 @@ import styles from "./Dashboard.module.css";
 import ListEmployees from "../Employees/List/ListEmployees";
 import NewEmployee from "../Employees/New/NewEmployee";
 import Crear from "../Crear";
+import ListTrucks from "../Trucks/List/ListTrucks";
+import NewTruck from "../Trucks/New/NewTruck";
 
 function Dashboard() {
    const [backdropOpen, setOpen] = useState(false);
@@ -35,6 +37,12 @@ function Dashboard() {
             </Route>
             <Route path={`${path}/empleados/nuevo`}>
                <NewEmployee />
+            </Route>
+            <Route path={`${path}/camiones`} exact>
+               <ListTrucks />
+            </Route>
+            <Route path={`${path}/camiones/nuevo`} exact>
+               <NewTruck />
             </Route>
          </main>
 
