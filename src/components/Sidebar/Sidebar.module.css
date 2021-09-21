@@ -23,7 +23,7 @@
    padding: 0.5rem;
    display: inline-block;
    color: white;
-   font-size: 1.5rem;
+   font-size: 1rem;
    cursor: pointer;
 }
 
@@ -40,8 +40,8 @@
 }
 
 .sidebar__item {
-   font-size: 1.2rem;
-   text-align: center;
+   font-size: 1rem;
+   /* text-align: center; */
 }
 
 .sidebar__item:hover {
@@ -49,24 +49,30 @@
 }
 
 .sidebar__link {
-   padding: 1rem 0;
+   padding: 0.5rem 1.5rem;
    cursor: pointer;
    color: white;
-   font-weight: 500;
+   font-weight: 300;
+   font-size: 1rem;
+   letter-spacing: 0.8px;
    text-decoration: none;
    display: inline-block;
    width: 100%;
 }
 
+.sidebar__icon {
+   margin-right: 1rem;
+}
+
 @media (min-width: 750px) {
    .sidebar {
-      width: 35%;
+      width: 25%;
    }
 }
 
 @media (min-width: 1100px) {
    .sidebar {
-      width: 20%;
+      width: 15%;
    }
 
    .sidebar__item {

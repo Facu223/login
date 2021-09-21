@@ -18,6 +18,8 @@ const Sidebar = (props) => {
                   onClick={props.closeMenu}
                   className={styles.sidebar__link}
                >
+                  {/* <i class="bi bi-house-door"></i>Dashboard */}
+                  <i className={`bi bi-house-door ${styles.sidebar__icon}`}></i>
                   Dashboard
                </Link>
             </li>
@@ -27,6 +29,7 @@ const Sidebar = (props) => {
                   onClick={props.closeMenu}
                   className={styles.sidebar__link}
                >
+                  <i className={`bi bi-people ${styles.sidebar__icon}`}></i>
                   Empleados
                </Link>
             </li>
@@ -36,6 +39,9 @@ const Sidebar = (props) => {
                   onClick={props.closeMenu}
                   className={styles.sidebar__link}
                >
+                  <i
+                     className={`bi bi-clipboard-check ${styles.sidebar__icon}`}
+                  ></i>
                   Pedidos
                </Link>
             </li>
@@ -45,6 +51,7 @@ const Sidebar = (props) => {
                   onClick={props.closeMenu}
                   className={styles.sidebar__link}
                >
+                  <i className={`bi bi-truck ${styles.sidebar__icon}`}></i>
                   Camiones
                </Link>
             </li>
@@ -54,7 +61,7 @@ const Sidebar = (props) => {
                   onClick={props.closeMenu}
                   className={styles.sidebar__link}
                >
-                  Ventas
+                  <i className={`bi bi-shop ${styles.sidebar__icon}`}></i>Ventas
                </Link>
             </li>
             <li className={styles.sidebar__item}>
@@ -63,6 +70,7 @@ const Sidebar = (props) => {
                   onClick={props.closeMenu}
                   className={styles.sidebar__link}
                >
+                  <i className={`bi bi-bar-chart ${styles.sidebar__icon}`}></i>
                   Informes
                </Link>
             </li>
