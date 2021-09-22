@@ -13,15 +13,21 @@
 }
 
 .new__button {
-   background-color: #d1d1d1;
-   color: #333;
-   border-bottom: 2px solid rgb(168, 168, 168);
+   background-color: rgb(42, 88, 163);
+   color: #fff;
+   /* border-bottom: 2px solid rgb(168, 168, 168); */
    margin-bottom: 1rem;
+   border-radius: 50px;
+   letter-spacing: 0.5px;
 }
 
 .new__button:hover {
-   background-color: rgb(189, 189, 189);
-   color: #333;
+   background-color: rgb(52, 108, 199);
+   color: white;
+}
+
+.new__button__icon {
+   font-size: 1.2rem;
 }
 
 .edit__button {
@@ -36,8 +42,10 @@
 }
 
 .delete__button {
-   background-color: #b11b1b;
-   color: #fff;
+   background-color: #fff;
+   /* color: #fff; */
+   color: #b11b1b;
+   border: 1px solid #b11b1b !important;
 }
 
 .no-content__message {
@@ -126,6 +134,7 @@ th:last-of-type {
 
    .new__button {
       width: 100%;
+      border-radius: 0px;
    }
 }
 

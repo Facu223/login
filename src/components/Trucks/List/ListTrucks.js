@@ -21,7 +21,8 @@ const ListTrucks = () => {
                   type="button"
                   className={`button ${styles.new__button}`}
                >
-                  Agregar camion
+                  <i className={`bi bi-plus ${styles.new__button__icon}`}></i>{" "}
+                  Agregar
                </Link>
             </div>
             <h4>Lista de camiones</h4>
