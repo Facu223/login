@@ -8,13 +8,15 @@ const NewTruck = () => {
       marca: "",
       modelo: "",
       dominio: "",
+      anio: 0,
+      numero_poliza: "",
    };
 
    const [truckData, setTruckData] = useState(initialState);
    const [errors, setError] = useState({});
    const history = useHistory();
 
-   const { marca, modelo, dominio } = truckData;
+   const { marca, modelo, dominio, anio, numero_poliza } = truckData;
 
    const submitHandler = (e) => {
       e.preventDefault();
@@ -25,7 +27,13 @@ const NewTruck = () => {
 
       setError({});
 
-      const truck = { marca, modelo, dominio };
+      const truck = {
+         marca,
+         modelo,
+         dominio,
+         anio: Number(anio),
+         numero_poliza,
+      };
       const url = `${api}/api/camiones/`;
 
       console.log(truck);
@@ -62,7 +70,7 @@ const NewTruck = () => {
 
    const checkValid = (field) => {
       const value = Object.values(errors);
-      if (value.indexOf(field) != -1) return true;
+      if (value.indexOf(field) !== -1) return true;
       return false;
    };
 
@@ -89,14 +97,14 @@ const NewTruck = () => {
                      id="marca"
                      className={
                         checkValid(errors.marca)
-                           ? "is-invalid"
-                           : "" + " form-control"
+                           ? "is-invalid form-control"
+                           : " form-control"
                      }
                      placeholder=""
                      aria-describedby="helpId"
                   />
                   <small id="helpId" className="invalid-feedback">
-                     Ecribe la marca del camion
+                     Escribe la marca del camion
                   </small>
                </div>
                <br></br>
@@ -111,14 +119,14 @@ const NewTruck = () => {
                      id="modelo"
                      className={
                         checkValid(errors.modelo)
-                           ? "is-invalid"
-                           : "" + " form-control"
+                           ? "is-invalid form-control"
+                           : " form-control"
                      }
                      placeholder=""
                      aria-describedby="helpId"
                   />
                   <small id="helpId" className="invalid-feedback">
-                     Ecribe el modelo del camion
+                     Escribe el modelo del camion
                   </small>
                </div>
                <br></br>
@@ -133,14 +141,68 @@ const NewTruck = () => {
                      id="dominio"
                      className={
                         checkValid(errors.dominio)
-                           ? "is-invalid"
-                           : "" + " form-control"
+                           ? "is-invalid form-control"
+                           : " form-control"
                      }
                      placeholder=""
                      aria-describedby="helpId"
                   />
                   <small id="helpId" className="invalid-feedback">
-                     Ecribe el dominio del camion
+                     Escribe el dominio del camion
+                  </small>
+               </div>
+
+               <br></br>
+
+               <div className="form-group">
+                  <label htmlFor="">Año:</label>
+                  <select
+                     value={anio}
+                     name="anio"
+                     id="anio"
+                     onChange={onChangeHandler}
+                     className={
+                        checkValid(errors.anio)
+                           ? "is-invalid form-select"
+                           : `form-select`
+                     }
+                  >
+                     <option>2010</option>
+                     <option>2011</option>
+                     <option>2012</option>
+                     <option>2013</option>
+                     <option>2014</option>
+                     <option>2015</option>
+                     <option>2016</option>
+                     <option>2017</option>
+                     <option>2018</option>
+                     <option>2019</option>
+                     <option>2020</option>
+                     <option>2021</option>
+                  </select>
+                  <small id="helpId" className="invalid-feedback">
+                     Escribe el año del camion
+                  </small>
+               </div>
+               <br></br>
+               <div className="form-group">
+                  <label htmlFor="">N° Poliza:</label>
+                  <input
+                     onChange={onChangeHandler}
+                     value={numero_poliza}
+                     type="text"
+                     name="numero_poliza"
+                     id="numero_poliza"
+                     className={
+                        checkValid(errors.numero_poliza)
+                           ? "is-invalid form-control"
+                           : " form-control"
+                     }
+                     placeholder=""
+                     aria-describedby="helpId"
+                  />
+                  <small id="helpId" className="invalid-feedback">
+                     Escribe el N° poliza del camion
                   </small>
                </div>
                <br></br>

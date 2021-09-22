@@ -33,6 +33,8 @@ const ListTrucks = () => {
                      <th>Marca</th>
                      <th>Modelo</th>
                      <th>Dominio</th>
+                     <th>Año</th>
+                     <th>N° Poliza</th>
                      <th>Acciones</th>
                   </tr>
                </thead>
@@ -44,6 +46,10 @@ const ListTrucks = () => {
                              <td data-titulo="Marca">{truck.marca}</td>
                              <td data-titulo="Modelo">{truck.modelo}</td>
                              <td data-titulo="Dominio">{truck.dominio}</td>
+                             <td data-titulo="Dominio">{truck.anio}</td>
+                             <td data-titulo="Dominio">
+                                {truck.numero_poliza}
+                             </td>
                              <td>
                                 <div
                                    className={`${styles.button__group} ${styles.botones}`}

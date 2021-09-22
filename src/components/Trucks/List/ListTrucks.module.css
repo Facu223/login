@@ -57,6 +57,10 @@
    margin: auto;
 }
 
+td {
+   text-transform: capitalize;
+}
+
 th:first-of-type,
 th:last-of-type {
    width: 5rem;
