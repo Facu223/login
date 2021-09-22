@@ -9,7 +9,7 @@ import { Redirect } from "react-router";
 const Login = () => {
    const [user, setUser] = useState("");
    const [password, setPassword] = useState("");
-   const [passwordError, setPasswordError] = useState(false);
+   // const [passwordError, setPasswordError] = useState(false);
    const [isLogin, setIsLogin] = useState(false);
    const [hasError, setHasError] = useState(false);
 
@@ -19,10 +19,10 @@ const Login = () => {
          setHasError(false);
       } else {
          if (value.length < 6) {
-            setPasswordError(true);
+            // setPasswordError(true);
             setHasError(false);
          } else {
-            setPasswordError(false);
+            // setPasswordError(false);
             setPassword(value);
             setHasError(false);
          }
@@ -44,6 +44,11 @@ const Login = () => {
          });
          const response = await data.json();
 
+         if (data.status === 401) {
+            setHasError(true);
+            return;
+         }
+
          localStorage.setItem("authToken", response.token);
          setIsLogin(true);
       } catch (e) {
@@ -63,9 +68,9 @@ const Login = () => {
                </div>
 
                {hasError && (
-                  <label className="label-alert">
-                     Su contraseña o usuario son incorrectos, o no existen.
-                  </label>
+                  <div className="invalid__credentials">
+                     <p>Su contraseña o usuario son incorrectos</p>
+                  </div>
                )}
 
                <div>
@@ -89,13 +94,13 @@ const Login = () => {
                         type: "password",
                      }}
                      handleChange={handleChange}
-                     param={passwordError}
+                     // param={passwordError}
                   />
                </div>
 
-               {passwordError && (
+               {/* {passwordError && (
                   <label className="label-error">Contraseña invalida</label>
-               )}
+               )} */}
 
                <div>
                   <button onClick={handleSubmit} className="botonsito">
