@@ -55,7 +55,10 @@ const ListTrucks = () => {
                                    className={`${styles.button__group} ${styles.botones}`}
                                 >
                                    <Link
-                                      to={"/empleados/editar/" + truck.id}
+                                      to={
+                                         "/dashboard/camiones/editar/" +
+                                         truck.id
+                                      }
                                       type="button"
                                       // className="btn btn-warning padding-button"
                                       className={`button ${styles.edit__button}`}

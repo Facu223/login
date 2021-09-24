@@ -11,6 +11,7 @@ import NewEmployee from "../Employees/New/NewEmployee";
 import Crear from "../Crear";
 import ListTrucks from "../Trucks/List/ListTrucks";
 import NewTruck from "../Trucks/New/NewTruck";
+import EditTruck from "../Trucks/Edit/EditTruck";
 
 function Dashboard() {
    const [backdropOpen, setOpen] = useState(false);
@@ -43,6 +44,9 @@ function Dashboard() {
             </Route>
             <Route path={`${path}/camiones/nuevo`} exact>
                <NewTruck />
+            </Route>
+            <Route path={`${path}/camiones/editar/:id`} exact>
+               <EditTruck />
             </Route>
          </main>
 

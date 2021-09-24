@@ -19,3 +19,22 @@ body {
    text-align: center;
    transition: all 0.2s;
 }
+
+.button__group {
+   display: flex;
+   justify-content: center;
+}
+
+.cancel__button {
+   background-color: white;
+   text-transform: uppercase;
+   color: rgba(175, 58, 54);
+   letter-spacing: 0.8px;
+   margin-right: 10px;
+   border: 1px solid rgba(175, 58, 54);
+   box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.3);
+}
+
+.cancel__button:hover {
+   color: rgba(175, 58, 54);
+}

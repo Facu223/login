@@ -15,10 +15,11 @@
 .new__button {
    background-color: rgb(42, 88, 163);
    color: #fff;
-   /* border-bottom: 2px solid rgb(168, 168, 168); */
    margin-bottom: 1rem;
-   border-radius: 50px;
    letter-spacing: 0.5px;
+   box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.3);
+   text-transform: uppercase;
+   letter-spacing: 0.8px;
 }
 
 .new__button:hover {

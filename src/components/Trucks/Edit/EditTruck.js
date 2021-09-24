@@ -1,10 +1,14 @@
-import { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import api from "../../servicios/api";
-import styles from "./NewTruck.module.css";
+import { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const NewTruck = () => {
+import api from "../../servicios/api";
+
+import styles from "./EditTruck.module.css";
+
+const EditTruck = () => {
    const initialState = {
+      id: "",
       marca: "",
       modelo: "",
       dominio: "",
@@ -12,11 +16,25 @@ const NewTruck = () => {
       numero_poliza: "",
    };
 
+   const params = useParams();
+   const history = useHistory();
    const [truckData, setTruckData] = useState(initialState);
    const [errors, setError] = useState({});
-   const history = useHistory();
 
-   const { marca, modelo, dominio, anio, numero_poliza } = truckData;
+   useEffect(() => {
+      fetch(api + `/api/camiones/${params.id}`)
+         .then((data) => data.json())
+         .then((response) => {
+            setTruckData(response.truck);
+         });
+   }, []);
+
+   const onChangeHandler = (e) => {
+      setTruckData((prevState) => {
+         return { ...prevState, [e.target.name]: e.target.value };
+      });
+   };
+   const { marca, modelo, dominio, anio, numero_poliza, id } = truckData;
 
    const submitHandler = (e) => {
       e.preventDefault();
@@ -28,34 +46,36 @@ const NewTruck = () => {
 
       setError({});
 
-      const truck = {
+      const updatedTruck = {
+         id,
          marca,
          modelo,
          dominio,
-         anio: Number(anio),
+         anio: +anio,
          numero_poliza,
       };
-      const url = `${api}/api/camiones/`;
 
-      console.log(truck);
-
-      sedHttpRequest(truck, url);
+      sendHttpRequest(updatedTruck, `${api}/api/camiones/${id}`);
    };
 
-   const sedHttpRequest = (truck, url) => {
-      fetch(url, {
-         method: "POST",
-         body: JSON.stringify(truck),
-         headers: {
-            "Content-Type": "application/json",
-         },
-      })
-         .then((data) => data.json())
-         .then((response) => {
-            if (response.status === "OK") {
-               history.push("/dashboard/camiones");
-            }
-         });
+   const sendHttpRequest = (truck, url) => {
+      try {
+         fetch(url, {
+            method: "PATCH",
+            body: JSON.stringify(truck),
+            headers: {
+               "Content-Type": "application/json",
+            },
+         })
+            .then((data) => data.json())
+            .then((response) => {
+               if (response.status === "OK") {
+                  history.push("/dashboard/camiones");
+               }
+            });
+      } catch (e) {
+         console.log(e);
+      }
    };
 
    const validateInputs = (inputs, requiredFields) => {
@@ -76,19 +96,27 @@ const NewTruck = () => {
       return false;
    };
 
-   const onChangeHandler = (e) => {
-      e.preventDefault();
-
-      setTruckData((state) => {
-         return { ...state, [e.target.name]: e.target.value };
-      });
-   };
-
    return (
       <div className={styles.card}>
-         <div className="card-header">Nuevo Camion</div>
+         <div className="card-header">Editar camion</div>
          <div className="card-body">
             <form onSubmit={submitHandler}>
+               <div className="form-group">
+                  <label htmlFor="">Id: </label>
+                  <input
+                     type="text"
+                     readOnly
+                     className="form-control"
+                     name="id"
+                     id="id"
+                     value={id}
+                     aria-describedby="helpId"
+                     placeholder=""
+                  />
+                  <small id="helpId" className="form-text text-muted">
+                     Clave
+                  </small>
+               </div>
                <div className="form-group">
                   <label htmlFor="">Marca:</label>
                   <input
@@ -97,16 +125,16 @@ const NewTruck = () => {
                      type="text"
                      name="marca"
                      id="marca"
+                     placeholder=""
+                     aria-describedby="helpId"
                      className={
                         checkValid(errors.marca)
                            ? "is-invalid form-control"
                            : " form-control"
                      }
-                     placeholder=""
-                     aria-describedby="helpId"
                   />
                   <small id="helpId" className="invalid-feedback">
-                     Escribe la marca del camion
+                     Debes ingresar una marca
                   </small>
                </div>
                <br></br>
@@ -119,16 +147,16 @@ const NewTruck = () => {
                      type="text"
                      name="modelo"
                      id="modelo"
+                     placeholder=""
+                     aria-describedby="helpId"
                      className={
                         checkValid(errors.modelo)
                            ? "is-invalid form-control"
                            : " form-control"
                      }
-                     placeholder=""
-                     aria-describedby="helpId"
                   />
                   <small id="helpId" className="invalid-feedback">
-                     Escribe el modelo del camion
+                     Debes ingresar el modelo del camion
                   </small>
                </div>
                <br></br>
@@ -141,20 +169,40 @@ const NewTruck = () => {
                      type="text"
                      name="dominio"
                      id="dominio"
+                     placeholder=""
+                     aria-describedby="helpId"
                      className={
                         checkValid(errors.dominio)
                            ? "is-invalid form-control"
                            : " form-control"
                      }
-                     placeholder=""
-                     aria-describedby="helpId"
                   />
                   <small id="helpId" className="invalid-feedback">
-                     Escribe el dominio del camion
+                     Debes ingresar el dominio del camion
                   </small>
                </div>
-
                <br></br>
+
+               {/* <div className="form-group">
+                  <label htmlFor="">Año</label>
+                  <input
+                     onChange={onChangeHandler}
+                     value={anio}
+                     type="text"
+                     name="anio"
+                     id="anio"
+                     placeholder=""
+                     aria-describedby="helpId"
+                     className={
+                        checkValid(errors.anio)
+                           ? "is-invalid form-control"
+                           : " form-control"
+                     }
+                  />
+                  <small id="helpId" className="invalid-feedback">
+                     Debes ingresar el año del camion
+                  </small>
+               </div> */}
 
                <div className="form-group">
                   <label htmlFor="">Año:</label>
@@ -186,39 +234,39 @@ const NewTruck = () => {
                      Escribe el año del camion
                   </small>
                </div>
+
                <br></br>
+
                <div className="form-group">
-                  <label htmlFor="">N° Poliza:</label>
+                  <label htmlFor="">Numero de poliza:</label>
                   <input
                      onChange={onChangeHandler}
                      value={numero_poliza}
                      type="text"
                      name="numero_poliza"
                      id="numero_poliza"
-                     className={
-                        checkValid(errors.numero_poliza)
-                           ? "is-invalid form-control"
-                           : " form-control"
-                     }
                      placeholder=""
                      aria-describedby="helpId"
+                     className="form-control"
                   />
                   <small id="helpId" className="invalid-feedback">
-                     Escribe el N° poliza del camion
+                     Debes ingresar el numero de poliza del seguro
                   </small>
                </div>
                <br></br>
 
-               <div className={`button__group`} role="group" aria-label="">
+               <br></br>
+
+               <div className="button__group" role="group" aria-label="">
                   <button
                      type="submit"
-                     className={`${styles.add__button} button`}
+                     className={`button ${styles.update__button}`}
                   >
-                     Agregar
+                     Actualizar
                   </button>
                   <Link
                      to={"/dashboard/camiones"}
-                     className="button cancel__button"
+                     className={`button cancel__button`}
                   >
                      Cancelar
                   </Link>
@@ -229,4 +277,4 @@ const NewTruck = () => {
    );
 };
 
-export default NewTruck;
+export default EditTruck;
