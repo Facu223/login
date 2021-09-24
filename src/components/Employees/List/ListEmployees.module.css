@@ -1,9 +1,43 @@
-/* .card2 {
-   width: 80%;
+.card2 {
+   width: 70%;
    margin: 5rem auto;
    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
    display: flex;
    flex-wrap: wrap;
+   background-color: #fff;
+}
+
+.button__group {
+   display: flex;
+   justify-content: center;
+}
+
+.new__button {
+   background-color: #d1d1d1;
+   color: #333;
+   border-bottom: 2px solid rgb(168, 168, 168);
+   margin-bottom: 1rem;
+}
+
+.new__button:hover {
+   background-color: rgb(189, 189, 189);
+   color: #333;
+}
+
+.edit__button {
+   background-color: rgb(19, 63, 197);
+   color: white;
+   margin-right: 1rem;
+}
+
+.edit__button:hover {
+   background-color: rgb(41, 21, 221);
+   color: white;
+}
+
+.delete__button {
+   background-color: #b11b1b;
+   color: #fff;
 }
 
 @media only screen and (max-width: 991px) {
@@ -25,8 +59,7 @@
       display: flex;
       flex-direction: column;
       margin-bottom: 3em;
-      border: 3px solid #000;
-      border-radius: 10px;
+      border: 1px solid rgba(136, 136, 136, 0.5);
    }
 
    table th {
@@ -47,9 +80,9 @@
       width: 250px;
    }
 
-   button {
+   /* button {
       width: 250px;
-   }
+   } */
 }
 
 @media only screen and (max-width: 767px) {
@@ -57,9 +90,9 @@
       width: 180px;
    }
 
-   button {
+   /* button {
       width: 180px;
-   }
+   } */
 }
 
 @media only screen and (max-width: 541px) {
@@ -67,14 +100,18 @@
       width: 100px;
    }
 
-   button {
+   /* button {
       width: 100px;
-   }
+   } */
 }
 
 @media only screen and (max-width: 563px) {
    .botones {
       display: flex;
+   }
+
+   .new__button {
+      width: 100%;
    }
 }
 
@@ -82,4 +119,4 @@
    .card2 {
       padding-right: 250px;
    }
-} */
+}
