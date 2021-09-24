@@ -1,22 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import api from "../../servicios/api";
-import styles from "./NewEmployee.module.css";
-import { Redirect } from "react-router";
+import styles from "../New/NewEmployee.module.css";
+import {cargarDatos} from '../List/ListEmployees';
 
-class Crear extends React.Component {
+class Editar extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
          nombre: "",
          apellido: "",
-         dni: 0,
+         dni: "",
          telefono: "",
-         id_usuario: 5, 
          errores: [],
-         isCharged: false
       };
    }
+
 
    cambioValor = (e) => {
       const state = this.state;
@@ -31,7 +30,7 @@ class Crear extends React.Component {
    enviarDatos = async (e) => {
       e.preventDefault();
 
-      const { nombre, apellido, dni, telefono, id_usuario  } = this.state;
+      const { nombre, apellido, dni, telefono } = this.state;
 
       let errores = [];
       if (!nombre) errores.push("error_nombre");
@@ -47,9 +46,8 @@ class Crear extends React.Component {
       var datosEnviar = {
          nombre: nombre,
          apellido: apellido,
-         documento: parseInt(dni),
+         documento: dni,
          telefono: telefono,
-         id_usuario: id_usuario,
          // cuil: cuil,
          // puesto: puesto,
       };
@@ -57,27 +55,28 @@ class Crear extends React.Component {
       console.log(datosEnviar);
 
       await fetch(api + "/api/empleados", {
-         method: "POST",
+         method: "PATCH",
          headers:{
             'Content-Type': 'application/json'
          },
          body: JSON.stringify(datosEnviar),
-      }).then((respuesta) => respuesta.json())
+      }).then(respuesta => {
+         console.log(respuesta.status);
+         return respuesta.json();
+      })
          .then((datosRespuesta) => {
             console.log(datosRespuesta);
-            this.props.history.push("/dasboard/empleados");
+            // this.props.history.push("/dasboard/empleados");
          })
          .catch(console.log);
-
-         this.setState({isCharged: true})
    };
 
    render() {
-      const { nombre, apellido, dni, telefono, isCharged  } = this.state;
+      const { nombre, apellido, dni, telefono  } = this.state;
 
       return (
          <div className={styles.card}>
-            <div className="card-header">Nuevo Empleado</div>
+            <div className="card-header">Editar Empleado</div>
             <div className="card-body">
                <form onSubmit={this.enviarDatos}>
                   <div className="form-group">
@@ -168,34 +167,6 @@ class Crear extends React.Component {
                   </div>
                   <br></br>
 
-<<<<<<< Updated upstream
-                  {/* <div className="form-group">
-                     <label htmlFor="">Puesto:</label>
-                     <input
-                        onChange={this.cambioValor}
-                        value={puesto}
-                        type="text"
-                        name="puesto"
-                        id="rol"
-                        className={
-                           (this.verificarError("error_puesto")
-                              ? "is-invalid"
-                              : "") + " form-control"
-                        }
-                        placeholder=""
-                        aria-describedby="helpId"
-                     />
-                     <small id="helpId" className="invalid-feedback">
-                        Ecribe el puesto del empleado
-                     </small>
-                  </div>
-
-                  <br></br> */
-                  // Hola
-               }
-
-=======
->>>>>>> Stashed changes
                   <div className="btn-group" role="group" aria-label="">
                      <button type="submit" className="button">
                         Agregar
@@ -205,11 +176,6 @@ class Crear extends React.Component {
                      </Link>
                   </div>
                </form>
-               {isCharged
-               ?<Redirect 
-               from='/dashboard/empleados/nuevo'
-                to='/dashboard/empleados'/>
-               : null}
             </div>
             <div className="card-footer text-muted"></div>
          </div>
@@ -217,4 +183,4 @@ class Crear extends React.Component {
    }
 }
 
-export default Crear;
+export default Editar;
