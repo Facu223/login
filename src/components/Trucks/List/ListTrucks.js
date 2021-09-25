@@ -2,15 +2,39 @@ import { Link } from "react-router-dom";
 import styles from "./ListTrucks.module.css";
 import api from "../../servicios/api";
 import { useEffect, useState } from "react";
+import Modal from "../../Modal/Modal";
+import Backdrop from "../../Backdrop/Backdrop";
 
 const ListTrucks = () => {
    const [trucks, setTrucks] = useState([]);
+   const [successDeleted, setSuccesDeleted] = useState(false);
+   const [openModal, setOpenModal] = useState(false);
+   const [truckId, setTruckId] = useState("");
 
    useEffect(() => {
       fetch(`${api}/api/camiones`)
          .then((data) => data.json())
          .then((response) => setTrucks(response.camiones));
-   }, []);
+   }, [trucks]);
+
+   const deleteTruck = (id) => {
+      setOpenModal(true);
+      setTruckId(id);
+   };
+
+   const confirmDelete = async () => {
+      setSuccesDeleted(true);
+
+      try {
+         const response = await fetch(`${api}/api/camiones/${truckId}`, {
+            method: "DELETE",
+         });
+
+         if (response.status === 204) setOpenModal(false);
+      } catch (e) {
+         console.log(e);
+      }
+   };
 
    return (
       <div className={`${styles.card2}`}>
@@ -66,9 +90,7 @@ const ListTrucks = () => {
                                       Editar
                                    </Link>
                                    <button
-                                      onClick={() =>
-                                         this.borrarRegistros(truck.id)
-                                      }
+                                      onClick={() => deleteTruck(truck.id)}
                                       type="button"
                                       className={`${styles.delete__button} button`}
                                    >
@@ -82,6 +104,30 @@ const ListTrucks = () => {
                </tbody>
             </table>
          </div>
+
+         {openModal && (
+            <Modal>
+               <h3>Eliminar camion</h3>
+               <p>¿Estas seguro que desea eliminar el camion?</p>
+               <div className={`modal-nb__buttons`}>
+                  <button
+                     type="button"
+                     className={`button cancel__button`}
+                     onClick={() => setOpenModal(false)}
+                  >
+                     Cancelar
+                  </button>
+                  <button
+                     type="button"
+                     className={`button acept__button`}
+                     onClick={confirmDelete}
+                  >
+                     Aceptar
+                  </button>
+               </div>
+            </Modal>
+         )}
+         {openModal && <Backdrop />}
       </div>
    );
 };

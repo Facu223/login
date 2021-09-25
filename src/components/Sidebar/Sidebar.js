@@ -4,7 +4,6 @@ import styles from "./Sidebar.module.css";
 
 const Sidebar = (props) => {
    const { url } = useRouteMatch();
-   console.log(url);
    return (
       <div className={`${styles.sidebar} ${props.isOpen ? styles.open : ""}`}>
          <p className={styles["sidebar__close-btn"]} onClick={props.closeMenu}>
