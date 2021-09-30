@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import api from "../../servicios/api";
 import styles from "./NewEmployee.module.css";
-import { Redirect } from "react-router";
 
 class Crear extends React.Component {
    constructor(props) {
@@ -10,11 +9,12 @@ class Crear extends React.Component {
       this.state = {
          nombre: "",
          apellido: "",
-         dni: 0,
+         dni: "",
          telefono: "",
-         id_usuario: 5, 
+         usuario: "",
+         password: "",
+         rol: "admin",
          errores: [],
-         isCharged: false
       };
    }
 
@@ -31,13 +31,16 @@ class Crear extends React.Component {
    enviarDatos = async (e) => {
       e.preventDefault();
 
-      const { nombre, apellido, dni, telefono, id_usuario  } = this.state;
+      const { nombre, apellido, dni, telefono, usuario, password, rol } = this.state;
 
       let errores = [];
       if (!nombre) errores.push("error_nombre");
       if (!apellido) errores.push("error_apellido");
       if (!dni) errores.push("error_dni");
       if (!telefono) errores.push("error_telefono");
+      if (!usuario) errores.push("error_usuario");
+      if (!password) errores.push("error_password");
+      if (!rol) errores.push("error_rol");
       // if (!cuil) errores.push("error_cuil");
       // if (!puesto) errores.push("error_puesto");
 
@@ -47,33 +50,34 @@ class Crear extends React.Component {
       var datosEnviar = {
          nombre: nombre,
          apellido: apellido,
-         documento: parseInt(dni),
+         documento: dni,
          telefono: telefono,
-         id_usuario: id_usuario,
+         usuario: usuario,
+         password: password,
+         rol: rol
          // cuil: cuil,
          // puesto: puesto,
       };
 
       console.log(datosEnviar);
 
-      await fetch(api + "/api/empleados", {
+      await fetch(api + "/api/usuarios/admin/signup", {
          method: "POST",
          headers:{
             'Content-Type': 'application/json'
          },
          body: JSON.stringify(datosEnviar),
-      }).then((respuesta) => respuesta.json())
+      })
+         .then((respuesta) => respuesta.json())
          .then((datosRespuesta) => {
             console.log(datosRespuesta);
-            this.props.history.push("/dasboard/empleados");
+            // this.props.history.push("/dasboard/empleados");
          })
          .catch(console.log);
-
-         this.setState({isCharged: true})
    };
 
    render() {
-      const { nombre, apellido, dni, telefono, isCharged  } = this.state;
+      const { nombre, apellido, dni, telefono, usuario , password } = this.state;
 
       return (
          <div className={styles.card}>
@@ -129,7 +133,7 @@ class Crear extends React.Component {
                      <input
                         onChange={this.cambioValor}
                         value={dni}
-                        type="number"
+                        type="text"
                         name="dni"
                         id="dni"
                         className={
@@ -168,17 +172,16 @@ class Crear extends React.Component {
                   </div>
                   <br></br>
 
-
-                  {/* <div className="form-group">
-                     <label htmlFor="">Puesto:</label>
+                  <div className="form-group">
+                     <label htmlFor="">nombre de usuario:</label>
                      <input
                         onChange={this.cambioValor}
-                        value={puesto}
+                        value={usuario}
                         type="text"
-                        name="puesto"
-                        id="rol"
+                        name="usuario"
+                        id="usuario"
                         className={
-                           (this.verificarError("error_puesto")
+                           (this.verificarError("error_usuario")
                               ? "is-invalid"
                               : "") + " form-control"
                         }
@@ -186,13 +189,43 @@ class Crear extends React.Component {
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
-                        Ecribe el puesto del empleado
+                        Ecribe el nombre de usuario del empleado
                      </small>
-                  </div>
+                  </div> 
+                  <br></br>
 
-                  <br></br> */
-                  // Hola
-               }
+                  <div className="form-group">
+                     <label htmlFor="">contraseña:</label>
+                     <input
+                        onChange={this.cambioValor}
+                        value={password}
+                        type="text"
+                        name="password"
+                        id="password"
+                        className={
+                           (this.verificarError("error_usuario")
+                              ? "is-invalid"
+                              : "") + " form-control"
+                        }
+                        placeholder=""
+                        aria-describedby="helpId"
+                     />
+                     <small id="helpId" className="invalid-feedback">
+                        Ecribe la contraseña del usuario
+                     </small>
+                  </div> 
+                  <br></br>
+                        
+                  {/* <div className="form-group">
+                     <label>
+                       Selecciona el Rol
+                       <select value={rol} onChange={this.cambioValor}>
+                         <option value="admin">Administrador</option>
+                         <option value="repartidor">Repartidor</option>
+                       </select>
+                     </label>
+                  </div>
+                  <br></br> */}
 
                   <div className="btn-group" role="group" aria-label="">
                      <button type="submit" className="button">
@@ -203,11 +236,6 @@ class Crear extends React.Component {
                      </Link>
                   </div>
                </form>
-               {isCharged
-               ?<Redirect 
-               from='/dashboard/empleados/nuevo'
-                to='/dashboard/empleados'/>
-               : null}
             </div>
             <div className="card-footer text-muted"></div>
          </div>
