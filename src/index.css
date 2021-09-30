@@ -71,23 +71,22 @@ body {
    letter-spacing: 0.8px;
    margin-right: 10px;
    border: 1px solid #333;
-   box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.3);
 }
 
 .cancel__button:hover {
    color: inherit;
+   color: #b92222;
+   border: 1px solid #b92222;
 }
 
 .acept__button {
    background-color: rgb(42, 88, 163);
-   /* background-color: #4c6ef5; */
    color: white;
    text-transform: uppercase;
    letter-spacing: 0.8px;
    margin-right: 10px;
-   box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.3);
 }
 
 .acept__button:hover {
-   background-color: #346cc7;
+   background-color: #3771ce;
 }
