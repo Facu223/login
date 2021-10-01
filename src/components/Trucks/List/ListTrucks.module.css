@@ -26,6 +26,7 @@
 .new__button:hover {
    background-color: rgb(55, 113, 206);
    color: white;
+   box-shadow: 0 1px 5px rgb(85 133 226);
 }
 
 .new__button__icon {
