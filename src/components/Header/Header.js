@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+
 import styles from "./Header.module.css";
 
 const Header = (props) => {
-   const [isLoggin, setLogin] = useState(true);
+   const dispatch = useDispatch();
+   const state = useSelector((state) => state);
 
    const onLogout = () => {
+      dispatch({ type: "LOGOUT" });
       localStorage.removeItem("authToken");
-      setLogin(false);
    };
 
    return (
@@ -17,12 +19,12 @@ const Header = (props) => {
          </div>
          <div className={styles.header__logo}>Josecito Gas</div>
          <div className={styles.header__user}>
-            <div className={styles.user}>Luciano</div>
+            <div className={styles.user}>{state.user.usuario}</div>
             <div className={styles.user__logout} onClick={onLogout}>
                <i className="bi bi-power"></i>
             </div>
          </div>
-         {!isLoggin && <Redirect to="/login" />}
+         {!state.isAuthenticated && <Redirect to="/login" />}
       </header>
    );
 };

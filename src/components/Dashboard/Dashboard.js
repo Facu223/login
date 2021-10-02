@@ -1,7 +1,5 @@
 import { Route, useRouteMatch } from "react-router-dom";
 import { Fragment, useState } from "react";
-import Listar from "../Listar";
-// import estilos2 from "./estilos2.css";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
 import Backdrop from "../Backdrop/Backdrop";
