@@ -50,6 +50,14 @@ body {
    padding: 1rem;
 }
 
+.card-nb {
+   width: 60%;
+   margin: 5rem auto;
+   background-color: #fff;
+   box-shadow: 0px 5px 10px rgb(0 0 0 / 25%);
+   border-radius: 5px;
+}
+
 .button {
    text-decoration: none;
    padding: 0.3rem 1.5rem;
@@ -79,6 +87,11 @@ body {
    border: 1px solid #b92222;
 }
 
+a.acept__button {
+   display: inline-block;
+   margin-bottom: 1rem;
+}
+
 .acept__button {
    background-color: rgb(42, 88, 163);
    color: white;
@@ -89,4 +102,6 @@ body {
 
 .acept__button:hover {
    background-color: #3771ce;
+   color: white;
+   box-shadow: 0 1px 5px rgb(85 133 226);
 }

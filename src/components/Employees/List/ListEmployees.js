@@ -46,15 +46,18 @@ class ListEmployees extends React.Component {
          return <div>Cargando</div>;
       } else {
          return (
-            <div className={`${styles.card2}`}>
+            <div className={`card-nb`}>
                <div className="card-body card3">
                   <div className={styles["card-header"]}>
                      <Link
                         to={"/dashboard/empleados/nuevo"}
                         type="button"
-                        className={`button ${styles.new__button}`}
+                        className={`button acept__button`}
                      >
-                        Agregar empleado
+                        <i
+                           className={`bi bi-plus ${styles.new__button__icon}`}
+                        ></i>
+                        Agregar
                      </Link>
                   </div>
                   <h4>Lista de empleados</h4>

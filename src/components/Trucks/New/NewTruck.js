@@ -85,7 +85,7 @@ const NewTruck = () => {
    };
 
    return (
-      <div className={styles.card}>
+      <div className={`card-nb`}>
          <div className="card-header">Nuevo Camion</div>
          <div className="card-body">
             <form onSubmit={submitHandler}>

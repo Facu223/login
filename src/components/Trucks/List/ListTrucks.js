@@ -37,13 +37,13 @@ const ListTrucks = () => {
    };
 
    return (
-      <div className={`${styles.card2}`}>
+      <div className={`card-nb`}>
          <div className="card-body card3">
             <div className={styles["card-header"]}>
                <Link
                   to={"/dashboard/camiones/nuevo"}
                   type="button"
-                  className={`button ${styles.new__button}`}
+                  className={`button acept__button`}
                >
                   <i className={`bi bi-plus ${styles.new__button__icon}`}></i>{" "}
                   Agregar

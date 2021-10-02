@@ -24,6 +24,10 @@
    color: #333;
 }
 
+.new__button__icon {
+   font-size: 1.2rem;
+}
+
 .edit__button {
    background-color: rgb(19, 63, 197);
    color: white;

@@ -9,10 +9,12 @@ class Crear extends React.Component {
       this.state = {
          nombre: "",
          apellido: "",
-         dni: "",
+         documento: "",
          cuil: "",
          telefono: "",
-         puesto: "",
+         usuario: "",
+         contraseña: "",
+         rol: "",
          errores: [],
       };
    }
@@ -30,33 +32,46 @@ class Crear extends React.Component {
    enviarDatos = (e) => {
       e.preventDefault();
 
-      const { nombre, apellido, dni, telefono } = this.state;
+      const {
+         nombre,
+         apellido,
+         documento,
+         telefono,
+         usuario,
+         contraseña,
+         rol,
+      } = this.state;
 
       let errores = [];
       if (!nombre) errores.push("error_nombre");
       if (!apellido) errores.push("error_apellido");
-      if (!dni) errores.push("error_dni");
-      // if (!cuil) errores.push("error_cuil");
+      if (!documento) errores.push("error_documento");
+      if (!usuario) errores.push("error_usuario");
       if (!telefono) errores.push("error_telefono");
-      // if (!puesto) errores.push("error_puesto");
+      if (!contraseña) errores.push("error_contraseña");
+      if (!rol) errores.push("error_rol");
 
       this.setState({ errores: errores });
       if (errores.length > 0) return false;
 
       var datosEnviar = {
-         nombre: nombre,
-         apellido: apellido,
-         dni: dni,
-         // cuil: cuil,
-         telefono: telefono,
-         // puesto: puesto,
+         nombre,
+         apellido,
+         documento: +documento,
+         usuario,
+         telefono,
+         password: contraseña,
+         rol,
       };
 
       console.log(datosEnviar);
 
-      fetch(api + "/api/empleados", {
+      fetch(api + "/api/usuarios/admin/signup", {
          method: "POST",
          body: JSON.stringify(datosEnviar),
+         headers: {
+            "Content-Type": "application/json",
+         },
       })
          .then((respuesta) => respuesta.json())
          .then((datosRespuesta) => {
@@ -67,11 +82,19 @@ class Crear extends React.Component {
    };
 
    render() {
-      const { nombre, apellido, dni, telefono } = this.state;
+      const {
+         nombre,
+         apellido,
+         documento,
+         telefono,
+         usuario,
+         contraseña,
+         rol,
+      } = this.state;
 
       return (
-         <div className={styles.card}>
-            <div className="card-header">Nuevo Empleado</div>
+         <div className={`card-nb`}>
+            <div className="card-header">Nuevo</div>
             <div className="card-body">
                <form onSubmit={this.enviarDatos}>
                   <div className="form-group">
@@ -119,15 +142,15 @@ class Crear extends React.Component {
                   <br></br>
 
                   <div className="form-group">
-                     <label htmlFor="">DNI:</label>
+                     <label htmlFor="">N° de Documento:</label>
                      <input
                         onChange={this.cambioValor}
-                        value={dni}
+                        value={documento}
                         type="text"
-                        name="dni"
-                        id="dni"
+                        name="documento"
+                        id="documento"
                         className={
-                           (this.verificarError("error_dni")
+                           (this.verificarError("error_documento")
                               ? "is-invalid"
                               : "") + " form-control"
                         }
@@ -139,28 +162,6 @@ class Crear extends React.Component {
                      </small>
                   </div>
                   <br></br>
-
-                  {/* <div className="form-group">
-                     <label htmlFor="">CUIL:</label>
-                     <input
-                        onChange={this.cambioValor}
-                        value={cuil}
-                        type="text"
-                        name="cuil"
-                        id="cuil"
-                        className={
-                           (this.verificarError("error_cuil")
-                              ? "is-invalid"
-                              : "") + " form-control"
-                        }
-                        placeholder=""
-                        aria-describedby="helpId"
-                     />
-                     <small id="helpId" className="invalid-feedback">
-                        Ecribe el CUIL del empleado
-                     </small>
-                  </div> 
-                  <br></br> */}
 
                   <div className="form-group">
                      <label htmlFor="">Teléfono:</label>
@@ -184,16 +185,16 @@ class Crear extends React.Component {
                   </div>
                   <br></br>
 
-                  {/* <div className="form-group">
-                     <label htmlFor="">Puesto:</label>
+                  <div className="form-group">
+                     <label htmlFor="">Usuario:</label>
                      <input
                         onChange={this.cambioValor}
-                        value={puesto}
+                        value={usuario}
                         type="text"
-                        name="puesto"
-                        id="rol"
+                        name="usuario"
+                        id="usuario"
                         className={
-                           (this.verificarError("error_puesto")
+                           (this.verificarError("error_usuario")
                               ? "is-invalid"
                               : "") + " form-control"
                         }
@@ -201,23 +202,72 @@ class Crear extends React.Component {
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
-                        Ecribe el puesto del empleado
+                        Escribe el usuario del empleado
+                     </small>
+                  </div>
+                  <br></br>
+
+                  <div className="form-group">
+                     <label htmlFor="">Contraseña:</label>
+                     <input
+                        onChange={this.cambioValor}
+                        value={contraseña}
+                        type="password"
+                        name="contraseña"
+                        id="contraseña"
+                        className={
+                           (this.verificarError("error_contraseña")
+                              ? "is-invalid"
+                              : "") + " form-control"
+                        }
+                        placeholder=""
+                        aria-describedby="helpId"
+                     />
+                     <small id="helpId" className="invalid-feedback">
+                        Escribe una contraseña por defecto para el empleado
+                     </small>
+                  </div>
+                  <br></br>
+
+                  <div className="form-group">
+                     <label htmlFor="">Rol:</label>
+                     <select
+                        onChange={this.cambioValor}
+                        value={rol}
+                        name="rol"
+                        id="rol"
+                        className={
+                           (this.verificarError("error_rol")
+                              ? "is-invalid"
+                              : "") + " form-control"
+                        }
+                        placeholder=""
+                        aria-describedby="helpId"
+                     >
+                        <option value="">--Selecciona--</option>
+                        <option value="admin">Administrador</option>
+                        <option value="repartidor">Repartidor</option>
+                     </select>
+                     <small id="helpId" className="invalid-feedback">
+                        Escribe una rol por defecto para el empleado
                      </small>
                   </div>
 
-                  <br></br> */}
+                  <br></br>
 
-                  <div className="btn-group" role="group" aria-label="">
-                     <button type="submit" className="button">
+                  <div className="button__group" role="group" aria-label="">
+                     <button type="submit" className="button acept__button">
                         Agregar
                      </button>
-                     <Link to={"/dashboard/empleados"} className="button">
+                     <Link
+                        to={"/dashboard/empleados"}
+                        className="button cancel__button"
+                     >
                         Cancelar
                      </Link>
                   </div>
                </form>
             </div>
-            <div className="card-footer text-muted"></div>
          </div>
       );
    }
