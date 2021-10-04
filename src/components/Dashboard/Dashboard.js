@@ -9,6 +9,7 @@ import NewEmployee from "../Employees/New/NewEmployee";
 import ListTrucks from "../Trucks/List/ListTrucks";
 import NewTruck from "../Trucks/New/NewTruck";
 import EditTruck from "../Trucks/Edit/EditTruck";
+import EditEmployee from "../Employees/Edit/EditEmployee";
 
 function Dashboard() {
    const [backdropOpen, setOpen] = useState(false);
@@ -32,6 +33,9 @@ function Dashboard() {
          <main className={styles.main}>
             <Route path={`${path}/empleados`} exact>
                <ListEmployees />
+            </Route>
+            <Route path={`${path}/empleados/editar/:id`} exact>
+               <EditEmployee />
             </Route>
             <Route path={`${path}/empleados/nuevo`}>
                <NewEmployee />

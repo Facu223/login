@@ -15,6 +15,8 @@ const ListTrucks = () => {
       fetch(`${api}/api/camiones`)
          .then((data) => data.json())
          .then((response) => setTrucks(response.camiones));
+
+      return () => {};
    }, [trucks]);
 
    const deleteTruck = (id) => {

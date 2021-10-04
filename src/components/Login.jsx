@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import estilos2 from "./estilos2.css";
 import Input from "./Input";
 import gas from "./images/gas.png";
@@ -11,7 +11,6 @@ const Login = () => {
    const [password, setPassword] = useState("");
    const [isLogin, setIsLogin] = useState(false);
    const [hasError, setHasError] = useState(false);
-   const state = useSelector((state) => state);
    const dispatch = useDispatch();
 
    function handleChange(name, value) {
