@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import api from "../../servicios/api";
 import { Redirect } from "react-router";
+import styles from "../../Employees/New/NewEmployee.module.css";
 
 class Crear extends React.Component {
    constructor(props) {
@@ -69,7 +70,7 @@ class Crear extends React.Component {
    };
 
    render() {
-      const { nombre, apellido, dni, telefono, isCharged  } = this.state;
+      const { nombre, apellido, domicilio, telefono, email, isCharged  } = this.state;
 
       return (
          <div className={styles.card}>

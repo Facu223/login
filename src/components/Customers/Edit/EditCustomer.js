@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import api from "../../servicios/api";
-import styles from "../New/NewEmployee.module.css";
+import styles from "../../Employees/New/NewEmployee.module.css";
 import {cargarDatos} from '../List/ListCustomers';
 
 class Editar extends React.Component {

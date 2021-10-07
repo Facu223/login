@@ -51,13 +51,13 @@ function Dashboard() {
                <EditTruck />
             </Route>
             <Route path={`${path}/clientes`} exact>
-               <ListCsutomers />
+               <ListCustomers />
             </Route>
             <Route path={`${path}/clientes/nuevo`} exact>
-               <NewCsutomer />
+               <NewCustomer />
             </Route>
             <Route path={`${path}/clientes/editar/:id`} exact>
-               <EditCsutomer />
+               <EditCustomer />
             </Route>
          </main>
 

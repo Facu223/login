@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import api from "../../servicios/api";
-import styles from "./ListEmployees.module.css";
-import Modal from '../../Modals/Modal'
+import styles from "../../Employees/List/ListEmployees.module.css";
+// import Modal from '../../Modals/Modal'
 
-class ListEmployees extends React.Component {
+class ListCustomers extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
