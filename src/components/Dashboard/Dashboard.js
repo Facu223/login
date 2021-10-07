@@ -9,6 +9,9 @@ import styles from "./Dashboard.module.css";
 import ListEmployees from "../Employees/List/ListEmployees";
 import NewEmployee from "../Employees/New/NewEmployee";
 import EditEmployee from "../Employees/Edit/EditEmployee"
+import ListCustomers from "../Customers/List/ListCustomers";
+import NewCustomer from "../Customers/New/NewCustomer";
+import EditCustomer from "../Customers/Edit/EditCustomer"
 import Crear from "../Crear";
 
 function Dashboard() {
@@ -38,6 +41,16 @@ function Dashboard() {
                <NewEmployee />
             </Route>
             <Route path={`${path}/empleados/editar/:id`}>
+               <EditEmployee  />
+            </Route>
+
+            <Route path={`${path}/clientes`} exact>
+               <ListEmployees />
+            </Route>
+            <Route path={`${path}/clientes/nuevo`}>
+               <NewEmployee />
+            </Route>
+            <Route path={`${path}/clientes/editar/:id`}>
                <EditEmployee  />
             </Route>
          </main>
