@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from "react";
+import { useDispatch } from "react-redux";
 import estilos2 from "./estilos2.css";
 import Input from "./Input";
-import Principal from "./Principal";
 import gas from "./images/gas.png";
 import imagen from "./imagen.css";
 import { Redirect } from "react-router";
@@ -9,9 +9,9 @@ import { Redirect } from "react-router";
 const Login = () => {
    const [user, setUser] = useState("");
    const [password, setPassword] = useState("");
-   // const [passwordError, setPasswordError] = useState(false);
    const [isLogin, setIsLogin] = useState(false);
    const [hasError, setHasError] = useState(false);
+   const dispatch = useDispatch();
 
    function handleChange(name, value) {
       if (name === "usuario") {
@@ -19,10 +19,8 @@ const Login = () => {
          setHasError(false);
       } else {
          if (value.length < 6) {
-            // setPasswordError(true);
             setHasError(false);
          } else {
-            // setPasswordError(false);
             setPassword(value);
             setHasError(false);
          }
@@ -49,7 +47,18 @@ const Login = () => {
             return;
          }
 
+         dispatch({
+            type: "LOGIN",
+            payload: {
+               token: response.token,
+               user: { usuario: response.user.usuario, rol: response.user.rol },
+            },
+         });
+
+         // Save user information in local storage
          localStorage.setItem("authToken", response.token);
+         localStorage.setItem("user", JSON.stringify(response.user));
+
          setIsLogin(true);
       } catch (e) {
          console.log(e);
@@ -94,13 +103,8 @@ const Login = () => {
                         type: "password",
                      }}
                      handleChange={handleChange}
-                     // param={passwordError}
                   />
                </div>
-
-               {/* {passwordError && (
-                  <label className="label-error">Contraseña invalida</label>
-               )} */}
 
                <div>
                   <button onClick={handleSubmit} className="botonsito">
