@@ -31,6 +31,7 @@ class Crear extends React.Component {
       return this.state.errores.indexOf(elemento) !== -1;
    }
 
+
    enviarDatos = (e) => {
       e.preventDefault();
 
@@ -54,7 +55,6 @@ class Crear extends React.Component {
       if (!telefono) errores.push("error_telefono");
       if (!contraseña) errores.push("error_contraseña");
       if (!rol) errores.push("error_rol");
-
       this.setState({ errores: errores });
       if (errores.length > 0) return false;
 
@@ -286,6 +286,7 @@ class Crear extends React.Component {
                      </Link>
                   </div>
                </form>
+
             </div>
          </div>
       );
