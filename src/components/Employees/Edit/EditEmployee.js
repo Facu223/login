@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import api from "../../servicios/api";
+import FormGroup from "../FormGroup";
 
 import styles from "./EditEmployee.module.css";
 
@@ -10,14 +11,19 @@ const EditEmployee = () => {
       apellido: "",
       documento: 0,
       cuil: "",
-      telefono: "",
+      telefono_personal: "",
+      email: "",
       rol: "",
+      telefono_laboral: "",
+      licencia_conducir: "",
+      vencimiento_licencia: "",
    };
 
    const { id } = useParams();
    const history = useHistory();
    const [initialState, setInitialState] = useState(initialData);
    const [errors, setErrors] = useState({});
+   const [editMode, setEditMode] = useState(false);
 
    useEffect(() => {
       fetchEmployeInfo(id);
@@ -26,15 +32,32 @@ const EditEmployee = () => {
    const fetchEmployeInfo = async (id) => {
       try {
          const data = await fetch(`${api}/api/empleados/${id}`);
-         const response = await data.json();
+         const {
+            empleado: {
+               nombre,
+               apellido,
+               documento,
+               cuil,
+               telefono_personal,
+               email,
+               usuario: { rol },
+               telefono_laboral,
+               licencia_conducir,
+               vencimiento_licencia,
+            },
+         } = await data.json();
 
          const employeeData = {
-            nombre: response.empleado.nombre,
-            apellido: response.empleado.apellido,
-            documento: response.empleado.documento,
-            cuil: response.empleado.cuil,
-            telefono: response.empleado.telefono,
-            rol: response.empleado.usuario.rol,
+            nombre,
+            apellido,
+            documento,
+            cuil,
+            telefono_personal,
+            email,
+            rol,
+            telefono_laboral,
+            licencia_conducir,
+            vencimiento_licencia,
          };
 
          setInitialState(employeeData);
@@ -105,7 +128,18 @@ const EditEmployee = () => {
       return false;
    };
 
-   const { nombre, apellido, documento, cuil, telefono, rol } = initialState;
+   const {
+      nombre,
+      apellido,
+      documento,
+      cuil,
+      telefono_personal,
+      email,
+      rol,
+      telefono_laboral,
+      licencia_conducir,
+      vencimiento_licencia,
+   } = initialState;
 
    return (
       <div className={styles.card}>
@@ -114,102 +148,99 @@ const EditEmployee = () => {
          </div>
 
          <form className={styles.form} onSubmit={onSubmitHandler}>
-            <div className={styles.row}>
-               <div className={styles.form__group}>
-                  <label className={styles.form__label}>Nombre:</label>
-                  <input
-                     className={`${styles.form__input} ${
-                        checkValid(errors.nombre) ? "is-invalid" : ""
-                     }`}
-                     type="text"
-                     name="nombre"
-                     placeholder="Ingrese un nombre"
-                     value={nombre}
-                     onChange={onChangeHandler}
-                  />
-                  <small id="helpId" className="invalid-feedback">
-                     Debes ingresar un nombre
-                  </small>
-               </div>
-               <div className={styles.form__group}>
-                  <label className={styles.form__label}>Apellido:</label>
-                  <input
-                     className={`${styles.form__input} ${
-                        checkValid(errors.apellido) ? "is-invalid" : ""
-                     }`}
-                     type="text"
-                     name="apellido"
-                     placeholder="Ingrese un apellido"
-                     value={apellido}
-                     onChange={onChangeHandler}
-                  />
-                  <small id="helpId" className="invalid-feedback">
-                     Debes ingresar un apellido
-                  </small>
-               </div>
+            <FormGroup
+               labelClass={"form__label"}
+               labelName={"Nombre"}
+               inputClass={"form__input"}
+               inputType={"text"}
+               inputName={"nombre"}
+               inputValue={nombre}
+               disabledOp={!editMode}
+               onChangeHandler={onChangeHandler}
+               checkValid={checkValid}
+               errors={errors}
+            />
+
+            <FormGroup
+               labelClass={"form__label"}
+               labelName={"Apellido"}
+               inputClass={"form__input"}
+               inputType={"text"}
+               inputName={"apellido"}
+               inputValue={apellido}
+               disabledOp={!editMode}
+               onChangeHandler={onChangeHandler}
+               checkValid={checkValid}
+               errors={errors}
+            />
+
+            <div className="row-nb">
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"N° de Documento"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"documento"}
+                  inputValue={documento}
+                  disabledOp={!editMode}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
+
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"N° de Cuil"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"cuil"}
+                  inputValue={cuil}
+                  disabledOp={!editMode}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
             </div>
 
-            <div className={styles.row}>
-               <div className={styles.form__group}>
-                  <label className={styles.form__label}>N° de Documento:</label>
-                  <input
-                     className={`${styles.form__input} ${
-                        checkValid(errors.documento) ? "is-invalid" : ""
-                     }`}
-                     type="text"
-                     name="documento"
-                     placeholder="Ingrese un documento"
-                     value={documento}
-                     onChange={onChangeHandler}
-                  />
-                  <small id="helpId" className="invalid-feedback">
-                     Debes ingresar un documento
-                  </small>
-               </div>
-               <div className={styles.form__group}>
-                  <label className={styles.form__label}>N° de Cuil:</label>
-                  <input
-                     className={`${styles.form__input} ${
-                        checkValid(errors.cuil) ? "is-invalid" : ""
-                     }`}
-                     type="text"
-                     name="cuil"
-                     placeholder="Ingrese un cuil"
-                     value={cuil}
-                     onChange={onChangeHandler}
-                  />
-                  <small id="helpId" className="invalid-feedback">
-                     Debes ingresar un cuil
-                  </small>
-               </div>
+            <div className={"row-nb"}>
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"Telefono Personal"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"telefono_personal"}
+                  inputValue={telefono_personal}
+                  disabledOp={!editMode}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
+
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"Email"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"email"}
+                  inputValue={email}
+                  disabledOp={!editMode}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
             </div>
 
-            <div className={styles.row}>
-               <div className={styles.form__group}>
-                  <label className={styles.form__label}>Telefono</label>
-                  <input
-                     className={`${styles.form__input} ${
-                        checkValid(errors.telefono) ? "is-invalid" : ""
-                     }`}
-                     type="text"
-                     name="telefono"
-                     placeholder="Ingrese un telefono"
-                     value={telefono}
-                     onChange={onChangeHandler}
-                  />
-                  <small id="helpId" className="invalid-feedback">
-                     Debes ingresar un telefono
-                  </small>
-               </div>
-               <div className={styles.form__group}>
-                  <label className={styles.form__label}>Rol</label>
+            <div className={"row-nb"}>
+               <div className="form__group">
+                  <label className="form__label">Rol: </label>
                   <select
                      className={`${styles.form__select} ${
-                        checkValid(errors.rol) ? "is-invalid" : ""
-                     }`}
+                        editMode ? styles.form__input__edit : ""
+                     } ${checkValid(errors.rol) ? "is-invalid" : ""}`}
                      name="rol"
                      value={rol}
                      onChange={onChangeHandler}
+                     disabled={!editMode}
                   >
                      <option value="">--Seleccionar--</option>
                      <option value="admin">Administrador</option>
@@ -219,16 +250,98 @@ const EditEmployee = () => {
                      Debes seleccionar un rol
                   </small>
                </div>
+
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"Telefono Laboral"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"telefono_laboral"}
+                  inputValue={telefono_laboral}
+                  disabledOp={!editMode}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
+            </div>
+
+            <div className="row-nb">
+               <div className="form__group">
+                  <label className="form__label">Licencia de conducir:</label>
+                  <select
+                     className={`${styles.form__select} ${
+                        editMode ? styles.form__input__edit : ""
+                     } ${
+                        checkValid(errors.licencia_conducir) ? "is-invalid" : ""
+                     }`}
+                     name="licencia_conducir"
+                     value={licencia_conducir}
+                     onChange={onChangeHandler}
+                     disabled={!editMode}
+                  >
+                     <option value="">--Seleccionar--</option>
+                     <option value="admin">A1</option>
+                     <option value="repartidor">A2</option>
+                     <option value="repartidor">B1</option>
+                     <option value="repartidor">B2</option>
+                     <option value="repartidor">C1</option>
+                  </select>
+                  <small id="helpId" className="invalid-feedback">
+                     Debes seleccionar un tipo de licencia de conducir
+                  </small>
+               </div>
+
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"Vecimiento de la Licencia"}
+                  inputClass={"form__input"}
+                  inputType={"date"}
+                  inputName={"vencimiento_licencia"}
+                  inputValue={vencimiento_licencia}
+                  disabledOp={!editMode}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
             </div>
 
             <div className={"button button__group"}>
-               <button className="button acept__button">Actualizar</button>
-               <Link
-                  className="button cancel__button"
-                  to={"/dashboard/empleados"}
-               >
-                  Cancelar
-               </Link>
+               {!editMode && (
+                  <button
+                     className="button acept__button"
+                     type="button"
+                     onClick={() => {
+                        setEditMode(true);
+                     }}
+                  >
+                     Editar
+                  </button>
+               )}
+
+               {!editMode && (
+                  <Link
+                     className="button cancel__button"
+                     to={"/dashboard/empleados"}
+                  >
+                     Cancelar
+                  </Link>
+               )}
+
+               {editMode && (
+                  <button className="button acept__button" type="submit">
+                     Actualizar
+                  </button>
+               )}
+
+               {editMode && (
+                  <button
+                     className="button cancel__button"
+                     type="button"
+                     onClick={() => setEditMode(false)}
+                  >
+                     Cancelar
+                  </button>
+               )}
             </div>
          </form>
       </div>
