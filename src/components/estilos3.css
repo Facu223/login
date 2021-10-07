@@ -1,85 +1,85 @@
-.card2{
-    widows: 100%;
-    border-radius: 20px;
-    border: 2px solid rgb(235, 99, 20);
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
-    display: flex;
-    flex-wrap: wrap;
+/* .card2 {
+   width: 80%;
+   margin: 5rem auto;
+   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+   display: flex;
+   flex-wrap: wrap;
 }
 
-@media only screen and (max-width: 991px){
-    .card2{
-        width: 80%;
-        margin: auto;
-    }
+@media only screen and (max-width: 991px) {
+   .card2 {
+      width: 80%;
+      margin: auto;
+      margin-top: 5rem;
+   }
 
-    .centrar{
-        width: 100%;
-    }
+   .centrar {
+      width: 100%;
+   }
 
-    h4{
-        text-align: center;
-    }
+   h4 {
+      text-align: center;
+   }
 
-    table tr{
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 3em;
-        border: 3px solid #000;
-        border-radius: 10px;
-    }
+   table tr {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 3em;
+      border: 3px solid #000;
+      border-radius: 10px;
+   }
 
-    table th{
-        display: none;
-    }
+   table th {
+      display: none;
+   }
 
-    table td[data-titulo]{
-        display: flex;
-    }
+   table td[data-titulo] {
+      display: flex;
+   }
 
-    table td[data-titulo]::before{
-        content: attr(data-titulo);
-        width: 100px;
-        font-weight: bold;
-    }
+   table td[data-titulo]::before {
+      content: attr(data-titulo);
+      width: 100px;
+      font-weight: bold;
+   }
 
-    .padding-button{
-        width: 250px;
-    }
+   .padding-button {
+      width: 250px;
+   }
 
-    button{
-        width: 250px;
-    }
+   button {
+      width: 250px;
+   }
 }
 
-@media only screen and (max-width: 767px){
-    .padding-button{
-        width: 180px;
-    }
+@media only screen and (max-width: 767px) {
+   .padding-button {
+      width: 180px;
+   }
 
-    button{
-        width: 180px;
-    }
+   button {
+      width: 180px;
+   }
 }
 
-@media only screen and (max-width: 541px){
-    .padding-button{
-        width: 100px;
-    }
+@media only screen and (max-width: 541px) {
+   .padding-button {
+      width: 100px;
+   }
 
-    button{
-        width: 100px;
-    }
+   button {
+      width: 100px;
+   }
 }
 
-@media only screen and (max-width: 563px){
-    .botones{
-        display: flex;
-    }
+@media only screen and (max-width: 563px) {
+   .botones {
+      display: flex;
+   }
 }
 
-@media only screen and (max-width: 350px){
-    .card2{
-        padding-right: 250px;
-    }
-}
+@media only screen and (max-width: 350px) {
+   .card2 {
+      padding-right: 250px;
+   }
+} */

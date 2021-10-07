@@ -13,6 +13,10 @@ import ListCustomers from "../Customers/List/ListCustomers";
 import NewCustomer from "../Customers/New/NewCustomer";
 import EditCustomer from "../Customers/Edit/EditCustomer"
 import Crear from "../Crear";
+import ListTrucks from "../Trucks/List/ListTrucks";
+import NewTruck from "../Trucks/New/NewTruck";
+import EditTruck from "../Trucks/Edit/EditTruck";
+import EditEmployee from "../Employees/Edit/EditEmployee";
 
 function Dashboard() {
    const [backdropOpen, setOpen] = useState(false);
@@ -52,6 +56,20 @@ function Dashboard() {
             </Route>
             <Route path={`${path}/clientes/editar/:id`}>
                <EditEmployee  />
+            <Route path={`${path}/empleados/editar/:id`} exact>
+               <EditEmployee />
+            </Route>
+            <Route path={`${path}/empleados/nuevo`}>
+               <NewEmployee />
+            </Route>
+            <Route path={`${path}/camiones`} exact>
+               <ListTrucks />
+            </Route>
+            <Route path={`${path}/camiones/nuevo`} exact>
+               <NewTruck />
+            </Route>
+            <Route path={`${path}/camiones/editar/:id`} exact>
+               <EditTruck />
             </Route>
          </main>
 
