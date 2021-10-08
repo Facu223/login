@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import api from "../../servicios/api";
 import styles from "./ListEmployees.module.css";
-import Modal from '../../Modals/Modal'
+import Modal from "../../Modals/Modal";
 
 class ListEmployees extends React.Component {
    constructor(props) {
@@ -10,34 +10,35 @@ class ListEmployees extends React.Component {
       this.state = {
          datosCargados: false,
          empleados: [],
-         isOpen: false
+         isOpen: false,
       };
    }
 
    borrarRegistros = (id) => {
-      if(window.confirm('¿Estás seguro?'))
-      fetch(api + "/api/empleados/" + id, {
-         method: 'DELETE',
-         header: {'Accept':'application/json',
-         'Content-Type': 'application/json'}
-      })
-      .then(() => this.cargarDatos())
-      .catch(console.log);
+      if (window.confirm("¿Estás seguro?"))
+         fetch(api + "/api/empleados/" + id, {
+            method: "DELETE",
+            header: {
+               Accept: "application/json",
+               "Content-Type": "application/json",
+            },
+         })
+            .then(() => this.cargarDatos())
+            .catch(console.log);
    };
 
-   openModal(){
-      this.setState({ isOpen : true })
+   openModal() {
+      this.setState({ isOpen: true });
    }
 
-   closeModal = () =>{
-      this.setState({isOpen: false})
-    }
+   closeModal = () => {
+      this.setState({ isOpen: false });
+   };
 
    cargarDatos() {
       fetch(api + "/api/empleados")
          .then((respuesta) => respuesta.json())
          .then((datosRespuesta) => {
-            console.log(datosRespuesta);
             this.setState({
                datosCargados: true,
                empleados: datosRespuesta.empleados,
@@ -48,9 +49,8 @@ class ListEmployees extends React.Component {
 
    componentDidMount() {
       this.cargarDatos();
-      console.log(this.props);
    }
-  
+
    render() {
       const { datosCargados, empleados } = this.state;
 
