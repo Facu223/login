@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import api from "../../servicios/api";
 // import styles from "./ListEmployees.module.css";
 import styles from "./ListCustomers.module.css";
-import Modal from "../../Modals/Modal";
+// import Modal from "../../Modals/Modal";
 
 class ListCustomers extends React.Component {
    constructor(props) {
@@ -40,7 +40,6 @@ class ListCustomers extends React.Component {
       fetch(api + "/api/clientes")
          .then((respuesta) => respuesta.json())
          .then((datosRespuesta) => {
-            console.log(datosRespuesta);
             this.setState({
                datosCargados: true,
                clientes: datosRespuesta.clientes,
@@ -51,7 +50,6 @@ class ListCustomers extends React.Component {
 
    componentDidMount() {
       this.cargarDatos();
-      console.log(this.props);
    }
 
    render() {
