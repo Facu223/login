@@ -1,296 +1,300 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../servicios/api";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import styles from "./NewEmployee.module.css";
+import FormGroup from "../FormGroup";
 
-class Crear extends React.Component {
-   constructor(props) {
-      super(props);
-      this.state = {
-         nombre: "",
-         apellido: "",
-         documento: "",
-         cuil: "",
-         telefono: "",
-         usuario: "",
-         contraseña: "",
-         rol: "",
-         errores: [],
-         redirect: false,
-      };
-   }
-
-   cambioValor = (e) => {
-      const state = this.state;
-      state[e.target.name] = e.target.value;
-      this.setState({ state, errores: [] });
+const NewEmployee = () => {
+   const initialState = {
+      nombre: "",
+      apellido: "",
+      documento: "",
+      cuil: "",
+      telefono: "",
+      usuario: "",
+      contraseña: "",
+      rol: "",
+      telefono_personal: "",
+      telefono_laboral: "",
+      email: "",
+      licencia_conducir: "",
+      vencimiento_licencia: "",
    };
 
-   verificarError(elemento) {
-      return this.state.errores.indexOf(elemento) !== -1;
-   }
+   /* ESTADOS */
+   const [newEmployeeData, setNewEmployeeData] = useState(initialState);
+   const [errors, setErrors] = useState({});
+   const history = useHistory();
 
+   /* HANDLERS */
+   const onChangeHandler = (e) => {
+      setNewEmployeeData((prevState) => {
+         return { ...prevState, [e.target.name]: e.target.value };
+      });
+   };
 
-   enviarDatos = (e) => {
+   const onSubmitHandler = (e) => {
       e.preventDefault();
+      const requiredFields = [
+         "nombre",
+         "apellido",
+         "documento",
+         "cuil",
+         "telefono_personal",
+         "usuario",
+         "contraseña",
+         "rol",
+      ];
 
-      const {
-         nombre,
-         apellido,
-         documento,
-         cuil,
-         telefono,
-         usuario,
-         contraseña,
-         rol,
-      } = this.state;
+      if (Object.keys(validateInputs(newEmployeeData, requiredFields)).length) {
+         return setErrors(validateInputs(newEmployeeData, requiredFields));
+      }
 
-      let errores = [];
-      if (!nombre) errores.push("error_nombre");
-      if (!apellido) errores.push("error_apellido");
-      if (!documento) errores.push("error_documento");
-      if (!cuil) errores.push("error_cuil");
-      if (!usuario) errores.push("error_usuario");
-      if (!telefono) errores.push("error_telefono");
-      if (!contraseña) errores.push("error_contraseña");
-      if (!rol) errores.push("error_rol");
-      this.setState({ errores: errores });
-      if (errores.length > 0) return false;
+      setErrors({});
 
-      var datosEnviar = {
-         nombre,
-         apellido,
-         documento: +documento,
-         cuil,
-         usuario,
-         telefono,
-         password: contraseña,
-         rol,
-      };
+      sendHttpRequest();
+   };
 
-      fetch(api + "/api/usuarios/admin/signup", {
+   /* HTTP REQUEST */
+   const sendHttpRequest = async () => {
+      const data = await fetch(`${api}/api/usuarios/admin/signup`, {
          method: "POST",
-         body: JSON.stringify(datosEnviar),
+         body: JSON.stringify(newEmployeeData),
          headers: {
             "Content-Type": "application/json",
          },
-      })
-         .then((respuesta) => respuesta.json())
-         .then((datosRespuesta) => {
-            this.setState({ redirect: true });
-         })
-         .catch((e) => console.log(e));
+      });
+
+      if (data.status === 201) {
+         return history.push("/dashboard/empleados");
+      }
    };
 
-   render() {
-      const {
-         nombre,
-         apellido,
-         documento,
-         cuil,
-         telefono,
-         usuario,
-         contraseña,
-         rol,
-      } = this.state;
+   /* VALIDATORS */
+   const validateInputs = (inputs, requiredFields) => {
+      const keyInputs = Object.keys(inputs);
+      const errors = {};
 
-      if (this.state.redirect) {
-         return <Redirect to="/dashboard/empleados" />;
-      }
+      keyInputs.forEach((input) => {
+         if (!inputs[input] && requiredFields.includes(input)) {
+            errors[input] = `${input}__error`;
+         }
+      });
 
-      return (
-         <div className={`card-nb`}>
-            <div className="card__header">Nuevo</div>
-            <div className="">
-               <form onSubmit={this.enviarDatos} className="form">
-                  <div className="row-nb">
-                     <div className="form__group">
-                        <label htmlFor="" className={"form__label"}>
-                           Nombre:
-                        </label>
-                        <input
-                           onChange={this.cambioValor}
-                           value={nombre}
-                           type="text"
-                           name="nombre"
-                           className={
-                              (this.verificarError("error_nombre")
-                                 ? "is-invalid"
-                                 : "") + " form__input"
-                           }
-                           placeholder="Ingrese un nombre"
-                        />
-                        <small id="helpId" className="invalid-feedback">
-                           Ecribe el nombre del empleado
-                        </small>
-                     </div>
+      return errors;
+   };
 
-                     <div className="form__group">
-                        <label className={"form__label"}>Apellido:</label>
-                        <input
-                           onChange={this.cambioValor}
-                           value={apellido}
-                           type="text"
-                           name="apellido"
-                           className={
-                              (this.verificarError("error_apellido")
-                                 ? "is-invalid"
-                                 : "") + " form__input"
-                           }
-                           placeholder="Ingrese un apellido"
-                        />
-                        <small id="helpId" className="invalid-feedback">
-                           Ecribe el apellido del empleado
-                        </small>
-                     </div>
-                  </div>
+   const checkValid = (field) => {
+      const value = Object.values(errors);
+      if (value.indexOf(field) !== -1) return true;
+      return false;
+   };
 
-                  <div className="row-nb">
-                     <div className="form__group">
-                        <label className={"form__label"}>
-                           N° de Documento:
-                        </label>
-                        <input
-                           onChange={this.cambioValor}
-                           value={documento}
-                           type="text"
-                           name="documento"
-                           className={
-                              (this.verificarError("error_documento")
-                                 ? "is-invalid"
-                                 : "") + " form__input"
-                           }
-                           placeholder="Ingrese un documento"
-                        />
-                        <small id="helpId" className="invalid-feedback">
-                           Ecribe el apellido del empleado
-                        </small>
-                     </div>
-                     <div className="form__group">
-                        <label className="form__label">N° de Cuil:</label>
-                        <input
-                           onChange={this.cambioValor}
-                           value={cuil}
-                           type="text"
-                           name="cuil"
-                           className={
-                              (this.verificarError("error_cuil")
-                                 ? "is-invalid"
-                                 : "") + " form__input"
-                           }
-                           placeholder="Ingrese un cuil"
-                        />
-                        <small id="helpId" className="invalid-feedback">
-                           Escribe el cuil del empleado
-                        </small>
-                     </div>
-                  </div>
+   const {
+      nombre,
+      apellido,
+      documento,
+      cuil,
+      telefono_personal,
+      telefono_laboral,
+      email,
+      licencia_conducir,
+      vencimiento_licencia,
+      usuario,
+      contraseña,
+      rol,
+   } = newEmployeeData;
 
-                  <div className={"row-nb"}>
-                     <div className="form__group">
-                        <label htmlFor="">Teléfono:</label>
-                        <input
-                           onChange={this.cambioValor}
-                           value={telefono}
-                           type="text"
-                           name="telefono"
-                           className={
-                              (this.verificarError("error_telefono")
-                                 ? "is-invalid"
-                                 : "") + " form__input"
-                           }
-                           placeholder="Ingrese un telefono"
-                        />
-                        <small id="helpId" className="invalid-feedback">
-                           Ecribe el teléfono del empleado
-                        </small>
-                     </div>
+   return (
+      <div className="card-nb">
+         <div>Nuevo Empleado</div>
+         <form onSubmit={onSubmitHandler}>
+            <FormGroup
+               labelClass={"form__label"}
+               labelName={"Nombre"}
+               inputClass={"form__input"}
+               inputType={"text"}
+               inputName={"nombre"}
+               inputValue={nombre}
+               onChangeHandler={onChangeHandler}
+               checkValid={checkValid}
+               errors={errors}
+            />
 
-                     <div className="form__group">
-                        <label htmlFor="">Usuario:</label>
-                        <input
-                           onChange={this.cambioValor}
-                           value={usuario}
-                           type="text"
-                           name="usuario"
-                           className={
-                              (this.verificarError("error_usuario")
-                                 ? "is-invalid"
-                                 : "") + " form__input"
-                           }
-                           placeholder="Ingresa un usuario"
-                        />
-                        <small id="helpId" className="invalid-feedback">
-                           Escribe el usuario del empleado
-                        </small>
-                     </div>
-                  </div>
+            <FormGroup
+               labelClass={"form__label"}
+               labelName={"Apellido"}
+               inputClass={"form__input"}
+               inputType={"text"}
+               inputName={"apellido"}
+               inputValue={apellido}
+               onChangeHandler={onChangeHandler}
+               checkValid={checkValid}
+               errors={errors}
+            />
 
-                  <div className={"row-nb"}>
-                     <div className="form__group">
-                        <label htmlFor="">Contraseña:</label>
-                        <input
-                           onChange={this.cambioValor}
-                           value={contraseña}
-                           type="password"
-                           name="contraseña"
-                           className={
-                              (this.verificarError("error_contraseña")
-                                 ? "is-invalid"
-                                 : "") + " form__input"
-                           }
-                           placeholder="Ingresa una contraseña"
-                        />
-                        <small id="helpId" className="invalid-feedback">
-                           Escribe una contraseña por defecto para el empleado
-                        </small>
-                     </div>
+            <div className="row-nb">
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"N° de Documento"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"documento"}
+                  inputValue={documento}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
 
-                     <div className="form__group">
-                        <label htmlFor="">Rol:</label>
-                        <select
-                           onChange={this.cambioValor}
-                           value={rol}
-                           name="rol"
-                           id="rol"
-                           className={
-                              (this.verificarError("error_rol")
-                                 ? "is-invalid"
-                                 : "") + " form__select"
-                           }
-                           placeholder=""
-                           aria-describedby="helpId"
-                        >
-                           <option value="">--Selecciona--</option>
-                           <option value="admin">Administrador</option>
-                           <option value="repartidor">Repartidor</option>
-                        </select>
-                        <small id="helpId" className="invalid-feedback">
-                           Escribe una rol por defecto para el empleado
-                        </small>
-                     </div>
-                  </div>
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"N° de Cuil"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"cuil"}
+                  inputValue={cuil}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
+            </div>
 
-                  <br></br>
+            <div className="row-nb row-nb-3">
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"Telefono Personal"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"telefono_personal"}
+                  inputValue={telefono_personal}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
 
-                  <div className="button__group" role="group" aria-label="">
-                     <button type="submit" className="button acept__button">
-                        Agregar
-                     </button>
-                     <Link
-                        to={"/dashboard/empleados"}
-                        className="button cancel__button"
-                     >
-                        Cancelar
-                     </Link>
-                  </div>
-               </form>
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"Telefono Laboral"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"telefono_laboral"}
+                  inputValue={telefono_laboral}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
+
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"Email"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"email"}
+                  inputValue={email}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
+            </div>
+
+            <div className="row-nb">
+               <div className="form__group">
+                  <label className="form__label">Licencia de conducir:</label>
+                  <select
+                     className={` form__select ${"form__input__edit"} ${
+                        checkValid(errors.licencia_conducir) ? "is-invalid" : ""
+                     }`}
+                     name="licencia_conducir"
+                     value={licencia_conducir}
+                     onChange={onChangeHandler}
+                  >
+                     <option value="">--Seleccionar--</option>
+                     <option value="admin">A1</option>
+                     <option value="repartidor">A2</option>
+                     <option value="repartidor">B1</option>
+                     <option value="repartidor">B2</option>
+                     <option value="repartidor">C1</option>
+                  </select>
+                  <small id="helpId" className="invalid-feedback">
+                     Debes seleccionar un tipo de licencia de conducir
+                  </small>
+               </div>
+
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"Vencimiento Licencia"}
+                  inputClass={"form__input"}
+                  inputType={"date"}
+                  inputName={"vencimiento_licencia"}
+                  inputValue={vencimiento_licencia}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
+            </div>
+
+            <div className="row-nb row-nb-3">
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"Usuario"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"usuario"}
+                  inputValue={usuario}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
+
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"Contraseña"}
+                  inputClass={"form__input"}
+                  inputType={"password"}
+                  inputName={"contraseña"}
+                  inputValue={contraseña}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
+
+               <div className="form__group">
+                  <label className="form__label">Rol:</label>
+                  <select
+                     onChange={onChangeHandler}
+                     value={rol}
+                     name="rol"
+                     id="rol"
+                     className={`form__select form__input__edit ${
+                        checkValid(errors.rol) ? "is-invalid " : ""
+                     }`}
+                     placeholder=""
+                     aria-describedby="helpId"
+                  >
+                     <option value="">--Selecciona--</option>
+                     <option value="admin">Administrador</option>
+                     <option value="repartidor">Repartidor</option>
+                  </select>
+                  <small id="helpId" className="invalid-feedback">
+                     Escribe una rol por defecto para el empleado
+                  </small>
+               </div>
+            </div>
+
+            <div className="button__group">
+               <button className="button acept__button">Aceptar</button>
+               <Link
+                  to="/dashboard/empleados"
+                  className="button cancel__button"
+               >
+                  Cancelar
+               </Link>
 
             </div>
-         </div>
-      );
-   }
-}
+         </form>
+      </div>
+   );
+};
 
-export default Crear;
+export default NewEmployee;

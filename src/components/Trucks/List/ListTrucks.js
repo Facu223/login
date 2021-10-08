@@ -61,6 +61,7 @@ const ListTrucks = () => {
                      <th>Dominio</th>
                      <th>Año</th>
                      <th>N° Poliza</th>
+                     <th>Vencimiento</th>
                      <th>Acciones</th>
                   </tr>
                </thead>
@@ -76,6 +77,7 @@ const ListTrucks = () => {
                              <td data-titulo="Dominio">
                                 {truck.numero_poliza}
                              </td>
+                             <td data-titulo="Dominio">06/08/2022</td>
                              <td>
                                 <div
                                    className={`${styles.button__group} ${styles.botones}`}
