@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../servicios/api";
-import { Redirect, useHistory } from "react-router-dom";
-import styles from "./NewEmployee.module.css";
+import { useHistory } from "react-router-dom";
+// import styles from "./NewEmployee.module.css";
 import FormGroup from "../FormGroup";
 
 const NewEmployee = () => {
@@ -290,7 +290,6 @@ const NewEmployee = () => {
                >
                   Cancelar
                </Link>
-
             </div>
          </form>
       </div>

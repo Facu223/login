@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import api from "../../servicios/api";
-import styles from "../New/NewEmployee.module.css";
-import {cargarDatos} from '../List/ListCustomers';
+// import styles from "../New/NewEmployee.module.css";
+import styles from "./EditCustomer.module.css";
+import { cargarDatos } from "../List/ListCustomers";
 
-class Editar extends React.Component {
+class EditCustomer extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
@@ -16,7 +17,6 @@ class Editar extends React.Component {
          errores: [],
       };
    }
-
 
    cambioValor = (e) => {
       const state = this.state;
@@ -55,14 +55,15 @@ class Editar extends React.Component {
 
       await fetch(api + "/api/clientes", {
          method: "PATCH",
-         headers:{
-            'Content-Type': 'application/json'
+         headers: {
+            "Content-Type": "application/json",
          },
          body: JSON.stringify(datosEnviar),
-      }).then(respuesta => {
-         console.log(respuesta.status);
-         return respuesta.json();
       })
+         .then((respuesta) => {
+            console.log(respuesta.status);
+            return respuesta.json();
+         })
          .then((datosRespuesta) => {
             console.log(datosRespuesta);
             // this.props.history.push("/dasboard/empleados");
@@ -71,7 +72,7 @@ class Editar extends React.Component {
    };
 
    render() {
-      const { nombre, apellido, domicilio, telefono, email  } = this.state;
+      const { nombre, apellido, domicilio, telefono, email } = this.state;
 
       return (
          <div className={styles.card}>
@@ -204,4 +205,4 @@ class Editar extends React.Component {
    }
 }
 
-export default Editar;
+export default EditCustomer;

@@ -39,7 +39,7 @@ const Sidebar = (props) => {
 
             <li className={styles.sidebar__item}>
                <Link
-                  to={`${url}/empleados`}
+                  to={`${url}/clientes`}
                   onClick={props.closeMenu}
                   className={styles.sidebar__link}
                >

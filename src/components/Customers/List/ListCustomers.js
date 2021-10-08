@@ -1,37 +1,40 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import api from "../../servicios/api";
-import styles from "./ListEmployees.module.css";
-import Modal from '../../Modals/Modal'
+// import styles from "./ListEmployees.module.css";
+import styles from "./ListCustomers.module.css";
+import Modal from "../../Modals/Modal";
 
-class ListEmployees extends React.Component {
+class ListCustomers extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
          datosCargados: false,
          clientes: [],
-         isOpen: false
+         isOpen: false,
       };
    }
 
    borrarRegistros = (id) => {
-      if(window.confirm('¿Estás seguro?'))
-      fetch(api + "/api/clientes/" + id, {
-         method: 'DELETE',
-         header: {'Accept':'application/json',
-         'Content-Type': 'application/json'}
-      })
-      .then(() => this.cargarDatos())
-      .catch(console.log);
+      if (window.confirm("¿Estás seguro?"))
+         fetch(api + "/api/clientes/" + id, {
+            method: "DELETE",
+            header: {
+               Accept: "application/json",
+               "Content-Type": "application/json",
+            },
+         })
+            .then(() => this.cargarDatos())
+            .catch(console.log);
    };
 
-   openModal(){
-      this.setState({ isOpen : true })
+   openModal() {
+      this.setState({ isOpen: true });
    }
 
-   closeModal = () =>{
-      this.setState({isOpen: false})
-    }
+   closeModal = () => {
+      this.setState({ isOpen: false });
+   };
 
    cargarDatos() {
       fetch(api + "/api/clientes")
@@ -51,8 +54,6 @@ class ListEmployees extends React.Component {
       console.log(this.props);
    }
 
-    
-
    render() {
       const { datosCargados, clientes } = this.state;
 
@@ -66,8 +67,9 @@ class ListEmployees extends React.Component {
                      <Link
                         to={"/dashboard/clientes/nuevo"}
                         type="button"
-                        className={`button ${styles.new__button}`}>
-                           Agregar cliente
+                        className={`button ${styles.new__button}`}
+                     >
+                        Agregar cliente
                      </Link>
                   </div>
                   <h4>Lista de clientes</h4>
@@ -94,16 +96,23 @@ class ListEmployees extends React.Component {
                               <td data-titulo="Telefono">{cliente.email}</td>
                               <td>
                                  <div
-                                    className={`${styles.button__group} ${styles.botones}`}>
-                                    <button 
-                                    type="button"
-                                    onClick={ this.openModal}                                      
-                                    className={`button ${styles.edit__button}`}>Editar 
-                                    </button>
-                                    <button 
-                                       onClick={() => this.borrarRegistros(cliente.id) }
+                                    className={`${styles.button__group} ${styles.botones}`}
+                                 >
+                                    <button
                                        type="button"
-                                       className={`${styles.delete__button} button`}>Borrar
+                                       onClick={this.openModal}
+                                       className={`button ${styles.edit__button}`}
+                                    >
+                                       Editar
+                                    </button>
+                                    <button
+                                       onClick={() =>
+                                          this.borrarRegistros(cliente.id)
+                                       }
+                                       type="button"
+                                       className={`${styles.delete__button} button`}
+                                    >
+                                       Borrar
                                     </button>
                                  </div>
                               </td>
