@@ -1,24 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import api from "../../servicios/api";
-// import styles from "../New/NewEmployee.module.css";
-import styles from "./EditCustomer.module.css";
-import { cargarDatos } from "../List/ListCustomers";
+import styles from "./NewEmployee.module.css";
 
-class EditCustomer extends React.Component {
-
+class Crear extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
          nombre: "",
          apellido: "",
-         domicilio: "",
+         dni: "",
          telefono: "",
-         email: "",
+         usuario: "",
+         password: "",
+         rol: "admin",
          errores: [],
       };
    }
-
 
    cambioValor = (e) => {
       const state = this.state;
@@ -33,14 +31,18 @@ class EditCustomer extends React.Component {
    enviarDatos = async (e) => {
       e.preventDefault();
 
-      const { nombre, apellido, domicilio, telefono, email } = this.state;
+      const { nombre, apellido, dni, telefono, usuario, password, rol } = this.state;
 
       let errores = [];
       if (!nombre) errores.push("error_nombre");
       if (!apellido) errores.push("error_apellido");
-      if (!domicilio) errores.push("error_domicilio");
+      if (!dni) errores.push("error_dni");
       if (!telefono) errores.push("error_telefono");
-      if (!email) errores.push("error_email");
+      if (!usuario) errores.push("error_usuario");
+      if (!password) errores.push("error_password");
+      if (!rol) errores.push("error_rol");
+      // if (!cuil) errores.push("error_cuil");
+      // if (!puesto) errores.push("error_puesto");
 
       this.setState({ errores: errores });
       if (errores.length > 0) return false;
@@ -48,24 +50,25 @@ class EditCustomer extends React.Component {
       var datosEnviar = {
          nombre: nombre,
          apellido: apellido,
-         domicilio: domicilio,
+         documento: dni,
          telefono: telefono,
-         email: email,
+         usuario: usuario,
+         password: password,
+         rol: rol
+         // cuil: cuil,
+         // puesto: puesto,
       };
 
       console.log(datosEnviar);
 
-      await fetch(api + "/api/clientes", {
-         method: "PATCH",
-         headers: {
-            "Content-Type": "application/json",
+      await fetch(api + "/api/usuarios/admin/signup", {
+         method: "POST",
+         headers:{
+            'Content-Type': 'application/json'
          },
          body: JSON.stringify(datosEnviar),
       })
-         .then((respuesta) => {
-            console.log(respuesta.status);
-            return respuesta.json();
-         })
+         .then((respuesta) => respuesta.json())
          .then((datosRespuesta) => {
             console.log(datosRespuesta);
             // this.props.history.push("/dasboard/empleados");
@@ -74,11 +77,11 @@ class EditCustomer extends React.Component {
    };
 
    render() {
-      const { nombre, apellido, domicilio, telefono, email } = this.state;
+      const { nombre, apellido, dni, telefono, usuario , password } = this.state;
 
       return (
          <div className={styles.card}>
-            <div className="card-header">Editar Empleado</div>
+            <div className="card-header">Nuevo Empleado</div>
             <div className="card-body">
                <form onSubmit={this.enviarDatos}>
                   <div className="form-group">
@@ -98,7 +101,7 @@ class EditCustomer extends React.Component {
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
-                        Ecribe el nombre del cliente
+                        Ecribe el nombre del empleado
                      </small>
                   </div>
                   <br></br>
@@ -120,21 +123,21 @@ class EditCustomer extends React.Component {
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
-                        Ecribe el apellido del cliente
+                        Ecribe el apellido del empleado
                      </small>
                   </div>
                   <br></br>
 
                   <div className="form-group">
-                     <label htmlFor="">Domicilio:</label>
+                     <label htmlFor="">DNI:</label>
                      <input
                         onChange={this.cambioValor}
-                        value={domicilio}
+                        value={dni}
                         type="text"
-                        name="domicilio"
-                        id="domicilio"
+                        name="dni"
+                        id="dni"
                         className={
-                           (this.verificarError("error_domicilio")
+                           (this.verificarError("error_dni")
                               ? "is-invalid"
                               : "") + " form-control"
                         }
@@ -142,7 +145,7 @@ class EditCustomer extends React.Component {
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
-                        Ecribe el domicilio del cliente
+                        Ecribe el apellido del empleado
                      </small>
                   </div>
                   <br></br>
@@ -170,15 +173,15 @@ class EditCustomer extends React.Component {
                   <br></br>
 
                   <div className="form-group">
-                     <label htmlFor="">E-mail:</label>
+                     <label htmlFor="">nombre de usuario:</label>
                      <input
                         onChange={this.cambioValor}
-                        value={email}
+                        value={usuario}
                         type="text"
-                        name="email"
-                        id="email"
+                        name="usuario"
+                        id="usuario"
                         className={
-                           (this.verificarError("error_email")
+                           (this.verificarError("error_usuario")
                               ? "is-invalid"
                               : "") + " form-control"
                         }
@@ -186,10 +189,43 @@ class EditCustomer extends React.Component {
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
-                        Ecribe el E-mail del empleado
+                        Ecribe el nombre de usuario del empleado
                      </small>
-                  </div>
+                  </div> 
                   <br></br>
+
+                  <div className="form-group">
+                     <label htmlFor="">contraseña:</label>
+                     <input
+                        onChange={this.cambioValor}
+                        value={password}
+                        type="text"
+                        name="password"
+                        id="password"
+                        className={
+                           (this.verificarError("error_usuario")
+                              ? "is-invalid"
+                              : "") + " form-control"
+                        }
+                        placeholder=""
+                        aria-describedby="helpId"
+                     />
+                     <small id="helpId" className="invalid-feedback">
+                        Ecribe la contraseña del usuario
+                     </small>
+                  </div> 
+                  <br></br>
+                        
+                  {/* <div className="form-group">
+                     <label>
+                       Selecciona el Rol
+                       <select value={rol} onChange={this.cambioValor}>
+                         <option value="admin">Administrador</option>
+                         <option value="repartidor">Repartidor</option>
+                       </select>
+                     </label>
+                  </div>
+                  <br></br> */}
 
                   <div className="btn-group" role="group" aria-label="">
                      <button type="submit" className="button">
@@ -206,5 +242,5 @@ class EditCustomer extends React.Component {
       );
    }
 }
-export default EditCustomer;
 
+export default Crear;

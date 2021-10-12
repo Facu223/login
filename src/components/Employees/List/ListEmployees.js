@@ -11,6 +11,7 @@ class ListEmployees extends React.Component {
          datosCargados: false,
          empleados: [],
          isOpen: false,
+
       };
    }
 
@@ -39,6 +40,7 @@ class ListEmployees extends React.Component {
       fetch(api + "/api/empleados")
          .then((respuesta) => respuesta.json())
          .then((datosRespuesta) => {
+            console.log(datosRespuesta);
             this.setState({
                datosCargados: true,
                empleados: datosRespuesta.empleados,
@@ -50,6 +52,8 @@ class ListEmployees extends React.Component {
    componentDidMount() {
       this.cargarDatos();
    }
+
+    
 
    render() {
       const { datosCargados, empleados } = this.state;
@@ -68,6 +72,7 @@ class ListEmployees extends React.Component {
                      ></i>
                      Agregar
                   </Link>
+
                </div>
                <h4>Lista de empleados</h4>
                <table className="table">

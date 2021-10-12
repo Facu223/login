@@ -29,7 +29,7 @@ class NewCustomer extends React.Component {
 
    enviarDatos = async (e) => {
       e.preventDefault();
-
+     
       const { nombre, apellido, domicilio, telefono, email } = this.state;
 
       let errores = [];
@@ -209,5 +209,4 @@ class NewCustomer extends React.Component {
       );
    }
 }
-
 export default NewCustomer;
