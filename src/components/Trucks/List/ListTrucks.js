@@ -15,6 +15,8 @@ const ListTrucks = () => {
       fetch(`${api}/api/camiones`)
          .then((data) => data.json())
          .then((response) => setTrucks(response.camiones));
+
+      return () => {};
    }, [trucks]);
 
    const deleteTruck = (id) => {
@@ -37,13 +39,13 @@ const ListTrucks = () => {
    };
 
    return (
-      <div className={`${styles.card2}`}>
+      <div className={`card-nb`}>
          <div className="card-body card3">
             <div className={styles["card-header"]}>
                <Link
                   to={"/dashboard/camiones/nuevo"}
                   type="button"
-                  className={`button ${styles.new__button}`}
+                  className={`button acept__button`}
                >
                   <i className={`bi bi-plus ${styles.new__button__icon}`}></i>{" "}
                   Agregar
@@ -59,6 +61,7 @@ const ListTrucks = () => {
                      <th>Dominio</th>
                      <th>Año</th>
                      <th>N° Poliza</th>
+                     <th>Vencimiento</th>
                      <th>Acciones</th>
                   </tr>
                </thead>
@@ -74,6 +77,7 @@ const ListTrucks = () => {
                              <td data-titulo="Dominio">
                                 {truck.numero_poliza}
                              </td>
+                             <td data-titulo="Dominio">06/08/2022</td>
                              <td>
                                 <div
                                    className={`${styles.button__group} ${styles.botones}`}

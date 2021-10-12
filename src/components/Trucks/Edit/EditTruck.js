@@ -258,10 +258,7 @@ const EditTruck = () => {
                <br></br>
 
                <div className="button__group" role="group" aria-label="">
-                  <button
-                     type="submit"
-                     className={`button ${styles.update__button}`}
-                  >
+                  <button type="submit" className={`button acept__button`}>
                      Actualizar
                   </button>
                   <Link

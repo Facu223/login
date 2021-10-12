@@ -2,9 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import api from "../../servicios/api";
 import { Redirect } from "react-router";
-import styles from "../../Employees/New/NewEmployee.module.css";
 
-class Crear extends React.Component {
+class NewCustomer extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
@@ -14,7 +13,7 @@ class Crear extends React.Component {
          telefono: "",
          email: "",
          errores: [],
-         isCharged: false
+         isCharged: false,
       };
    }
 
@@ -30,8 +29,8 @@ class Crear extends React.Component {
 
    enviarDatos = async (e) => {
       e.preventDefault();
-
-      const { nombre, apellido, domicilio, telefono, email  } = this.state;
+     
+      const { nombre, apellido, domicilio, telefono, email } = this.state;
 
       let errores = [];
       if (!nombre) errores.push("error_nombre");
@@ -55,25 +54,27 @@ class Crear extends React.Component {
 
       await fetch(api + "/api/clientes", {
          method: "POST",
-         headers:{
-            'Content-Type': 'application/json'
+         headers: {
+            "Content-Type": "application/json",
          },
          body: JSON.stringify(datosEnviar),
-      }).then((respuesta) => respuesta.json())
+      })
+         .then((respuesta) => respuesta.json())
          .then((datosRespuesta) => {
             console.log(datosRespuesta);
             this.props.history.push("/dasboard/clientes");
          })
          .catch(console.log);
 
-         this.setState({isCharged: true})
+      this.setState({ isCharged: true });
    };
 
    render() {
-      const { nombre, apellido, domicilio, telefono, email, isCharged  } = this.state;
+      const { nombre, apellido, dni, telefono, domicilio, email, isCharged } =
+         this.state;
 
       return (
-         <div className={styles.card}>
+         <div className={"card-nb"}>
             <div className="card-header">Nuevo Cliente</div>
             <div className="card-body">
                <form onSubmit={this.enviarDatos}>
@@ -196,16 +197,16 @@ class Crear extends React.Component {
                      </Link>
                   </div>
                </form>
-               {isCharged
-               ?<Redirect 
-               from='/dashboard/clientes/nuevo'
-                to='/dashboard/clientes'/>
-               : null}
+               {isCharged ? (
+                  <Redirect
+                     from="/dashboard/clientes/nuevo"
+                     to="/dashboard/clientes"
+                  />
+               ) : null}
             </div>
             <div className="card-footer text-muted"></div>
          </div>
       );
    }
 }
-
-export default Crear;
+export default NewCustomer;

@@ -50,6 +50,14 @@ body {
    padding: 1rem;
 }
 
+.card-nb {
+   width: 80%;
+   margin: 5rem auto;
+   background-color: #fff;
+   box-shadow: 0px 5px 10px rgb(0 0 0 / 25%);
+   border-radius: 5px;
+}
+
 .button {
    text-decoration: none;
    padding: 0.3rem 1.5rem;
@@ -71,23 +79,118 @@ body {
    letter-spacing: 0.8px;
    margin-right: 10px;
    border: 1px solid #333;
-   box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.3);
 }
 
 .cancel__button:hover {
    color: inherit;
+   color: #b92222;
+   border: 1px solid #b92222;
+}
+
+a.acept__button {
+   display: inline-block;
+   margin-bottom: 1rem;
 }
 
 .acept__button {
    background-color: rgb(42, 88, 163);
-   /* background-color: #4c6ef5; */
    color: white;
    text-transform: uppercase;
    letter-spacing: 0.8px;
    margin-right: 10px;
-   box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.3);
 }
 
 .acept__button:hover {
-   background-color: #346cc7;
+   background-color: #3771ce;
+   color: white;
+   box-shadow: 0 1px 5px rgb(85 133 226);
+}
+
+/* FORMULARIOS */
+.card-nb {
+   width: 60%;
+   padding: 1rem;
+   background-color: #fff;
+   margin: auto;
+   margin-top: 5rem;
+   box-shadow: 0px 5px 10px rgb(0 0 0 / 25%);
+   border-radius: 5px;
+}
+
+.card__header {
+   padding: 0.5rem;
+   text-align: center;
+}
+
+.card__title {
+   font-size: 2rem;
+}
+
+.form {
+   padding: 1rem;
+}
+
+.row-nb {
+   display: flex;
+   justify-content: space-between;
+}
+
+.row-nb-3 > .form__group {
+   margin-right: 1rem;
+}
+
+.row-nb > .form__group {
+   flex-basis: 49%;
+}
+
+.form__group {
+   margin-bottom: 1rem;
+}
+
+.form__label {
+   margin-bottom: 0.5rem;
+   font-weight: 700;
+   color: #333;
+}
+
+.form__input,
+.form__select {
+   padding: 0.2rem 0.6rem;
+   font-size: 1.1rem;
+   font-weight: 500;
+   border-radius: 2px;
+   color: #474747;
+   border: 1px solid #707070;
+   background-color: #f5f5f5;
+   border: 1px solid #eee;
+}
+
+.form__input:focus {
+   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+   border-radius: 2px;
+}
+
+.form__input::placeholder {
+   font-size: 1rem;
+   color: #b9b8b8;
+}
+
+.form__input__edit {
+   border: 1px solid #707070;
+   background-color: #fff;
+}
+
+.form__select {
+   width: 100%;
+}
+
+/* MEDIA QUERIES */
+@media (max-width: 900px) {
+   .row-nb {
+      flex-direction: column;
+   }
+
+   .card-nb {
+      width: 70%;
+   }
 }

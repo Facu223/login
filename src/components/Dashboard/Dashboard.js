@@ -1,6 +1,5 @@
 import { Route, useRouteMatch } from "react-router-dom";
 import { Fragment, useState } from "react";
-import Listar from "../Listar";
 // import estilos2 from "./estilos2.css";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
@@ -8,6 +7,10 @@ import Backdrop from "../Backdrop/Backdrop";
 import styles from "./Dashboard.module.css";
 import ListEmployees from "../Employees/List/ListEmployees";
 import NewEmployee from "../Employees/New/NewEmployee";
+import EditEmployee from "../Employees/Edit/EditEmployee";
+import ListCustomers from "../Customers/List/ListCustomers";
+import NewCustomer from "../Customers/New/NewCustomer";
+import EditCustomer from "../Customers/Edit/EditCustomer";
 import ListTrucks from "../Trucks/List/ListTrucks";
 import NewTruck from "../Trucks/New/NewTruck";
 import EditTruck from "../Trucks/Edit/EditTruck";
@@ -40,6 +43,19 @@ function Dashboard() {
             </Route>
             <Route path={`${path}/empleados/nuevo`}>
                <NewEmployee />
+            </Route>
+            <Route path={`${path}/empleados/editar/:id`}>
+               <EditEmployee />
+            </Route>
+
+            <Route path={`${path}/clientes`} exact>
+               <ListCustomers />
+            </Route>
+            <Route path={`${path}/clientes/nuevo`} exact>
+               <NewCustomer />
+            </Route>
+            <Route path={`${path}/clientes/editar/:id`} exact>
+               <EditCustomer />
             </Route>
             <Route path={`${path}/camiones`} exact>
                <ListTrucks />

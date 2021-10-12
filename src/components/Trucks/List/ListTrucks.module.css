@@ -18,14 +18,15 @@
    color: #fff;
    margin-bottom: 1rem;
    letter-spacing: 0.5px;
-   box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.3);
+   /* box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.3); */
    text-transform: uppercase;
    letter-spacing: 0.8px;
 }
 
 .new__button:hover {
-   background-color: rgb(52, 108, 199);
+   background-color: rgb(55, 113, 206);
    color: white;
+   box-shadow: 0 1px 5px rgb(85 133 226);
 }
 
 .new__button__icon {
@@ -33,13 +34,13 @@
 }
 
 .edit__button {
-   background-color: rgb(19, 63, 197);
+   background-color: rgb(42, 88, 163);
    color: white;
    margin-right: 1rem;
 }
 
 .edit__button:hover {
-   background-color: rgb(41, 21, 221);
+   background-color: #3771ce;
    color: white;
 }
 
