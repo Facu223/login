@@ -3,23 +3,29 @@ import { useHistory, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import api from "../../servicios/api";
+import FormGroup from "../../Employees/FormGroup";
 
 import styles from "./EditTruck.module.css";
 
 const EditTruck = () => {
    const initialState = {
-      id: "",
       marca: "",
       modelo: "",
+      tipo: "",
       dominio: "",
       anio: 0,
+      numero_motor: "",
+      numero_chasis: "",
+      compania_seguro: "",
       numero_poliza: "",
+      vencimiento_poliza: "",
    };
 
    const params = useParams();
    const history = useHistory();
    const [truckData, setTruckData] = useState(initialState);
    const [errors, setError] = useState({});
+   const [editMode, setEditMode] = useState(false);
 
    useEffect(() => {
       fetch(api + `/api/camiones/${params.id}`)
@@ -29,16 +35,37 @@ const EditTruck = () => {
          });
    }, []);
 
+   /* HANDLERS */
+
    const onChangeHandler = (e) => {
       setTruckData((prevState) => {
          return { ...prevState, [e.target.name]: e.target.value };
       });
    };
-   const { marca, modelo, dominio, anio, numero_poliza, id } = truckData;
+   const {
+      marca,
+      modelo,
+      tipo,
+      dominio,
+      anio,
+      numero_motor,
+      numero_chasis,
+      compania_seguro,
+      numero_poliza,
+      vencimiento_poliza,
+   } = truckData;
 
    const submitHandler = (e) => {
       e.preventDefault();
-      const requiredFields = ["marca", "modelo", "dominio", "anio"];
+      const requiredFields = [
+         "marca",
+         "modelo",
+         "tipo",
+         "dominio",
+         "anio",
+         "numero_motor",
+         "numero_chasis",
+      ];
 
       if (Object.keys(validateInputs(truckData, requiredFields)).length) {
          return setError(validateInputs(truckData, requiredFields));
@@ -47,15 +74,19 @@ const EditTruck = () => {
       setError({});
 
       const updatedTruck = {
-         id,
          marca,
          modelo,
+         tipo,
          dominio,
          anio: +anio,
+         numero_motor,
+         numero_chasis,
+         compania_seguro,
          numero_poliza,
+         vencimiento_poliza,
       };
 
-      sendHttpRequest(updatedTruck, `${api}/api/camiones/${id}`);
+      sendHttpRequest(updatedTruck, `${api}/api/camiones/${params.id}`);
    };
 
    const sendHttpRequest = (truck, url) => {
@@ -78,6 +109,7 @@ const EditTruck = () => {
       }
    };
 
+   /* VALIDATORS */
    const validateInputs = (inputs, requiredFields) => {
       const keys = Object.keys(inputs);
       let errors = {};
@@ -97,179 +129,202 @@ const EditTruck = () => {
    };
 
    return (
-      <div className={styles.card}>
-         <div className="card-header">Editar camion</div>
-         <div className="card-body">
-            <form onSubmit={submitHandler}>
-               <div className="form-group">
-                  <label htmlFor="">Id: </label>
-                  <input
-                     type="text"
-                     readOnly
-                     className="form-control"
-                     name="id"
-                     id="id"
-                     value={id}
-                     aria-describedby="helpId"
-                     placeholder=""
-                  />
-                  <small id="helpId" className="form-text text-muted">
-                     Clave
-                  </small>
-               </div>
-               <div className="form-group">
-                  <label htmlFor="">Marca:</label>
-                  <input
-                     onChange={onChangeHandler}
-                     value={marca}
-                     type="text"
-                     name="marca"
-                     id="marca"
-                     placeholder=""
-                     aria-describedby="helpId"
-                     className={
-                        checkValid(errors.marca)
-                           ? "is-invalid form-control"
-                           : " form-control"
-                     }
-                  />
-                  <small id="helpId" className="invalid-feedback">
-                     Debes ingresar una marca
-                  </small>
-               </div>
-               <br></br>
+      <div className={"card-nb"}>
+         <form onSubmit={submitHandler} className="form">
+            <div className="row-nb">
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"Marca"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"marca"}
+                  inputValue={marca}
+                  disabledOp={!editMode}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
 
-               <div className="form-group">
-                  <label htmlFor="">Modelo:</label>
-                  <input
-                     onChange={onChangeHandler}
-                     value={modelo}
-                     type="text"
-                     name="modelo"
-                     id="modelo"
-                     placeholder=""
-                     aria-describedby="helpId"
-                     className={
-                        checkValid(errors.modelo)
-                           ? "is-invalid form-control"
-                           : " form-control"
-                     }
-                  />
-                  <small id="helpId" className="invalid-feedback">
-                     Debes ingresar el modelo del camion
-                  </small>
-               </div>
-               <br></br>
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"Modelo"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"modelo"}
+                  inputValue={modelo}
+                  disabledOp={!editMode}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
+            </div>
 
-               <div className="form-group">
-                  <label htmlFor="">Dominio:</label>
-                  <input
-                     onChange={onChangeHandler}
-                     value={dominio}
-                     type="text"
-                     name="dominio"
-                     id="dominio"
-                     placeholder=""
-                     aria-describedby="helpId"
-                     className={
-                        checkValid(errors.dominio)
-                           ? "is-invalid form-control"
-                           : " form-control"
-                     }
-                  />
-                  <small id="helpId" className="invalid-feedback">
-                     Debes ingresar el dominio del camion
-                  </small>
-               </div>
-               <br></br>
+            <div className="row-nb">
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"Tipo"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"tipo"}
+                  inputValue={tipo}
+                  disabledOp={!editMode}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"Dominio"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"dominio"}
+                  inputValue={dominio}
+                  disabledOp={!editMode}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
+            </div>
 
-               {/* <div className="form-group">
-                  <label htmlFor="">Año</label>
-                  <input
-                     onChange={onChangeHandler}
-                     value={anio}
-                     type="text"
-                     name="anio"
-                     id="anio"
-                     placeholder=""
-                     aria-describedby="helpId"
-                     className={
-                        checkValid(errors.anio)
-                           ? "is-invalid form-control"
-                           : " form-control"
-                     }
-                  />
-                  <small id="helpId" className="invalid-feedback">
-                     Debes ingresar el año del camion
-                  </small>
-               </div> */}
-
-               <div className="form-group">
-                  <label htmlFor="">Año:</label>
+            <div className="row-nb row-nb-3">
+               <div className="form__group">
+                  <label className={`form__label`}>Año:</label>
                   <select
                      value={anio}
                      name="anio"
-                     id="anio"
                      onChange={onChangeHandler}
-                     className={
+                     disabled={!editMode}
+                     className={`${editMode ? "form__input__edit" : ""} ${
                         checkValid(errors.anio)
-                           ? "is-invalid form-select"
-                           : `form-select`
-                     }
+                           ? "is-invalid form__select"
+                           : `form__select`
+                     }`}
                   >
-                     <option>2010</option>
-                     <option>2011</option>
-                     <option>2012</option>
-                     <option>2013</option>
-                     <option>2014</option>
-                     <option>2015</option>
-                     <option>2016</option>
-                     <option>2017</option>
-                     <option>2018</option>
-                     <option>2019</option>
-                     <option>2020</option>
-                     <option>2021</option>
+                     <option value="">--Seleccionar--</option>
+                     <option value="2021">2021</option>
+                     <option value="2020">2020</option>
+                     <option value="2019">2019</option>
+                     <option value="2018">2018</option>
+                     <option value="2017">2017</option>
+                     <option value="2016">2016</option>
+                     <option value="2015">2015</option>
+                     <option value="2014">2014</option>
+                     <option value="2013">2013</option>
+                     <option value="2012">2012</option>
+                     <option value="2011">2011</option>
+                     <option value="2010">2010</option>
                   </select>
                   <small id="helpId" className="invalid-feedback">
                      Escribe el año del camion
                   </small>
                </div>
 
-               <br></br>
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"N° Motor"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"numero_motor"}
+                  inputValue={numero_motor}
+                  disabledOp={!editMode}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
 
-               <div className="form-group">
-                  <label htmlFor="">Numero de poliza:</label>
-                  <input
-                     onChange={onChangeHandler}
-                     value={numero_poliza}
-                     type="text"
-                     name="numero_poliza"
-                     id="numero_poliza"
-                     placeholder=""
-                     aria-describedby="helpId"
-                     className="form-control"
-                  />
-                  <small id="helpId" className="invalid-feedback">
-                     Debes ingresar el numero de poliza del seguro
-                  </small>
-               </div>
-               <br></br>
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"N° Chasis"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"numero_chasis"}
+                  inputValue={numero_chasis}
+                  disabledOp={!editMode}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
+            </div>
 
-               <br></br>
+            <div className="row-nb row-nb-3">
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"Compañia de Seguro"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"compania_seguro"}
+                  inputValue={compania_seguro}
+                  disabledOp={!editMode}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"N° Poliza"}
+                  inputClass={"form__input"}
+                  inputType={"text"}
+                  inputName={"numero_poliza"}
+                  inputValue={numero_poliza}
+                  disabledOp={!editMode}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
+               <FormGroup
+                  labelClass={"form__label"}
+                  labelName={"Vencimiento de Poliza"}
+                  inputClass={"form__input"}
+                  inputType={"date"}
+                  inputName={"vencimiento_poliza"}
+                  inputValue={vencimiento_poliza}
+                  disabledOp={!editMode}
+                  onChangeHandler={onChangeHandler}
+                  checkValid={checkValid}
+                  errors={errors}
+               />
+            </div>
 
-               <div className="button__group" role="group" aria-label="">
+            <div className="button__group">
+               {!editMode && (
+                  <button
+                     className="button acept__button"
+                     onClick={() => {
+                        setEditMode(true);
+                     }}
+                  >
+                     <i className="far fa-edit"></i> Editar
+                  </button>
+               )}
+
+               {editMode && (
                   <button type="submit" className={`button acept__button`}>
                      Actualizar
                   </button>
+               )}
+
+               {editMode && (
+                  <button
+                     className="button cancel__button"
+                     onClick={() => {
+                        setEditMode(false);
+                        setError({});
+                     }}
+                  >
+                     Cancelar
+                  </button>
+               )}
+
+               {!editMode && (
                   <Link
                      to={"/dashboard/camiones"}
                      className={`button cancel__button`}
                   >
                      Cancelar
                   </Link>
-               </div>
-            </form>
-         </div>
+               )}
+            </div>
+         </form>
       </div>
    );
 };

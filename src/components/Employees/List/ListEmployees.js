@@ -11,6 +11,7 @@ class ListEmployees extends React.Component {
          datosCargados: false,
          empleados: [],
          isOpen: false,
+
       };
    }
 
@@ -39,6 +40,7 @@ class ListEmployees extends React.Component {
       fetch(api + "/api/empleados")
          .then((respuesta) => respuesta.json())
          .then((datosRespuesta) => {
+            console.log(datosRespuesta);
             this.setState({
                datosCargados: true,
                empleados: datosRespuesta.empleados,
@@ -50,6 +52,8 @@ class ListEmployees extends React.Component {
    componentDidMount() {
       this.cargarDatos();
    }
+
+    
 
    render() {
       const { datosCargados, empleados } = this.state;
@@ -68,6 +72,7 @@ class ListEmployees extends React.Component {
                      ></i>
                      Agregar
                   </Link>
+
                </div>
                <h4>Lista de empleados</h4>
                <table className="table">
@@ -77,12 +82,9 @@ class ListEmployees extends React.Component {
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>DNI</th>
-                        {/* <th>CUIL</th> */}
                         <th>Telefono Personal</th>
                         <th>Telefono Laboral</th>
-                        {/* <th>Usuario</th> */}
                         <th>Rol</th>
-                        {/* <th>Email</th> */}
                         <th>Licencia</th>
                         <th>Vencimiento Licencia</th>
                         <th>Acciones</th>
@@ -95,23 +97,21 @@ class ListEmployees extends React.Component {
                            <td data-titulo="Nombre">{empleado.nombre}</td>
                            <td data-titulo="Apellido">{empleado.apellido}</td>
                            <td data-titulo="DNI">{empleado.documento}</td>
-                           {/* <td data-titulo="CUIL">{empleado.cuil}</td> */}
-                           <td data-titulo="CUIL">
+                           <td data-titulo="Telefono Personal">
                               {empleado.telefono_personal}
                            </td>
-                           {/* <td data-titulo="Rol">3541635478</td> */}
-                           <td data-titulo="Teléfono">
+                           <td data-titulo="Teléfono Laboral">
                               {empleado.telefono_laboral}
                            </td>
-                           {/* <td data-titulo="Usuario">
-                              {empleado.usuario.usuario}
-                           </td> */}
                            <td data-titulo="Rol">{empleado.usuario.rol}</td>
-                           {/* <td data-titulo="Rol">lucholeyria@gmail.com</td> */}
-                           <td data-titulo="licencia">
+                           <td data-titulo="Licencia">
                               {empleado.licencia_conducir}
                            </td>
-                           <td data-titulo="Rol">04/10/2024</td>
+                           <td data-titulo="Vencimiento Licencia">
+                              {empleado.vencimiento_licencia
+                                 ? empleado.vencimiento_licencia
+                                 : "-"}
+                           </td>
                            <td>
                               <div
                                  className={`${styles.button__group} ${styles.botones}`}

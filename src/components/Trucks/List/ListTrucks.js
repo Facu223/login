@@ -73,11 +73,17 @@ const ListTrucks = () => {
                              <td data-titulo="Marca">{truck.marca}</td>
                              <td data-titulo="Modelo">{truck.modelo}</td>
                              <td data-titulo="Dominio">{truck.dominio}</td>
-                             <td data-titulo="Dominio">{truck.anio}</td>
-                             <td data-titulo="Dominio">
-                                {truck.numero_poliza}
+                             <td data-titulo="Anio">{truck.anio}</td>
+                             <td data-titulo="Poliza">
+                                {truck.numero_poliza
+                                   ? truck.numero_poliza
+                                   : "---"}
                              </td>
-                             <td data-titulo="Dominio">06/08/2022</td>
+                             <td data-titulo="Vencimiento">
+                                {truck.vencimiento_poliza
+                                   ? truck.vencimiento_poliza
+                                   : "---"}
+                             </td>
                              <td>
                                 <div
                                    className={`${styles.button__group} ${styles.botones}`}
@@ -88,18 +94,10 @@ const ListTrucks = () => {
                                          truck.id
                                       }
                                       type="button"
-                                      // className="btn btn-warning padding-button"
                                       className={`button ${styles.edit__button}`}
                                    >
-                                      Editar
+                                      Ver
                                    </Link>
-                                   <button
-                                      onClick={() => deleteTruck(truck.id)}
-                                      type="button"
-                                      className={`${styles.delete__button} button`}
-                                   >
-                                      Borrar
-                                   </button>
                                 </div>
                              </td>
                           </tr>
