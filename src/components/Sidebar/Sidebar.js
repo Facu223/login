@@ -50,14 +50,15 @@ const Sidebar = (props) => {
 
             <li className={styles.sidebar__item}>
                <Link
-                  to={`${url}/clientes`}
+                  to={`${url}/planillas`}
                   onClick={props.closeMenu}
                   className={styles.sidebar__link}
                >
                   <i className={`bi bi-people ${styles.sidebar__icon}`}></i>
-                  Clientes
+                  Planillas
                </Link>
             </li>
+
             <li className={styles.sidebar__item}>
                <Link
                   to={`${url}/pedidos`}
