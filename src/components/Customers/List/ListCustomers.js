@@ -5,6 +5,7 @@ import api from "../../servicios/api";
 import styles from "./ListCustomers.module.css";
 // import Modal from "../../Modals/Modal";
 
+
 class ListCustomers extends React.Component {
    constructor(props) {
       super(props);
@@ -124,5 +125,5 @@ class ListCustomers extends React.Component {
       }
    }
 }
-
 export default ListCustomers;
+

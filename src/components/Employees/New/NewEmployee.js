@@ -72,7 +72,6 @@ const NewEmployee = () => {
          return history.push("/dashboard/empleados");
       }
    };
-
    /* VALIDATORS */
    const validateInputs = (inputs, requiredFields) => {
       const keyInputs = Object.keys(inputs);
