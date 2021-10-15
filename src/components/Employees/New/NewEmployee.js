@@ -53,6 +53,8 @@ const NewEmployee = () => {
 
       setErrors({});
 
+      console.log(newEmployeeData);
+
       sendHttpRequest();
    };
 
@@ -210,11 +212,17 @@ const NewEmployee = () => {
                      onChange={onChangeHandler}
                   >
                      <option value="">--Seleccionar--</option>
-                     <option value="admin">A1</option>
-                     <option value="repartidor">A2</option>
-                     <option value="repartidor">B1</option>
-                     <option value="repartidor">B2</option>
-                     <option value="repartidor">C1</option>
+                     <option value="A1">A1 - Moto</option>
+                     <option value="B1">B1 - Auto y utilitarios</option>
+                     <option value="B2">
+                        B2 - Auto y utilitarios + acoplado
+                     </option>
+                     <option value="C1">C1 - Camiones sin acoplado</option>
+                     <option value="D1">D1 - Transporte de pasajeros</option>
+                     <option value="E1">
+                        E1 - Camiones articulados o con acoplado
+                     </option>
+                     <option value="E3">E1 - Cargas Peligrosas</option>
                   </select>
                   <small id="helpId" className="invalid-feedback">
                      Debes seleccionar un tipo de licencia de conducir
