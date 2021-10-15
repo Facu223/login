@@ -14,9 +14,6 @@ import EditCustomer from "../Customers/Edit/EditCustomer";
 import ListTrucks from "../Trucks/List/ListTrucks";
 import NewTruck from "../Trucks/New/NewTruck";
 import EditTruck from "../Trucks/Edit/EditTruck";
-import ListCustomers from "../Customers/List/ListCustomers";
-import NewCustomer from "../Customers/New/NewCustomer";
-import EditCustomer from "../Customers/Edit/EditCustomer";
 
 function Dashboard() {
    const [backdropOpen, setOpen] = useState(false);
@@ -65,15 +62,6 @@ function Dashboard() {
             </Route>
             <Route path={`${path}/camiones/editar/:id`} exact>
                <EditTruck />
-            </Route>
-            <Route path={`${path}/clientes`} exact>
-               <ListCustomers />
-            </Route>
-            <Route path={`${path}/clientes/nuevo`} exact>
-               <NewCustomer />
-            </Route>
-            <Route path={`${path}/clientes/editar/:id`} exact>
-               <EditCustomer />
             </Route>
          </main>
 
