@@ -194,3 +194,9 @@ a.acept__button {
       width: 70%;
    }
 }
+
+/* TABLE */
+td,
+th {
+   text-align: center;
+}
