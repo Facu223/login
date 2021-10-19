@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import {store} from "../redux/store"
 
 import styles from "./Header.module.css";
 
@@ -19,6 +20,7 @@ const Header = (props) => {
          </div>
          <div className={styles.header__logo}>Josecito Gas</div>
          <div className={styles.header__user}>
+            console.log(state.user.usuario);
             <div className={styles.user}>{state.user.usuario}</div>
             <div className={styles.user__logout} onClick={onLogout}>
                <i className="bi bi-power"></i>
