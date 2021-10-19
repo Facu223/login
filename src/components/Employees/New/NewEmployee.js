@@ -107,6 +107,7 @@ const NewEmployee = () => {
       rol,
    } = newEmployeeData;
 
+   // HTML
    return (
       <div className="card-nb">
          <div>Nuevo Empleado</div>
