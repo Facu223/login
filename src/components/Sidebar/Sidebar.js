@@ -23,7 +23,7 @@ const Sidebar = (props) => {
                   Dashboard
                </Link>
             </li>
-
+            {console.log(user)}
             {user.rol === "admin" && (
                <li className={styles.sidebar__item}>
                   <Link
