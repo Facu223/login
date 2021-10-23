@@ -1,0 +1,28 @@
+.searchInput {
+   position: relative;
+}
+
+.searchResults {
+   position: absolute;
+   top: 65px;
+   left: 0;
+   width: 100%;
+   list-style: none;
+   max-height: 800px;
+   overflow-y: auto;
+   border: 1px solid #eee;
+   border-top: 1px solid transparent;
+}
+
+.resultItem {
+   padding: .5rem;
+   background-color: #fff;
+   display: inline-block;
+   width: 100%;
+   cursor: pointer;
+}
+
+.resultItem:hover {
+   background-color: rgb(42, 88, 163);
+   color: white;
+}
