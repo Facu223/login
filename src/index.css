@@ -113,7 +113,8 @@ a.acept__button {
    background-color: #fff;
    margin: auto;
    margin-top: 5rem;
-   box-shadow: 0px 5px 10px rgb(0 0 0 / 25%);
+   box-shadow: 0px 2px 10px rgb(0 0 0 / 10%);
+   border: 1px solid rgba(0, 0, 0, 0.3);
    border-radius: 5px;
 }
 
@@ -199,4 +200,23 @@ a.acept__button {
 td,
 th {
    text-align: center;
+}
+
+/* Buttons */
+.back__arrow {
+   padding: .8rem 1rem;
+   border-radius: 50%;
+   background-color: #eee;
+}
+
+.back__arrow:hover {
+   background-color: rgb(42, 88, 163);
+   color: white;
+   cursor: pointer;
+}
+
+/* Tables */
+.table__container {
+   max-height: 20rem;
+   overflow-y: auto;
 }

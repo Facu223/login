@@ -14,6 +14,7 @@ import EditCustomer from "../Customers/Edit/EditCustomer";
 import ListTrucks from "../Trucks/List/ListTrucks";
 import NewTruck from "../Trucks/New/NewTruck";
 import EditTruck from "../Trucks/Edit/EditTruck";
+import AddOrder from "../Orders/add/AddOrder";
 
 function Dashboard() {
    const [backdropOpen, setOpen] = useState(false);
@@ -62,6 +63,9 @@ function Dashboard() {
             </Route>
             <Route path={`${path}/camiones/editar/:id`} exact>
                <EditTruck />
+            </Route>
+            <Route path={`${path}/pedidos`} exact>
+               <AddOrder />
             </Route>
          </main>
 
