@@ -3,9 +3,9 @@
 }
 
 .searchResults {
-   position: absolute;
-   top: 65px;
-   left: 0;
+   /* position: absolute; */
+   /* top: 65px; */
+   /* left: 0; */
    width: 100%;
    list-style: none;
    max-height: 800px;
