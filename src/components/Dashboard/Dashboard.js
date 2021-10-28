@@ -63,15 +63,6 @@ function Dashboard() {
             <Route path={`${path}/camiones/editar/:id`} exact>
                <EditTruck />
             </Route>
-            <Route path={`${path}/clientes`} exact>
-               <ListCustomers />
-            </Route>
-            <Route path={`${path}/clientes/nuevo`} exact>
-               <NewCustomer />
-            </Route>
-            <Route path={`${path}/clientes/editar/:id`} exact>
-               <EditCustomer />
-            </Route>
          </main>
 
          {menuOpen ? <Sidebar isOpen={true} closeMenu={closeMenu} /> : null}

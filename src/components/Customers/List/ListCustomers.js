@@ -38,6 +38,7 @@ class ListCustomers extends React.Component {
    };
 
    cargarDatos() {
+      console.log("Hola cargarDatos");
       fetch(api + "/api/clientes")
          .then((respuesta) => respuesta.json())
          .then((datosRespuesta) => {
@@ -45,6 +46,7 @@ class ListCustomers extends React.Component {
                datosCargados: true,
                clientes: datosRespuesta.clientes,
             });
+            console.log(datosRespuesta.clientes);
          })
          .catch(console.log);
    }
@@ -53,10 +55,15 @@ class ListCustomers extends React.Component {
       this.cargarDatos();
    }
 
+   componentWillUnmount(){
+      this.cargarDatos();
+   }
+
    render() {
       const { datosCargados, clientes } = this.state;
 
       if (!datosCargados) {
+         this.cargarDatos();
          return <div>Cargando</div>;
       } else {
          return (
@@ -78,8 +85,12 @@ class ListCustomers extends React.Component {
                            <th>ID</th>
                            <th>Nombre</th>
                            <th>Apellido</th>
+                           <th>Cuil/Cuit</th>
                            <th>Domicilio</th>
+                           <th>Barrio</th>
+                           <th>Localidad</th>
                            <th>Telefono</th>
+                           <th>Referencia</th>
                            <th>E-mail</th>
                            <th>Acciones</th>
                         </tr>
@@ -90,20 +101,23 @@ class ListCustomers extends React.Component {
                               <td data-titulo="ID">{cliente.id}</td>
                               <td data-titulo="Nombre">{cliente.nombre}</td>
                               <td data-titulo="Apellido">{cliente.apellido}</td>
-                              <td data-titulo="DNI">{cliente.domicilio}</td>
+                              <td data-titulo="Cuil/Cuit">{cliente.cuilcuit}</td>
+                              <td data-titulo="Domicilio">{cliente.domicilio}</td>
+                              <td data-titulo="Barrio">{cliente.barrio}</td>
+                              <td data-titulo="Localidad">{cliente.localidad}</td>
                               <td data-titulo="Telefono">{cliente.telefono}</td>
-                              <td data-titulo="Telefono">{cliente.email}</td>
+                              <td data-titulo="Referencia">{cliente.referencia}</td>
+                              <td data-titulo="E-mail">{cliente.email}</td>
                               <td>
                                  <div
                                     className={`${styles.button__group} ${styles.botones}`}
                                  >
-                                    <button
-                                       type="button"
-                                       onClick={this.openModal}
+                                    <Link
                                        className={`button ${styles.edit__button}`}
+                                       to={`clientes/editar/${cliente.id}`}
                                     >
                                        Editar
-                                    </button>
+                                    </Link>
                                     <button
                                        onClick={() =>
                                           this.borrarRegistros(cliente.id)

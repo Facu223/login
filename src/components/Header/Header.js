@@ -6,6 +6,7 @@ import styles from "./Header.module.css";
 const Header = (props) => {
    const dispatch = useDispatch();
    const state = useSelector((state) => state);
+   console.log(state);
 
    const onLogout = () => {
       dispatch({ type: "LOGOUT" });

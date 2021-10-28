@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router";
 import api from "../../servicios/api";
 // import styles from "../New/NewEmployee.module.css";
 import styles from "./EditCustomer.module.css";
-import { cargarDatos } from "../List/ListCustomers";
 
 class EditCustomer extends React.Component {
 
@@ -12,13 +12,30 @@ class EditCustomer extends React.Component {
       this.state = {
          nombre: "",
          apellido: "",
+         cuilcuit: "",
          domicilio: "",
+         barrio: "",
+         localidad: "",
+         referencia: "",
          telefono: "",
          email: "",
          errores: [],
+         cliente: {}
       };
    }
 
+   componentDidMount(){
+      fetch(api + `/api/clientes/${this.props.match.params.id}`)
+         .then((respuesta) => respuesta.json())
+         .then((datosRespuesta) => {
+            this.setState({
+               datosCargados: true,
+               cliente: datosRespuesta.cliente
+            });
+            console.log(datosRespuesta.cliente);
+         })
+         .catch(console.log);
+   }
 
    cambioValor = (e) => {
       const state = this.state;
@@ -33,12 +50,15 @@ class EditCustomer extends React.Component {
    enviarDatos = async (e) => {
       e.preventDefault();
 
-      const { nombre, apellido, domicilio, telefono, email } = this.state;
+      const { nombre, apellido, cuilcuit, domicilio, barrio, localidad, referencia, telefono, email } = this.state;
 
       let errores = [];
       if (!nombre) errores.push("error_nombre");
       if (!apellido) errores.push("error_apellido");
+      if (!cuilcuit) errores.push("error_cuilcuit");
       if (!domicilio) errores.push("error_domicilio");
+      if (!barrio) errores.push("error_barrio");
+      if (!localidad) errores.push("error_localidad");
       if (!telefono) errores.push("error_telefono");
       if (!email) errores.push("error_email");
 
@@ -48,14 +68,18 @@ class EditCustomer extends React.Component {
       var datosEnviar = {
          nombre: nombre,
          apellido: apellido,
+         cuilcuit: cuilcuit,
          domicilio: domicilio,
+         barrio: barrio,
+         localidad: localidad,
+         referencia: referencia,
          telefono: telefono,
          email: email,
       };
 
       console.log(datosEnviar);
 
-      await fetch(api + "/api/clientes", {
+      await fetch(api + `/api/clientes/${this.props.match.params.id}`, {
          method: "PATCH",
          headers: {
             "Content-Type": "application/json",
@@ -68,16 +92,16 @@ class EditCustomer extends React.Component {
          })
          .then((datosRespuesta) => {
             console.log(datosRespuesta);
-            // this.props.history.push("/dasboard/empleados");
+            this.props.history.push("/dashboard/clientes");
          })
          .catch(console.log);
    };
 
    render() {
-      const { nombre, apellido, domicilio, telefono, email } = this.state;
+      const { nombre, apellido, cuilcuit, domicilio, barrio, localidad, referencia, telefono, email, cliente } = this.state;
 
       return (
-         <div className={styles.card}>
+         <div className="card-nb">
             <div className="card-header">Editar Empleado</div>
             <div className="card-body">
                <form onSubmit={this.enviarDatos}>
@@ -94,7 +118,7 @@ class EditCustomer extends React.Component {
                               ? "is-invalid"
                               : "") + " form-control"
                         }
-                        placeholder=""
+                        placeholder={`${cliente.nombre}`}
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
@@ -116,11 +140,33 @@ class EditCustomer extends React.Component {
                               ? "is-invalid"
                               : "") + " form-control"
                         }
-                        placeholder=""
+                        placeholder={`${cliente.apellido}`}
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
                         Ecribe el apellido del cliente
+                     </small>
+                  </div>
+                  <br></br>
+
+                  <div className="form-group">
+                     <label htmlFor="">Cuil/Cuit:</label>
+                     <input
+                        onChange={this.cambioValor}
+                        value={cuilcuit}
+                        type="text"
+                        name="cuilcuit"
+                        id="cuilcuit"
+                        className={
+                           (this.verificarError("error_cuilcuit")
+                              ? "is-invalid"
+                              : "") + " form-control"
+                        }
+                        placeholder={`${cliente.cuilcuit}`}
+                        aria-describedby="helpId"
+                     />
+                     <small id="helpId" className="invalid-feedback">
+                        Ecribe el Cuil/Cuit del cliente
                      </small>
                   </div>
                   <br></br>
@@ -138,11 +184,77 @@ class EditCustomer extends React.Component {
                               ? "is-invalid"
                               : "") + " form-control"
                         }
-                        placeholder=""
+                        placeholder={`${cliente.domicilio}`}
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
                         Ecribe el domicilio del cliente
+                     </small>
+                  </div>
+                  <br></br>
+
+                  <div className="form-group">
+                     <label htmlFor="">Barrio:</label>
+                     <input
+                        onChange={this.cambioValor}
+                        value={barrio}
+                        type="text"
+                        name="barrio"
+                        id="barrio"
+                        className={
+                           (this.verificarError("error_barrio")
+                              ? "is-invalid"
+                              : "") + " form-control"
+                        }
+                        placeholder={`${cliente.barrio}`}
+                        aria-describedby="helpId"
+                     />
+                     <small id="helpId" className="invalid-feedback">
+                        Ecribe el barrio del cliente
+                     </small>
+                  </div>
+                  <br></br>
+
+                  <div className="form-group">
+                     <label htmlFor="">Localidad:</label>
+                     <input
+                        onChange={this.cambioValor}
+                        value={localidad}
+                        type="text"
+                        name="localidad"
+                        id="localidad"
+                        className={
+                           (this.verificarError("error_localidad")
+                              ? "is-invalid"
+                              : "") + " form-control"
+                        }
+                        placeholder={`${cliente.localidad}`}
+                        aria-describedby="helpId"
+                     />
+                     <small id="helpId" className="invalid-feedback">
+                        Ecribe el localidad del cliente
+                     </small>
+                  </div>
+                  <br></br>
+
+                  <div className="form-group">
+                     <label htmlFor="">Referencia:</label>
+                     <input
+                        onChange={this.cambioValor}
+                        value={referencia}
+                        type="text"
+                        name="referencia"
+                        id="referencia"
+                        className={
+                           (this.verificarError("error_referencia")
+                              ? "is-invalid"
+                              : "") + " form-control"
+                        }
+                        placeholder={`${cliente.referencia}`}
+                        aria-describedby="helpId"
+                     />
+                     <small id="helpId" className="invalid-feedback">
+                        Ecribe el referencia del cliente
                      </small>
                   </div>
                   <br></br>
@@ -160,7 +272,7 @@ class EditCustomer extends React.Component {
                               ? "is-invalid"
                               : "") + " form-control"
                         }
-                        placeholder=""
+                        placeholder={`${cliente.telefono}`}
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
@@ -182,7 +294,7 @@ class EditCustomer extends React.Component {
                               ? "is-invalid"
                               : "") + " form-control"
                         }
-                        placeholder=""
+                        placeholder={`${cliente.email}`}
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
@@ -195,7 +307,7 @@ class EditCustomer extends React.Component {
                      <button type="submit" className="button">
                         Agregar
                      </button>
-                     <Link to={"/dashboard/empleados"} className="button">
+                     <Link to={"/dashboard/clientes"} className="button">
                         Cancelar
                      </Link>
                   </div>
@@ -206,5 +318,5 @@ class EditCustomer extends React.Component {
       );
    }
 }
-export default EditCustomer;
+export default withRouter(EditCustomer);
 
