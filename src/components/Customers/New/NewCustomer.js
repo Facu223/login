@@ -9,11 +9,7 @@ class NewCustomer extends React.Component {
       this.state = {
          nombre: "",
          apellido: "",
-         cuilcuit: "",
          domicilio: "",
-         barrio: "",
-         localidad: "",
-         referencia: "",
          telefono: "",
          email: "",
          errores: [],
@@ -34,15 +30,12 @@ class NewCustomer extends React.Component {
    enviarDatos = async (e) => {
       e.preventDefault();
      
-      const { nombre, apellido, cuilcuit, domicilio, barrio, localidad, referencia, telefono, email } = this.state;
+      const { nombre, apellido, domicilio, telefono, email } = this.state;
 
       let errores = [];
       if (!nombre) errores.push("error_nombre");
       if (!apellido) errores.push("error_apellido");
-      if (!cuilcuit) errores.push("error_cuilcuit");
       if (!domicilio) errores.push("error_domicilio");
-      if (!barrio) errores.push("error_barrio");
-      if (!localidad) errores.push("error_localidad");
       if (!telefono) errores.push("error_telefono");
       if (!email) errores.push("error_email");
 
@@ -52,11 +45,7 @@ class NewCustomer extends React.Component {
       var datosEnviar = {
          nombre: nombre,
          apellido: apellido,
-         cuilcuit: cuilcuit,
          domicilio: domicilio,
-         barrio: barrio,
-         localidad: localidad,
-         referencia: referencia,
          telefono: telefono,
          email: email,
       };
@@ -81,7 +70,7 @@ class NewCustomer extends React.Component {
    };
 
    render() {
-      const { nombre, apellido, cuilcuit, telefono, domicilio, barrio, localidad, referencia, email, isCharged } =
+      const { nombre, apellido, dni, telefono, domicilio, email, isCharged } =
          this.state;
 
       return (
@@ -134,28 +123,6 @@ class NewCustomer extends React.Component {
                   <br></br>
 
                   <div className="form-group">
-                     <label htmlFor="">Cuil/Cuit:</label>
-                     <input
-                        onChange={this.cambioValor}
-                        value={cuilcuit}
-                        type="text"
-                        name="cuilcuit"
-                        id="cuilcuit"
-                        className={
-                           (this.verificarError("error_cuilcuit")
-                              ? "is-invalid"
-                              : "") + " form-control"
-                        }
-                        placeholder=""
-                        aria-describedby="helpId"
-                     />
-                     <small id="helpId" className="invalid-feedback">
-                        Ecribe el Cuil/Cuit del cliente
-                     </small>
-                  </div>
-                  <br></br>
-
-                  <div className="form-group">
                      <label htmlFor="">Domicilio:</label>
                      <input
                         onChange={this.cambioValor}
@@ -173,69 +140,6 @@ class NewCustomer extends React.Component {
                      />
                      <small id="helpId" className="invalid-feedback">
                         Ecribe el domicilio del cliente
-                     </small>
-                  </div>
-                  <br></br>
-                  <div className="form-group">
-                     <label htmlFor="">Barrio:</label>
-                     <input
-                        onChange={this.cambioValor}
-                        value={barrio}
-                        type="text"
-                        name="barrio"
-                        id="barrio"
-                        className={
-                           (this.verificarError("error_barrio")
-                              ? "is-invalid"
-                              : "") + " form-control"
-                        }
-                        placeholder=""
-                        aria-describedby="helpId"
-                     />
-                     <small id="helpId" className="invalid-feedback">
-                        Ecribe el barrio del cliente
-                     </small>
-                  </div>
-                  <br></br>
-                  <div className="form-group">
-                     <label htmlFor="">Localidad:</label>
-                     <input
-                        onChange={this.cambioValor}
-                        value={localidad}
-                        type="text"
-                        name="localidad"
-                        id="localidad"
-                        className={
-                           (this.verificarError("error_localidad")
-                              ? "is-invalid"
-                              : "") + " form-control"
-                        }
-                        placeholder=""
-                        aria-describedby="helpId"
-                     />
-                     <small id="helpId" className="invalid-feedback">
-                        Ecribe el localidad del cliente
-                     </small>
-                  </div>
-                  <br></br>
-                  <div className="form-group">
-                     <label htmlFor="">Referencia:</label>
-                     <input
-                        onChange={this.cambioValor}
-                        value={referencia}
-                        type="text"
-                        name="referencia"
-                        id="referencia"
-                        className={
-                           (this.verificarError("error_referencia")
-                              ? "is-invalid"
-                              : "") + " form-control"
-                        }
-                        placeholder=""
-                        aria-describedby="helpId"
-                     />
-                     <small id="helpId" className="invalid-feedback">
-                        Ecribe el referencia del cliente
                      </small>
                   </div>
                   <br></br>

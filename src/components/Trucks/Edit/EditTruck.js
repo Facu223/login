@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-
 import api from "../../servicios/api";
 import FormGroup from "../../Employees/FormGroup";
-
 import styles from "./EditTruck.module.css";
 
 const EditTruck = () => {

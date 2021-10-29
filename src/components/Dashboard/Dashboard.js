@@ -8,68 +8,61 @@ import styles from "./Dashboard.module.css";
 import ListEmployees from "../Employees/List/ListEmployees";
 import NewEmployee from "../Employees/New/NewEmployee";
 import EditEmployee from "../Employees/Edit/EditEmployee";
+import ListCustomers from "../Customers/List/ListCustomers";
+import NewCustomer from "../Customers/New/NewCustomer";
+import EditCustomer from "../Customers/Edit/EditCustomer";
 import ListTrucks from "../Trucks/List/ListTrucks";
 import NewTruck from "../Trucks/New/NewTruck";
 import EditTruck from "../Trucks/Edit/EditTruck";
-import AddOrder from "../Orders/add/AddOrder";
+
+import ListProducts from "../Products/List/ListProducts";
+import NewProduct from "../Products/New/NewProduct";
+import EditProduct from "../Products/Edit/EditProduct";
 
 function Dashboard() {
-   const [backdropOpen, setOpen] = useState(false);
-   const [menuOpen, setMenuOpen] = useState(false);
-   const { path } = useRouteMatch();
+  const [backdropOpen, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { path } = useRouteMatch();
 
-   const openMenu = () => {
-      setOpen(true);
-      setMenuOpen(true);
-   };
+  const openMenu = () => {
+    setOpen(true);
+    setMenuOpen(true);
+  };
 
-   const closeMenu = () => {
-      setOpen(false);
-      setMenuOpen(false);
-   };
+  const closeMenu = () => {
+    setOpen(false);
+    setMenuOpen(false);
+  };
 
-   return (
-      <Fragment>
-         <Header openMenu={openMenu} />
+  return (
+    <Fragment>
+      <Header openMenu={openMenu} />
 
-         <main className={styles.main}>
-            <Route path={`${path}/empleados`} exact>
-               <ListEmployees />
-            </Route>
-            <Route path={`${path}/empleados/nuevo`}>
-               <NewEmployee />
-            </Route>
-            <Route path={`${path}/empleados/editar/:id`}>
-               <EditEmployee />
-            </Route>
+      <main className={styles.main}>
+        <Route path={`${path}/empleados`} exact component={ListEmployees} />
+        <Route path={`${path}/empleados/nuevo`} component={NewEmployee} />
+        <Route path={`${path}/empleados/editar/:id`} component={EditEmployee} />
 
-            <Route path={`${path}/clientes`} exact>
-               <ListCustomers />
-            </Route>
-            <Route path={`${path}/clientes/nuevo`} exact>
-               <NewCustomer />
-            </Route>
-            <Route path={`${path}/clientes/editar/:id`} exact>
-               <EditCustomer />
-            </Route>
-            <Route path={`${path}/camiones`} exact>
-               <ListTrucks />
-            </Route>
-            <Route path={`${path}/camiones/nuevo`} exact>
-               <NewTruck />
-            </Route>
-            <Route path={`${path}/camiones/editar/:id`} exact>
-               <EditTruck />
-            </Route>
-            <Route path={`${path}/pedidos`} exact>
-               <AddOrder />
-            </Route>
-         </main>
+        <Route path={`${path}/clientes`} exact component={ListCustomers} />
+        <Route path={`${path}/clientes/nuevo`} exact component={NewCustomer} />
+        <Route path={`${path}/clientes/editar/:id`} exact component={EditCustomer}
+        />
 
-         {menuOpen ? <Sidebar isOpen={true} closeMenu={closeMenu} /> : null}
-         {backdropOpen ? <Backdrop closeMenu={closeMenu} /> : null}
-      </Fragment>
-   );
+        <Route path={`${path}/camiones`} exact component={ListTrucks} />
+        <Route path={`${path}/camiones/nuevo`} exact component={NewTruck} />
+        <Route path={`${path}/camiones/editar/:id`} exact component={EditTruck}
+        />
+
+        <Route path={`${path}/productos`} exact component={ListProducts} />
+        <Route path={`${path}/productos/nuevo`} exact component={NewProduct} />
+        <Route path={`${path}/productos/editar/:id`} exact component={EditProduct}
+        />
+      </main>
+
+      {menuOpen ? <Sidebar isOpen={true} closeMenu={closeMenu} /> : null}
+      {backdropOpen ? <Backdrop closeMenu={closeMenu} /> : null}
+    </Fragment>
+  );
 }
 
 export default Dashboard;
