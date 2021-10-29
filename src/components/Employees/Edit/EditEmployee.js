@@ -142,7 +142,7 @@ const EditEmployee = () => {
    } = initialState;
 
    return (
-      <div className='card-nb'>
+      <div className={styles.card}>
          <div className={styles.card__header}>
             <h1 className={styles.card__title}>EMPLEADO</h1>
          </div>
