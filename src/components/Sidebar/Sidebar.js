@@ -61,6 +61,17 @@ const Sidebar = (props) => {
 
             <li className={styles.sidebar__item}>
                <Link
+                  to={`${url}/productos`}
+                  onClick={props.closeMenu}
+                  className={styles.sidebar__link}
+               >
+                  <i className={`bi bi-list-check ${styles.sidebar__icon}`}></i>
+                  Productos
+               </Link>
+            </li>
+
+            <li className={styles.sidebar__item}>
+               <Link
                   to={`${url}/pedidos`}
                   onClick={props.closeMenu}
                   className={styles.sidebar__link}

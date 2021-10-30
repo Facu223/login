@@ -185,6 +185,29 @@ a.acept__button {
    width: 100%;
 }
 
+/*Pagination styles*/
+.page{
+   background-color: white;
+   color: black;
+   padding: 10px 16px;
+   text-decoration: none;
+ }
+ 
+ .page:hover{
+   background-color: gray;
+   color: white;
+   cursor: pointer;
+ }
+ 
+ .active{
+   color: white;
+   background-color: rgb(42, 88, 163);
+ }
+ 
+ .paginationContainer{
+   text-align: center;
+ }
+
 /* MEDIA QUERIES */
 @media (max-width: 900px) {
    .row-nb {
@@ -213,10 +236,4 @@ th {
    background-color: rgb(42, 88, 163);
    color: white;
    cursor: pointer;
-}
-
-/* Tables */
-.table__container {
-   max-height: 20rem;
-   overflow-y: auto;
 }
