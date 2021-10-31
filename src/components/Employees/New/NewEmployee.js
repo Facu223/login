@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../servicios/api";
 import { useHistory } from "react-router-dom";
-// import styles from "./NewEmployee.module.css";
 import FormGroup from "../FormGroup";
 
 const NewEmployee = () => {
@@ -13,7 +12,7 @@ const NewEmployee = () => {
       cuil: "",
       telefono: "",
       usuario: "",
-      contraseña: "",
+      password: "",
       rol: "",
       telefono_personal: "",
       telefono_laboral: "",
@@ -43,7 +42,7 @@ const NewEmployee = () => {
          "cuil",
          "telefono_personal",
          "usuario",
-         "contraseña",
+         "password",
          "rol",
       ];
 
@@ -52,8 +51,6 @@ const NewEmployee = () => {
       }
 
       setErrors({});
-
-      console.log(newEmployeeData);
 
       sendHttpRequest();
    };
@@ -103,13 +100,16 @@ const NewEmployee = () => {
       licencia_conducir,
       vencimiento_licencia,
       usuario,
-      contraseña,
+      password,
       rol,
    } = newEmployeeData;
 
    return (
       <div className="card-nb">
-         <div>Nuevo Empleado</div>
+         <div className='card__header'>
+            <div className='card__title'>Nuevo Empleado</div>
+         </div>
+
          <form onSubmit={onSubmitHandler}>
             <FormGroup
                labelClass={"form__label"}
@@ -203,9 +203,8 @@ const NewEmployee = () => {
                <div className="form__group">
                   <label className="form__label">Licencia de conducir:</label>
                   <select
-                     className={` form__select ${"form__input__edit"} ${
-                        checkValid(errors.licencia_conducir) ? "is-invalid" : ""
-                     }`}
+                     className={` form__select ${"form__input__edit"} ${checkValid(errors.licencia_conducir) ? "is-invalid" : ""
+                        }`}
                      name="licencia_conducir"
                      value={licencia_conducir}
                      onChange={onChangeHandler}
@@ -259,8 +258,8 @@ const NewEmployee = () => {
                   labelName={"Contraseña"}
                   inputClass={"form__input"}
                   inputType={"password"}
-                  inputName={"contraseña"}
-                  inputValue={contraseña}
+                  inputName={"password"}
+                  inputValue={password}
                   onChangeHandler={onChangeHandler}
                   checkValid={checkValid}
                   errors={errors}
@@ -273,9 +272,8 @@ const NewEmployee = () => {
                      value={rol}
                      name="rol"
                      id="rol"
-                     className={`form__select form__input__edit ${
-                        checkValid(errors.rol) ? "is-invalid " : ""
-                     }`}
+                     className={`form__select form__input__edit ${checkValid(errors.rol) ? "is-invalid " : ""
+                        }`}
                      placeholder=""
                      aria-describedby="helpId"
                   >

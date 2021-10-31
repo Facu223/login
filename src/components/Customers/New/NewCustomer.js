@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import api from "../../servicios/api";
-import { Redirect } from "react-router";
+import { Redirect } from "react-router-dom";
 
 class NewCustomer extends React.Component {
    constructor(props) {
@@ -9,9 +9,13 @@ class NewCustomer extends React.Component {
       this.state = {
          nombre: "",
          apellido: "",
+         cuit: "",
          domicilio: "",
          telefono: "",
          email: "",
+         barrio: "",
+         localidad: "",
+         referencia: "",
          errores: [],
          isCharged: false,
       };
@@ -29,15 +33,18 @@ class NewCustomer extends React.Component {
 
    enviarDatos = async (e) => {
       e.preventDefault();
-     
-      const { nombre, apellido, domicilio, telefono, email } = this.state;
+
+      const { nombre, apellido, cuit, domicilio, barrio, localidad, telefono, email, referencia } = this.state;
 
       let errores = [];
       if (!nombre) errores.push("error_nombre");
       if (!apellido) errores.push("error_apellido");
+      if (!cuit) errores.push("error_cuit")
       if (!domicilio) errores.push("error_domicilio");
       if (!telefono) errores.push("error_telefono");
       if (!email) errores.push("error_email");
+      if (!barrio) errores.push("error_barrio");
+      if (!localidad) errores.push("error_localidad");
 
       this.setState({ errores: errores });
       if (errores.length > 0) return false;
@@ -45,7 +52,11 @@ class NewCustomer extends React.Component {
       var datosEnviar = {
          nombre: nombre,
          apellido: apellido,
+         cuit: cuit,
          domicilio: domicilio,
+         barrio: barrio,
+         localidad: localidad,
+         referencia: referencia,
          telefono: telefono,
          email: email,
       };
@@ -62,68 +73,69 @@ class NewCustomer extends React.Component {
          .then((respuesta) => respuesta.json())
          .then((datosRespuesta) => {
             console.log(datosRespuesta);
-            this.props.history.push("/dasboard/clientes");
+            if (datosRespuesta.status === 'OK') {
+               this.setState({ isCharged: true });
+            }
          })
          .catch(console.log);
 
-      this.setState({ isCharged: true });
    };
 
    render() {
-      const { nombre, apellido, dni, telefono, domicilio, email, isCharged } =
+      const { nombre, apellido, cuit, telefono, domicilio, barrio, localidad, referencia, email, isCharged } =
          this.state;
 
       return (
          <div className={"card-nb"}>
-            <div className="card-header">Nuevo Cliente</div>
-            <div className="card-body">
-               <form onSubmit={this.enviarDatos}>
-                  <div className="form-group">
-                     <label htmlFor="">Nombre:</label>
-                     <input
-                        onChange={this.cambioValor}
-                        value={nombre}
-                        type="text"
-                        name="nombre"
-                        id="nombre"
-                        className={
-                           (this.verificarError("error_nombre")
-                              ? "is-invalid"
-                              : "") + " form-control"
-                        }
-                        placeholder=""
-                        aria-describedby="helpId"
-                     />
-                     <small id="helpId" className="invalid-feedback">
-                        Ecribe el nombre del cliente
-                     </small>
-                  </div>
-                  <br></br>
+            <div>Nuevo Cliente</div>
+            <form onSubmit={this.enviarDatos}>
+               <div className="form-group">
+                  <label className="form__label">Nombre:</label>
+                  <input
+                     onChange={this.cambioValor}
+                     value={nombre}
+                     type="text"
+                     name="nombre"
+                     id="nombre"
+                     className={
+                        (this.verificarError("error_nombre")
+                           ? "is-invalid form__input form__input__edit"
+                           : "") + " form__input form__input__edit"
+                     }
+                     placeholder=""
+                     aria-describedby="helpId"
+                  />
+                  <small id="helpId" className="invalid-feedback">
+                     Ecribe el nombre del cliente
+                  </small>
+               </div>
+               <br></br>
 
-                  <div className="form-group">
-                     <label htmlFor="">Apellido:</label>
-                     <input
-                        onChange={this.cambioValor}
-                        value={apellido}
-                        type="text"
-                        name="apellido"
-                        id="apellido"
-                        className={
-                           (this.verificarError("error_apellido")
-                              ? "is-invalid"
-                              : "") + " form-control"
-                        }
-                        placeholder=""
-                        aria-describedby="helpId"
-                     />
-                     <small id="helpId" className="invalid-feedback">
-                        Ecribe el apellido del cliente
-                     </small>
-                  </div>
-                  <br></br>
+               <div className="form-group">
+                  <label className="form__label">Apellido:</label>
+                  <input
+                     onChange={this.cambioValor}
+                     value={apellido}
+                     type="text"
+                     name="apellido"
+                     id="apellido"
+                     className={
+                        (this.verificarError("error_apellido")
+                           ? "is-invalid form__input form__input__edit"
+                           : "") + " form__input form__input__edit"
+                     }
+                     placeholder=""
+                     aria-describedby="helpId"
+                  />
+                  <small id="helpId" className="invalid-feedback">
+                     Ecribe el apellido del cliente
+                  </small>
+               </div>
+               <br></br>
 
-                  <div className="form-group">
-                     <label htmlFor="">Domicilio:</label>
+               <div className="row-nb row-nb-3">
+                  <div className="form__group">
+                     <label className="form__label">Domicilio:</label>
                      <input
                         onChange={this.cambioValor}
                         value={domicilio}
@@ -132,8 +144,8 @@ class NewCustomer extends React.Component {
                         id="domicilio"
                         className={
                            (this.verificarError("error_domicilio")
-                              ? "is-invalid"
-                              : "") + " form-control"
+                              ? "is-invalid form__input form__input__edit"
+                              : "") + " form__input form__input__edit"
                         }
                         placeholder=""
                         aria-describedby="helpId"
@@ -144,8 +156,76 @@ class NewCustomer extends React.Component {
                   </div>
                   <br></br>
 
-                  <div className="form-group">
-                     <label htmlFor="">Teléfono:</label>
+                  <div className="form__group">
+                     <label className="form__label">Barrio: </label>
+                     <input
+                        onChange={this.cambioValor}
+                        value={barrio}
+                        type="text"
+                        name="barrio"
+                        id="barrio"
+                        className={
+                           (this.verificarError("error_barrio")
+                              ? "is-invalid form__input form__input__edit"
+                              : "") + " form__input form__input__edit"
+                        }
+                        placeholder=""
+                        aria-describedby="helpId"
+                     />
+                     <small id="helpId" className="invalid-feedback">
+                        Escribe el barrio del cliente
+                     </small>
+                  </div>
+                  <br></br>
+
+                  <div className="form__group">
+                     <label className="form__label">Localidad: </label>
+                     <input
+                        onChange={this.cambioValor}
+                        value={localidad}
+                        type="text"
+                        name="localidad"
+                        id="localidad"
+                        className={
+                           (this.verificarError("error_localidad")
+                              ? "is-invalid form__input form__input__edit"
+                              : "") + " form__input form__input__edit"
+                        }
+                        placeholder=""
+                        aria-describedby="helpId"
+                     />
+                     <small id="helpId" className="invalid-feedback">
+                        Escribe la localidad del cliente
+                     </small>
+                  </div>
+                  <br></br>
+               </div>
+
+               <div className='row-nb row-nb-3'>
+                  <div className="form__group">
+                     <label className="form__label">Cuit/Cuil:</label>
+                     <input
+                        onChange={this.cambioValor}
+                        value={cuit}
+                        type="text"
+                        name="cuit"
+                        id="cuit"
+                        className={
+                           (this.verificarError("error_cuit")
+                              ? "is-invalid form__input form__input__edit"
+                              : "") + " form__input form__input__edit"
+                        }
+                        placeholder=""
+                        aria-describedby="helpId"
+                     />
+                     <small id="helpId" className="invalid-feedback">
+                        Escribe el cuit o cuil del cliente
+                     </small>
+                  </div>
+                  <br></br>
+
+                  <div className="form__group">
+                     <label className="form__label">Teléfono:</label>
                      <input
                         onChange={this.cambioValor}
                         value={telefono}
@@ -154,8 +234,8 @@ class NewCustomer extends React.Component {
                         id="telefono"
                         className={
                            (this.verificarError("error_telefono")
-                              ? "is-invalid"
-                              : "") + " form-control"
+                              ? "is-invalid form__input form__input__edit"
+                              : "") + " form__input form__input__edit"
                         }
                         placeholder=""
                         aria-describedby="helpId"
@@ -166,8 +246,8 @@ class NewCustomer extends React.Component {
                   </div>
                   <br></br>
 
-                  <div className="form-group">
-                     <label htmlFor="">E-mail:</label>
+                  <div className="form__group">
+                     <label className="form__label">E-mail:</label>
                      <input
                         onChange={this.cambioValor}
                         value={email}
@@ -176,10 +256,10 @@ class NewCustomer extends React.Component {
                         id="email"
                         className={
                            (this.verificarError("error_email")
-                              ? "is-invalid"
-                              : "") + " form-control"
+                              ? "is-invalid form__input form__input__edit"
+                              : "") + " form__input form__input__edit"
                         }
-                        placeholder="example@gmail.com"
+                        placeholder=""
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
@@ -187,24 +267,22 @@ class NewCustomer extends React.Component {
                      </small>
                   </div>
                   <br></br>
+               </div>
 
-                  <div className="btn-group" role="group" aria-label="">
-                     <button type="submit" className="button">
-                        Agregar
-                     </button>
-                     <Link to={"/dashboard/clientes"} className="button">
-                        Cancelar
-                     </Link>
-                  </div>
-               </form>
-               {isCharged ? (
-                  <Redirect
-                     from="/dashboard/clientes/nuevo"
-                     to="/dashboard/clientes"
-                  />
-               ) : null}
-            </div>
-            <div className="card-footer text-muted"></div>
+               <div className="button__group" role="group">
+                  <button type="submit" className="button acept__button">
+                     Agregar
+                  </button>
+                  <Link to={"/dashboard/clientes"} className="button cancel__button">
+                     Cancelar
+                  </Link>
+               </div>
+            </form>
+            {isCharged ? (
+               <Redirect
+                  to="/dashboard/clientes"
+               />
+            ) : null}
          </div>
       );
    }

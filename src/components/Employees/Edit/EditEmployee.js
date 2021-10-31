@@ -142,12 +142,16 @@ const EditEmployee = () => {
    } = initialState;
 
    return (
-      <div className={styles.card}>
-         <div className={styles.card__header}>
-            <h1 className={styles.card__title}>EMPLEADO</h1>
+      <div className='card-nb'>
+         <div className="card__header">
+            <div className="card__title">EMPLEADO</div>
          </div>
 
-         <form className={styles.form} onSubmit={onSubmitHandler}>
+         <div className="delete__button__container">
+            <span className="delete__button"><i class="fas fa-trash-alt"></i></span>
+         </div>
+
+         <form className='form' onSubmit={onSubmitHandler}>
             <FormGroup
                labelClass={"form__label"}
                labelName={"Nombre"}
@@ -234,9 +238,8 @@ const EditEmployee = () => {
                <div className="form__group">
                   <label className="form__label">Rol: </label>
                   <select
-                     className={`${styles.form__select} ${
-                        editMode ? styles.form__input__edit : ""
-                     } ${checkValid(errors.rol) ? "is-invalid" : ""}`}
+                     className={`${styles.form__select} ${editMode ? styles.form__input__edit : ""
+                        } ${checkValid(errors.rol) ? "is-invalid" : ""}`}
                      name="rol"
                      value={rol}
                      onChange={onChangeHandler}
@@ -269,11 +272,9 @@ const EditEmployee = () => {
                <div className="form__group">
                   <label className="form__label">Licencia de conducir:</label>
                   <select
-                     className={`${styles.form__select} ${
-                        editMode ? styles.form__input__edit : ""
-                     } ${
-                        checkValid(errors.licencia_conducir) ? "is-invalid" : ""
-                     }`}
+                     className={`${styles.form__select} ${editMode ? styles.form__input__edit : ""
+                        } ${checkValid(errors.licencia_conducir) ? "is-invalid" : ""
+                        }`}
                      name="licencia_conducir"
                      value={licencia_conducir}
                      onChange={onChangeHandler}

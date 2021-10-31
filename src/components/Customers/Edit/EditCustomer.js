@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import api from "../../servicios/api";
-// import styles from "../New/NewEmployee.module.css";
 import styles from "./EditCustomer.module.css";
-import { cargarDatos } from "../List/ListCustomers";
 
 class EditCustomer extends React.Component {
 
@@ -12,13 +10,32 @@ class EditCustomer extends React.Component {
       this.state = {
          nombre: "",
          apellido: "",
+         cuit: "",
          domicilio: "",
+         barrio: "",
+         localidad: "",
+         referencia: "",
          telefono: "",
          email: "",
          errores: [],
+         editMode: false,
       };
+      this.customerId = props.match.params.id;
    }
 
+   componentDidMount() {
+      this.httpRequest();
+   }
+
+   httpRequest() {
+      console.log('Se ejecuta!')
+      fetch(`${api}/api/clientes/${this.customerId}`)
+         .then(response => response.json())
+         .then(data => {
+            const { nombre, apellido, domicilio, barrio, localidad, referencia, cuit, telefono, email } = data.cliente;
+            this.setState({ nombre, apellido, domicilio, barrio, localidad, referencia, cuit, telefono, email });
+         })
+   }
 
    cambioValor = (e) => {
       const state = this.state;
@@ -73,136 +90,186 @@ class EditCustomer extends React.Component {
          .catch(console.log);
    };
 
+   changeEditMode(inEditMode) {
+      // this.setState((state, props) => this.setState({ editMode: inEditMode }))
+      this.setState({ editMode: inEditMode })
+   }
+
    render() {
-      const { nombre, apellido, domicilio, telefono, email } = this.state;
+      const { nombre, apellido, domicilio, barrio, localidad, referencia, cuit, telefono, email } = this.state;
+      let { editMode } = this.state;
+      console.log(editMode)
 
       return (
-         <div className={styles.card}>
-            <div className="card-header">Editar Empleado</div>
-            <div className="card-body">
-               <form onSubmit={this.enviarDatos}>
-                  <div className="form-group">
-                     <label htmlFor="">Nombre:</label>
-                     <input
-                        onChange={this.cambioValor}
-                        value={nombre}
-                        type="text"
-                        name="nombre"
-                        id="nombre"
-                        className={
-                           (this.verificarError("error_nombre")
-                              ? "is-invalid"
-                              : "") + " form-control"
-                        }
-                        placeholder=""
-                        aria-describedby="helpId"
-                     />
-                     <small id="helpId" className="invalid-feedback">
-                        Ecribe el nombre del cliente
-                     </small>
-                  </div>
-                  <br></br>
+         <div className='card-nb'>
+            <div className="card__header">
+               <div className='card__title'>Cliente</div>
+            </div>
+            <form onSubmit={this.enviarDatos}>
+               <div className="form__group">
+                  <label className='form__label'>Nombre: </label>
+                  <input
+                     onChange={this.cambioValor}
+                     value={nombre}
+                     type="text"
+                     name="nombre"
+                     id="nombre"
+                     className={`${this.verificarError("error_nombre") ? "is-invalid" : ""} ${editMode ? "form__input__edit" : ""} form__input`}
+                     placeholder=""
+                     aria-describedby="helpId"
+                  />
+                  <small id="helpId" className="invalid-feedback">
+                     Ingresa el nombre del cliente
+                  </small>
+               </div>
 
-                  <div className="form-group">
-                     <label htmlFor="">Apellido:</label>
-                     <input
-                        onChange={this.cambioValor}
-                        value={apellido}
-                        type="text"
-                        name="apellido"
-                        id="apellido"
-                        className={
-                           (this.verificarError("error_apellido")
-                              ? "is-invalid"
-                              : "") + " form-control"
-                        }
-                        placeholder=""
-                        aria-describedby="helpId"
-                     />
-                     <small id="helpId" className="invalid-feedback">
-                        Ecribe el apellido del cliente
-                     </small>
-                  </div>
-                  <br></br>
+               <div className="form__group">
+                  <label className='form__label'>Apellido: </label>
+                  <input
+                     onChange={this.cambioValor}
+                     value={apellido}
+                     type="text"
+                     name="apellido"
+                     id="apellido"
+                     className={`${this.verificarError("error_nombre") ? "is-invalid" : ""} ${editMode ? "form__input__edit" : ""} form__input`}
+                     placeholder=""
+                     aria-describedby="helpId"
+                  />
+                  <small id="helpId" className="invalid-feedback">
+                     Ingresa el apellido del cliente
+                  </small>
+               </div>
 
-                  <div className="form-group">
-                     <label htmlFor="">Domicilio:</label>
+               <div className="row-nb row-nb-3">
+                  <div className="form__group">
+                     <label className="form__label">Domicilio: </label>
                      <input
                         onChange={this.cambioValor}
                         value={domicilio}
                         type="text"
                         name="domicilio"
                         id="domicilio"
-                        className={
-                           (this.verificarError("error_domicilio")
-                              ? "is-invalid"
-                              : "") + " form-control"
-                        }
+                        className={`${this.verificarError("error_nombre") ? "is-invalid" : ""} ${editMode ? "form__input__edit" : ""} form__input`}
                         placeholder=""
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
-                        Ecribe el domicilio del cliente
+                        Ingresa el domicilio del cliente
                      </small>
                   </div>
-                  <br></br>
 
-                  <div className="form-group">
-                     <label htmlFor="">Teléfono:</label>
+                  <div className="form__group">
+                     <label className="form__label">Barrio: </label>
+                     <input
+                        onChange={this.cambioValor}
+                        value={barrio}
+                        type="text"
+                        name="barrio"
+                        id="barrio"
+                        className={`${this.verificarError("error_nombre") ? "is-invalid" : ""} ${editMode ? "form__input__edit" : ""} form__input`}
+                        placeholder=""
+                        aria-describedby="helpId"
+                     />
+                     <small id="helpId" className="invalid-feedback">
+                        Escribe el barrio del cliente
+                     </small>
+                  </div>
+
+                  <div className="form__group">
+                     <label className="form__label">Localidad: </label>
+                     <input
+                        onChange={this.cambioValor}
+                        value={localidad}
+                        type="text"
+                        name="localidad"
+                        id="localidad"
+                        className={`${this.verificarError("error_nombre") ? "is-invalid" : ""} ${editMode ? "form__input__edit" : ""} form__input`}
+                        placeholder=""
+                        aria-describedby="helpId"
+                     />
+                     <small id="helpId" className="invalid-feedback">
+                        Escribe la localidad del cliente
+                     </small>
+                  </div>
+               </div>
+
+               <div className='row-nb row-nb-3'>
+                  <div className="form__group">
+                     <label className="form__label">Cuit/Cuil: </label>
+                     <input
+                        onChange={this.cambioValor}
+                        value={cuit}
+                        type="text"
+                        name="cuit"
+                        id="cuit"
+                        className={`${this.verificarError("error_nombre") ? "is-invalid" : ""} ${editMode ? "form__input__edit" : ""} form__input`}
+                        placeholder=""
+                        aria-describedby="helpId"
+                     />
+                     <small id="helpId" className="invalid-feedback">
+                        Escribe el cuit o cuil del cliente
+                     </small>
+                  </div>
+
+                  <div className="form__group">
+                     <label className="form__label">Teléfono: </label>
                      <input
                         onChange={this.cambioValor}
                         value={telefono}
                         type="text"
                         name="telefono"
                         id="telefono"
-                        className={
-                           (this.verificarError("error_telefono")
-                              ? "is-invalid"
-                              : "") + " form-control"
-                        }
+                        className={`${this.verificarError("error_nombre") ? "is-invalid" : ""} ${editMode ? "form__input__edit" : ""} form__input`}
                         placeholder=""
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
-                        Ecribe el teléfono del empleado
+                        Ingresa el teléfono del empleado
                      </small>
                   </div>
-                  <br></br>
 
-                  <div className="form-group">
-                     <label htmlFor="">E-mail:</label>
+                  <div className="form__group">
+                     <label className="form__label">E-mail: </label>
                      <input
                         onChange={this.cambioValor}
                         value={email}
                         type="text"
                         name="email"
                         id="email"
-                        className={
-                           (this.verificarError("error_email")
-                              ? "is-invalid"
-                              : "") + " form-control"
-                        }
+                        className={`${this.verificarError("error_nombre") ? "is-invalid" : ""} ${editMode ? "form__input__edit" : ""} form__input`}
                         placeholder=""
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
-                        Ecribe el E-mail del empleado
+                        Ingresa el E-mail del empleado
                      </small>
                   </div>
-                  <br></br>
+               </div>
 
-                  <div className="btn-group" role="group" aria-label="">
-                     <button type="submit" className="button">
-                        Agregar
+
+               {editMode &&
+                  <div className="button__group" role="group" aria-label="">
+                     <button type="submit" className="button acept__button" onClick={this.enviarDatos}>
+                        Actualizar
                      </button>
-                     <Link to={"/dashboard/empleados"} className="button">
+                     <button type='button' onClick={() => this.changeEditMode(false)} className="button cancel__button">
+                        Cancelar
+                     </button>
+                  </div>
+               }
+
+               {!editMode &&
+                  <div className="button__group" role="group" aria-label="">
+                     <button type="button" className="button acept__button" onClick={() => this.changeEditMode(true)}>
+                        <i class="far fa-edit"></i> Editar
+                     </button>
+                     <Link to={"/dashboard/clientes"} className="button cancel__button">
                         Cancelar
                      </Link>
                   </div>
-               </form>
-            </div>
-            <div className="card-footer text-muted"></div>
-         </div>
+               }
+            </form >
+         </div >
       );
    }
 }
