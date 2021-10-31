@@ -10,20 +10,25 @@ const AddOrder = () => {
    let [alreadySearch, setAlreadySearch] = useState(false);
 
    useEffect(() => {
-      fetchCustomers()
+      fetchCustomers();
+      console.log('Buscando...');
    }, [])
 
    const fetchCustomers = async () => {
-      const response = await fetch(`${api}/api/clientes/`, {
-         method: 'GET',
-         headers: {
-            'Content-type': 'json/application'
-         }
-      })
+      try {
+         const response = await fetch(`${api}/api/clientes/`, {
+            method: 'GET',
+            headers: {
+               'Content-type': 'json/application'
+            }
+         })
 
-      const data = await response.json();
+         const data = await response.json();
 
-      console.log(data);
+         console.log(data);
+      } catch (e) {
+         console.log(e)
+      }
    }
 
    const search = (e) => {
