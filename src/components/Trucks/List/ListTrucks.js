@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Modal from "../../Modal/Modal";
 import Backdrop from "../../Backdrop/Backdrop";
 import Pagination from "../../Products/List/Pagination";
+import DeleteModal from "../../Modal/DeleteModal/DeleteModal";
 
 const ListTrucks = () => {
    const [trucks, setTrucks] = useState([]);
@@ -123,24 +124,7 @@ const ListTrucks = () => {
 
          {openModal && (
             <Modal>
-               <h3>Eliminar camion</h3>
-               <p>¿Estas seguro que desea eliminar el camion?</p>
-               <div className={`modal-nb__buttons`}>
-                  <button
-                     type="button"
-                     className={`button cancel__button`}
-                     onClick={() => setOpenModal(false)}
-                  >
-                     Cancelar
-                  </button>
-                  <button
-                     type="button"
-                     className={`button acept__button`}
-                     onClick={confirmDelete}
-                  >
-                     Aceptar
-                  </button>
-               </div>
+               <DeleteModal setOpenModal={setOpenModal} deleteTruck={deleteTruck} />
             </Modal>
          )}
          {openModal && <Backdrop />}

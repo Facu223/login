@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import api from "../../servicios/api";
 import FormGroup from "../../Employees/FormGroup";
 import styles from "./EditTruck.module.css";
+import DeleteModal from "../../Modal/DeleteModal/DeleteModal";
+import Backdrop from "../../Backdrop/Backdrop";
+import Modal from '../../Modal/Modal';
 
 const EditTruck = () => {
    const initialState = {
@@ -24,6 +27,8 @@ const EditTruck = () => {
    const [truckData, setTruckData] = useState(initialState);
    const [errors, setError] = useState({});
    const [editMode, setEditMode] = useState(false);
+   const [openModal, setOpenModal] = useState(false);
+   const [truckId, setTruckId] = useState("");
 
    useEffect(() => {
       fetch(api + `/api/camiones/${params.id}`)
@@ -126,8 +131,37 @@ const EditTruck = () => {
       return false;
    };
 
+   const deleteHandler = (id) => {
+      setOpenModal(true);
+      setTruckId(id);
+   };
+
+   const onDeleteHandler = async () => {
+      // setSuccesDeleted(true);
+
+      try {
+         const response = await fetch(`${api}/api/camiones/${truckId}`, {
+            method: "DELETE",
+         });
+
+         if (response.status === 204) setOpenModal(false);
+      } catch (e) {
+         console.log(e);
+      }
+   };
+
+
    return (
-      <div className={"card-nb"}>
+      <div className="card-nb">
+
+         <div className="card__header">
+            <div className="card__title">CAMION</div>
+         </div>
+
+         <div className="delete__button__container" onClick={deleteHandler}>
+            <span className="delete__button"><i class="fas fa-trash-alt"></i></span>
+         </div>
+
          <form onSubmit={submitHandler} className="form">
             <div className="row-nb">
                <FormGroup
@@ -192,11 +226,10 @@ const EditTruck = () => {
                      name="anio"
                      onChange={onChangeHandler}
                      disabled={!editMode}
-                     className={`${editMode ? "form__input__edit" : ""} ${
-                        checkValid(errors.anio)
-                           ? "is-invalid form__select"
-                           : `form__select`
-                     }`}
+                     className={`${editMode ? "form__input__edit" : ""} ${checkValid(errors.anio)
+                        ? "is-invalid form__select"
+                        : `form__select`
+                        }`}
                   >
                      <option value="">--Seleccionar--</option>
                      <option value="2021">2021</option>
@@ -323,6 +356,16 @@ const EditTruck = () => {
                )}
             </div>
          </form>
+         {openModal && (
+            <Modal>
+               <DeleteModal
+                  setOpenModal={setOpenModal}
+                  deleteHandler={onDeleteHandler}
+                  modalContent={{ title: 'Eliminar camion', message: '¿Estas seguro que quiere eliminar el camion?' }}
+               />
+            </Modal>
+         )}
+         {openModal && <Backdrop />}
       </div>
    );
 };

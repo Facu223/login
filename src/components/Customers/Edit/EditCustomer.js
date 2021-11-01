@@ -28,7 +28,6 @@ class EditCustomer extends React.Component {
    }
 
    httpRequest() {
-      console.log('Se ejecuta!')
       fetch(`${api}/api/clientes/${this.customerId}`)
          .then(response => response.json())
          .then(data => {
@@ -72,7 +71,7 @@ class EditCustomer extends React.Component {
 
       console.log(datosEnviar);
 
-      await fetch(api + "/api/clientes", {
+      await fetch(`${api}/api/clientes/${this.customerId}`, {
          method: "PATCH",
          headers: {
             "Content-Type": "application/json",
@@ -80,12 +79,11 @@ class EditCustomer extends React.Component {
          body: JSON.stringify(datosEnviar),
       })
          .then((respuesta) => {
-            console.log(respuesta.status);
             return respuesta.json();
          })
          .then((datosRespuesta) => {
-            console.log(datosRespuesta);
-            // this.props.history.push("/dasboard/empleados");
+            console.log(this.props.history);
+            return this.props.history.push("/dashboard/clientes");
          })
          .catch(console.log);
    };
