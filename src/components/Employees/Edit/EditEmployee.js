@@ -1,7 +1,11 @@
+// import { Modal } from "bootstrap";
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
+import Backdrop from "../../Backdrop/Backdrop";
+import DeleteModal from "../../Modal/DeleteModal/DeleteModal";
 import api from "../../servicios/api";
 import FormGroup from "../FormGroup";
+import Modal from '../../Modal/Modal';
 
 import styles from "./EditEmployee.module.css";
 
@@ -24,6 +28,8 @@ const EditEmployee = () => {
    const [initialState, setInitialState] = useState(initialData);
    const [errors, setErrors] = useState({});
    const [editMode, setEditMode] = useState(false);
+   const [openModal, setOpenModal] = useState(false);
+   const [employeeId, setEmployeeId] = useState("");
 
    useEffect(() => {
       fetchEmployeInfo(id);
@@ -128,6 +134,25 @@ const EditEmployee = () => {
       return false;
    };
 
+   const deleteHandler = (id) => {
+      setOpenModal(true);
+      setEmployeeId(id);
+   };
+
+   const onDeleteHandler = async () => {
+      // setSuccesDeleted(true);
+
+      try {
+         const response = await fetch(`${api}/api/empleados/${employeeId}`, {
+            method: "DELETE",
+         });
+
+         if (response.status === 204) setOpenModal(false);
+      } catch (e) {
+         console.log(e);
+      }
+   };
+
    const {
       nombre,
       apellido,
@@ -147,7 +172,7 @@ const EditEmployee = () => {
             <div className="card__title">EMPLEADO</div>
          </div>
 
-         <div className="delete__button__container">
+         <div className="delete__button__container" onClick={deleteHandler}>
             <span className="delete__button"><i class="fas fa-trash-alt"></i></span>
          </div>
 
@@ -351,6 +376,16 @@ const EditEmployee = () => {
                )}
             </div>
          </form>
+         {openModal && (
+            <Modal>
+               <DeleteModal
+                  setOpenModal={setOpenModal}
+                  deleteHandler={onDeleteHandler}
+                  modalContent={{ title: 'Eliminar empleado', message: '¿Estas seguro que quiere eliminar el empleado?' }}
+               />
+            </Modal>
+         )}
+         {openModal && <Backdrop />}
       </div>
    );
 };
