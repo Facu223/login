@@ -10,6 +10,7 @@ import Modal from '../../Modal/Modal';
 
 const EditTruck = () => {
    const initialState = {
+      id: null,
       marca: "",
       modelo: "",
       tipo: "",
@@ -46,6 +47,7 @@ const EditTruck = () => {
       });
    };
    const {
+      id,
       marca,
       modelo,
       tipo,
@@ -145,6 +147,7 @@ const EditTruck = () => {
          });
 
          if (response.status === 204) setOpenModal(false);
+         history.push('/dashboard/camiones');
       } catch (e) {
          console.log(e);
       }
@@ -158,7 +161,7 @@ const EditTruck = () => {
             <div className="card__title">CAMION</div>
          </div>
 
-         <div className="delete__button__container" onClick={deleteHandler}>
+         <div className="delete__button__container" onClick={() => deleteHandler(id)}>
             <span className="delete__button"><i class="fas fa-trash-alt"></i></span>
          </div>
 

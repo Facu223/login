@@ -11,6 +11,7 @@ import styles from "./EditEmployee.module.css";
 
 const EditEmployee = () => {
    const initialData = {
+      id: null,
       nombre: "",
       apellido: "",
       documento: 0,
@@ -54,6 +55,7 @@ const EditEmployee = () => {
          } = await data.json();
 
          const employeeData = {
+            id,
             nombre,
             apellido,
             documento,
@@ -148,6 +150,7 @@ const EditEmployee = () => {
          });
 
          if (response.status === 204) setOpenModal(false);
+         history.push('/dashboard/empleados');
       } catch (e) {
          console.log(e);
       }
@@ -172,7 +175,7 @@ const EditEmployee = () => {
             <div className="card__title">EMPLEADO</div>
          </div>
 
-         <div className="delete__button__container" onClick={deleteHandler}>
+         <div className="delete__button__container" onClick={() => { deleteHandler(id) }}>
             <span className="delete__button"><i class="fas fa-trash-alt"></i></span>
          </div>
 

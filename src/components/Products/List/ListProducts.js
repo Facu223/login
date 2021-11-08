@@ -101,13 +101,13 @@ const ListProducts = () => {
                                     >
                                        Ver
                                     </Link>
-                                    <button
+                                    {/* <button
                                        onClick={() => deleteProduct(x.id)}
                                        type="button"
                                        className={`${styles.delete__button} button`}
                                     >
                                        Borrar
-                                    </button>
+                                    </button> */}
                                  </div>
                               </td>
                            </tr>
