@@ -1,13 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Backdrop from "../../Backdrop/Backdrop";
+import DeleteModal from "../../Modal/DeleteModal/DeleteModal";
 import api from "../../servicios/api";
 import styles from "./EditCustomer.module.css";
+import Modal from '../../Modal/Modal';
 
 class EditCustomer extends React.Component {
 
    constructor(props) {
       super(props);
       this.state = {
+         id: null,
          nombre: "",
          apellido: "",
          cuit: "",
@@ -19,6 +23,7 @@ class EditCustomer extends React.Component {
          email: "",
          errores: [],
          editMode: false,
+         openModal: false,
       };
       this.customerId = props.match.params.id;
    }
@@ -31,8 +36,8 @@ class EditCustomer extends React.Component {
       fetch(`${api}/api/clientes/${this.customerId}`)
          .then(response => response.json())
          .then(data => {
-            const { nombre, apellido, domicilio, barrio, localidad, referencia, cuit, telefono, email } = data.cliente;
-            this.setState({ nombre, apellido, domicilio, barrio, localidad, referencia, cuit, telefono, email });
+            const { id, nombre, apellido, domicilio, barrio, localidad, referencia, cuit, telefono, email } = data.cliente;
+            this.setState({ id, nombre, apellido, domicilio, barrio, localidad, referencia, cuit, telefono, email });
          })
    }
 
@@ -69,8 +74,6 @@ class EditCustomer extends React.Component {
          email: email,
       };
 
-      console.log(datosEnviar);
-
       await fetch(`${api}/api/clientes/${this.customerId}`, {
          method: "PATCH",
          headers: {
@@ -82,7 +85,6 @@ class EditCustomer extends React.Component {
             return respuesta.json();
          })
          .then((datosRespuesta) => {
-            console.log(this.props.history);
             return this.props.history.push("/dashboard/clientes");
          })
          .catch(console.log);
@@ -93,16 +95,45 @@ class EditCustomer extends React.Component {
       this.setState({ editMode: inEditMode })
    }
 
+   deleteHandler(id) {
+      this.setState({ openModal: true });
+   }
+
+   onCloseModal() {
+      this.setState({ openModal: false });
+   }
+
+   async onDeleteHandler(employeeId = this.state.id) {
+      // setSuccesDeleted(true);
+      console.log('asdasda')
+
+      try {
+         const response = await fetch(`${api}/api/clientes/${employeeId}`, {
+            method: "DELETE",
+         });
+
+         if (response.status === 204) this.setState({ openModal: false })
+
+         this.props.history.push('/dashboard/clientes');
+      } catch (e) {
+         console.log(e);
+      }
+   };
+
    render() {
-      const { nombre, apellido, domicilio, barrio, localidad, referencia, cuit, telefono, email } = this.state;
+      const { id, nombre, apellido, domicilio, barrio, localidad, referencia, cuit, telefono, email, openModal } = this.state;
       let { editMode } = this.state;
-      console.log(editMode)
 
       return (
          <div className='card-nb'>
             <div className="card__header">
                <div className='card__title'>Cliente</div>
             </div>
+
+            <div className="delete__button__container" onClick={() => { this.deleteHandler(id) }}>
+               <span className="delete__button"><i className="fas fa-trash-alt"></i></span>
+            </div>
+
             <form onSubmit={this.enviarDatos}>
                <div className="form__group">
                   <label className='form__label'>Nombre: </label>
@@ -114,6 +145,8 @@ class EditCustomer extends React.Component {
                      id="nombre"
                      className={`${this.verificarError("error_nombre") ? "is-invalid" : ""} ${editMode ? "form__input__edit" : ""} form__input`}
                      placeholder=""
+                     disabled={!editMode}
+                     disabled={!editMode}
                      aria-describedby="helpId"
                   />
                   <small id="helpId" className="invalid-feedback">
@@ -131,6 +164,7 @@ class EditCustomer extends React.Component {
                      id="apellido"
                      className={`${this.verificarError("error_nombre") ? "is-invalid" : ""} ${editMode ? "form__input__edit" : ""} form__input`}
                      placeholder=""
+                     disabled={!editMode}
                      aria-describedby="helpId"
                   />
                   <small id="helpId" className="invalid-feedback">
@@ -149,6 +183,7 @@ class EditCustomer extends React.Component {
                         id="domicilio"
                         className={`${this.verificarError("error_nombre") ? "is-invalid" : ""} ${editMode ? "form__input__edit" : ""} form__input`}
                         placeholder=""
+                        disabled={!editMode}
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
@@ -166,6 +201,7 @@ class EditCustomer extends React.Component {
                         id="barrio"
                         className={`${this.verificarError("error_nombre") ? "is-invalid" : ""} ${editMode ? "form__input__edit" : ""} form__input`}
                         placeholder=""
+                        disabled={!editMode}
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
@@ -183,6 +219,7 @@ class EditCustomer extends React.Component {
                         id="localidad"
                         className={`${this.verificarError("error_nombre") ? "is-invalid" : ""} ${editMode ? "form__input__edit" : ""} form__input`}
                         placeholder=""
+                        disabled={!editMode}
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
@@ -202,6 +239,7 @@ class EditCustomer extends React.Component {
                         id="cuit"
                         className={`${this.verificarError("error_nombre") ? "is-invalid" : ""} ${editMode ? "form__input__edit" : ""} form__input`}
                         placeholder=""
+                        disabled={!editMode}
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
@@ -219,6 +257,7 @@ class EditCustomer extends React.Component {
                         id="telefono"
                         className={`${this.verificarError("error_nombre") ? "is-invalid" : ""} ${editMode ? "form__input__edit" : ""} form__input`}
                         placeholder=""
+                        disabled={!editMode}
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
@@ -236,6 +275,7 @@ class EditCustomer extends React.Component {
                         id="email"
                         className={`${this.verificarError("error_nombre") ? "is-invalid" : ""} ${editMode ? "form__input__edit" : ""} form__input`}
                         placeholder=""
+                        disabled={!editMode}
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
@@ -259,7 +299,7 @@ class EditCustomer extends React.Component {
                {!editMode &&
                   <div className="button__group" role="group" aria-label="">
                      <button type="button" className="button acept__button" onClick={() => this.changeEditMode(true)}>
-                        <i class="far fa-edit"></i> Editar
+                        <i className="far fa-edit"></i> Editar
                      </button>
                      <Link to={"/dashboard/clientes"} className="button cancel__button">
                         Cancelar
@@ -267,6 +307,17 @@ class EditCustomer extends React.Component {
                   </div>
                }
             </form >
+            {openModal && (
+               <Modal>
+                  <DeleteModal
+                     onCloseModal={this.onCloseModal.bind(this)}
+                     deleteHandler={this.onDeleteHandler.bind(this)}
+                     modalContent={{ title: 'Eliminar cliente', message: '¿Estas seguro que quiere eliminar el cliente?' }}
+                     classBased={true}
+                  />
+               </Modal>
+            )}
+            {openModal && <Backdrop />}
          </div >
       );
    }
