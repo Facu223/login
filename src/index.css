@@ -111,6 +111,34 @@ a.acept__button {
    margin: 0!important;
 }
 
+.success__button {
+   color: white;
+   background-color: #37b24d;
+   border-radius: 4px;
+}
+
+.success__button:hover {
+   background-color: #40c057;
+   box-shadow: 0px 1px 4px 4px rgba(64, 192, 87, 0.4);
+}
+
+.disabled {
+   background-color: #e3e3e3;
+   color: #6d6d6d;
+}
+
+.disabled:hover {
+   background-color: #e3e3e3;
+   color: #6d6d6d;
+   box-shadow: none
+}
+
+/* SEARCH TABLE */
+.search__table {
+   max-height: 500px;
+   overflow: auto;
+}
+
 /* FORMULARIOS */
 .card-nb {
    width: 70%;
@@ -118,6 +146,7 @@ a.acept__button {
    background-color: #fff;
    margin: auto;
    margin-top: 5rem;
+   margin-bottom: 5rem;
    box-shadow: 0px 2px 10px rgb(0 0 0 / 10%);
    border: 1px solid rgba(0, 0, 0, 0.3);
    border-radius: 5px;
@@ -139,15 +168,16 @@ a.acept__button {
 .row-nb {
    display: flex;
    justify-content: space-between;
+   column-gap: 1rem;
 }
 
 .row-nb:last-of-type {
    margin-bottom: 1rem;
 }
 
-.row-nb-3 > .form__group {
+/* .row-nb-3 > .form__group {
    margin-right: 1rem;
-}
+} */
 
 .row-nb > .form__group {
    flex-basis: 49%;
@@ -227,13 +257,13 @@ th {
 }
 
 /* Buttons */
-.back__arrow {
+.back__arrow, .edit__user {
    padding: .8rem 1rem;
    border-radius: 50%;
    background-color: #eee;
 }
 
-.back__arrow:hover {
+.back__arrow:hover, .edit__user:hover {
    background-color: rgb(42, 88, 163);
    color: white;
    cursor: pointer;

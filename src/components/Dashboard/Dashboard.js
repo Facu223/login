@@ -19,6 +19,7 @@ import ListProducts from "../Products/List/ListProducts";
 import NewProduct from "../Products/New/NewProduct";
 import EditProduct from "../Products/Edit/EditProduct";
 import AddOrder from "../Orders/add/AddOrder";
+import ListOrders from "../Orders/list/ListOrders";
 
 function Dashboard() {
    const [backdropOpen, setOpen] = useState(false);
@@ -59,7 +60,9 @@ function Dashboard() {
             <Route path={`${path}/productos/editar/:id`} exact component={EditProduct}
             />
 
-            <Route path={`${path}/pedidos`} exact component={AddOrder} />
+            <Route path={`${path}/pedidos`} exact component={ListOrders} />
+            <Route path={`${path}/pedidos/nuevo`} exact component={AddOrder} />
+
          </main>
 
          {menuOpen ? <Sidebar isOpen={true} closeMenu={closeMenu} /> : null}
