@@ -1,0 +1,11 @@
+.footer {
+   display: flex;
+   justify-content: flex-end;
+}
+
+.total {
+   font-size: 22px;
+   font-weight: 500;
+   color: #757575;
+   padding: 1rem;
+}
