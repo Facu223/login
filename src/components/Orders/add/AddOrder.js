@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react'
+import { useHistory } from 'react-router';
 
 import api from '../../servicios/api';
+import OrderDetail from '../OrderDetail/OrderDetail';
 
 import styles from './AddOrder.module.css';
 
@@ -9,9 +11,15 @@ const AddOrder = () => {
    const [selectedCustomer, setSelectedCustomer] = useState({});
    let [alreadySearch, setAlreadySearch] = useState(false);
 
+   // Order detail states
+   const [orderItem, setOrderItem] = useState({ producto: undefined, cantidad: undefined, precio: undefined, flete: 0 });
+   const [orderDetail, setOderDetail] = useState([]);
+
+   // Hooks
+   const history = useHistory();
+
    useEffect(() => {
       fetchCustomers();
-      console.log('Buscando...');
    }, [])
 
    const fetchCustomers = async () => {
@@ -71,7 +79,62 @@ const AddOrder = () => {
    const onChooseAnotherCustomer = () => {
       setSelectedCustomer({})
       setCustomersListSearch([])
+      setOderDetail([]);
+      setOrderItem({ id_producto: undefined, cantidad: undefined, precio: undefined, flete: undefined })
    }
+
+   // Add a new product to the order
+   const addProductToOrder = () => {
+      setOderDetail(prevState => {
+         return [...prevState, orderItem]
+      })
+   }
+
+   const onInputChange = (e) => {
+      setOrderItem(prevState => {
+         return { ...prevState, [e.target.name]: e.target.value }
+      });;
+   }
+
+   const onSubmitHandler = (e) => {
+      e.preventDefault();
+
+      orderDetail.forEach(el => delete el["itemTotal"]);
+
+      const order = {
+         id_cliente: selectedCustomer.id,
+         domicilio_entrega: selectedCustomer.domicilio,
+         telefono: selectedCustomer.telefono,
+         referencia: "alguna referencia",
+         productos: orderDetail,
+         estado: false
+      }
+
+      sendHttpRequest(order);
+   }
+
+   const sendHttpRequest = async (order) => {
+      try {
+         const response = await fetch(`${api}/api/pedidos/`, {
+            method: 'POST',
+            body: JSON.stringify(order),
+            headers: {
+               "Content-Type": "application/json",
+            },
+         });
+
+         if (response.status === 201) {
+            history.push('/dashboard/pedidos')
+         }
+
+
+      } catch (e) {
+         console.log(e);
+      }
+   };
+
+   const { id_producto, cantidad, precio, flete } = orderItem;
+   // const {referencia} = 
 
    return (
       <Fragment>
@@ -95,8 +158,8 @@ const AddOrder = () => {
 
                {customersListSearch.length > 0 &&
 
-                  <div className='table__container'>
-                     <table className="table">
+                  <div className='table__container search__table'>
+                     <table className="table ">
                         <thead>
                            <tr>
                               <th>ID</th>
@@ -134,8 +197,11 @@ const AddOrder = () => {
 
          {Object.keys(selectedCustomer).length > 0 &&
             <div className='card-nb'>
-               <span className='back__arrow' onClick={() => { onChooseAnotherCustomer() }}><i class="fas fa-long-arrow-alt-left"></i></span>
-               <form className='form'>
+               <div className={styles["order__customer-options"]}>
+                  <span className='back__arrow' onClick={() => { onChooseAnotherCustomer() }}><i class="fas fa-long-arrow-alt-left"></i></span>
+                  <span className='edit__user'><i class="fas fa-user-edit"></i></span>
+               </div>
+               <form className='form' onSubmit={onSubmitHandler}>
                   <div className='row-nb'>
                      <div className='form__group'>
                         <label className='form__label'>Nombre: </label>
@@ -145,14 +211,18 @@ const AddOrder = () => {
                         <label className='form__label'>Apellido: </label>
                         <input className='form__input' value={selectedCustomer.apellido} />
                      </div>
-
-                  </div>
-
-                  <div className='row-nb row-nb-3'>
                      <div className='form__group'>
                         <label className='form__label'>Domicilio: </label>
                         <input className='form__input' value={selectedCustomer.domicilio} />
                      </div>
+
+                  </div>
+
+                  <div className='row-nb row-nb-3'>
+                     {/* <div className='form__group'>
+                        <label className='form__label'>Referencia: </label>
+                        <input className='form__input form__input__edit' value={referencia} />
+                     </div> */}
                      <div className='form__group'>
                         <label className='form__label'>Telefono: </label>
                         <input className='form__input' value={selectedCustomer.telefono} />
@@ -165,9 +235,81 @@ const AddOrder = () => {
 
                   <hr></hr>
 
-                  <button className='button acept__button'>+ Productos</button>
+                  <div className='row-nb'>
+                     <div className='form__group'>
+                        <label className='form__label'>
+                           Producto:
+                        </label>
+                        <select className='form__select form__input__edit'
+                           value={!id_producto ? 'seleccionar' : id_producto}
+                           onChange={(e) => onInputChange(e)}
+                           name='id_producto'>
+                           <option value='seleccionar'>--Seleccionar--</option>
+                           <option value={1}>Gas 10kg</option>
+                           <option value={2}>Gas 15kg</option>
+                           <option value={3}>Gas 45kg</option>
+                           <option value={4}>Gas 30kg</option>
+                           <option value={5}>Carbon 2kg</option>
+                           <option value={6}>Carbon 4kg</option>
+                           <option value={7}>Carbon elegido</option>
+                           <option value={8}>Contenedor</option>
+                           <option value={9}>Obrador</option>
+                           <option value={10}>Leña 7kg</option>
+                           <option value={11}>Leña a ganel</option>
+                        </select>
+                     </div>
+
+                     <div className='row-nb row-nb-3'>
+                        <div className='form__group'>
+                           <label className='form__label'>
+                              Cantidad:
+                           </label>
+                           <input className='form__input form__input__edit'
+                              type='number'
+                              value={cantidad}
+                              onChange={(e) => onInputChange(e)}
+                              name='cantidad' />
+                        </div>
+                        <div className='form__group'>
+                           <label className='form__label'>
+                              Precio:
+                           </label>
+                           <input className='form__input form__input__edit'
+                              type='number'
+                              value={precio}
+                              onChange={(e) => onInputChange(e)}
+                              name='precio' />
+                        </div>
+                        <div className='form__group'>
+                           <label className='form__label'>
+                              Flete:
+                           </label>
+                           <input className='form__input form__input__edit'
+                              type='number'
+                              value={flete}
+                              onChange={(e) => onInputChange(e)}
+                              name='flete' />
+                        </div>
+                     </div>
+                  </div>
+
+                  <div className='row-nb my-0'>
+                     <button className='button success__button mb-3' type='button' onClick={addProductToOrder} >Agregar</button>
+                  </div>
+
+                  {orderDetail.length > 0 && <OrderDetail orderDetail={orderDetail} />}
+
+                  {orderDetail.length > 0 &&
+
+                     <div className='row-nb d-flex justify-content-end'>
+                        <button className={`button acept__button`} type='submit'>Agregar pedido</button>
+                     </div>
+
+                  }
 
                </form>
+
+
             </div>
          }
       </Fragment >

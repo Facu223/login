@@ -26,3 +26,9 @@
    background-color: rgb(42, 88, 163);
    color: white;
 }
+
+.order__customer-options {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
