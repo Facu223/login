@@ -3,7 +3,6 @@ import React, { Fragment, useEffect, useState } from 'react'
 import styles from './OrderDetail.module.css';
 
 const OrderDetail = ({ orderDetail }) => {
-   console.log(orderDetail)
 
    const [total, setTotal] = useState(0);
 
@@ -42,14 +41,14 @@ const OrderDetail = ({ orderDetail }) => {
                   <th>Flete</th>
                   <th>Total</th>
                </tr>
-               {orderDetail.map(product => {
+               {orderDetail.map((product, index) => {
                   return (
-                     <tr>
+                     <tr key={index}>
                         <td>{product.producto}</td>
                         <td>{product.cantidad}</td>
-                        <td>{product.precio}</td>
-                        <td>{product.flete}</td>
-                        <td>{product.itemTotal}</td>
+                        <td>${product.precio}</td>
+                        <td>${product.flete}</td>
+                        <td>${product.itemTotal}</td>
                      </tr>
                   )
                })}
