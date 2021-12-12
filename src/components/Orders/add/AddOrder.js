@@ -5,14 +5,19 @@ import api from '../../servicios/api';
 import OrderDetail from '../OrderDetail/OrderDetail';
 
 import styles from './AddOrder.module.css';
+import OrderItems from './OrderItems/OrderItems';
 
 const AddOrder = () => {
    const [customersListSearch, setCustomersListSearch] = useState([]);
    const [selectedCustomer, setSelectedCustomer] = useState({});
+   const [addReference, setAddReference] = useState(false);
+   const [newAddress, setAddNewAddress] = useState(false);
+   const [onEditMode, setOnEditMode] = useState(false);
+   const [address, setNewAddress] = useState();
+   const [referenceNewAddres, setReferenceNewAddress] = useState();
    let [alreadySearch, setAlreadySearch] = useState(false);
+   const [error, setError] = useState(false);
 
-   // Order detail states
-   const [orderItem, setOrderItem] = useState({ producto: undefined, cantidad: undefined, precio: undefined, flete: 0 });
    const [orderDetail, setOderDetail] = useState([]);
 
    // Hooks
@@ -80,36 +85,55 @@ const AddOrder = () => {
       setSelectedCustomer({})
       setCustomersListSearch([])
       setOderDetail([]);
-      setOrderItem({ id_producto: undefined, cantidad: undefined, precio: undefined, flete: undefined })
+      setAddNewAddress(false);
+      resetForm();
+   }
+
+   const goToOrdersList = () => {
+      history.push("/dashboard/pedidos")
    }
 
    // Add a new product to the order
-   const addProductToOrder = () => {
+   const addProductToOrder = (item) => {
+      if (item.flete === "") item.flete = 0;
+
       setOderDetail(prevState => {
-         return [...prevState, orderItem]
+         return [...prevState, item]
       })
+
+      console.log(orderDetail);
    }
 
-   const onInputChange = (e) => {
-      setOrderItem(prevState => {
-         return { ...prevState, [e.target.name]: e.target.value }
-      });;
+   const onSetNewAddress = () => {
+      // Validate new address input
+      if (address === '' || address === undefined) {
+         setError(true);
+         return;
+      }
+
+      setError(false);
+      setOnEditMode(false);
+   }
+
+   const resetForm = () => {
+      setNewAddress(undefined);
+      setReferenceNewAddress(undefined);
    }
 
    const onSubmitHandler = (e) => {
       e.preventDefault();
 
       orderDetail.forEach(el => delete el["itemTotal"]);
+      orderDetail.forEach(el => delete el["producto"]);
 
       const order = {
          id_cliente: selectedCustomer.id,
-         domicilio_entrega: selectedCustomer.domicilio,
+         domicilio_entrega: newAddress ? address : selectedCustomer.domicilio,
          telefono: selectedCustomer.telefono,
-         referencia: "alguna referencia",
+         referencia: newAddress ? referenceNewAddres : selectedCustomer.referencia,
          productos: orderDetail,
          estado: false
       }
-
       sendHttpRequest(order);
    }
 
@@ -133,25 +157,20 @@ const AddOrder = () => {
       }
    };
 
-   const { id_producto, cantidad, precio, flete } = orderItem;
-   // const {referencia} = 
-
    return (
       <Fragment>
 
+         {/* BUSCADOR */}
          {Object.keys(selectedCustomer).length < 1 &&
             <div className='card-nb'>
+
+               <div className='my-3'>
+                  <span className='back__arrow' onClick={() => { goToOrdersList() }}><i className="fas fa-long-arrow-alt-left"></i></span>
+               </div>
 
                <div className={`form__group ${styles.searchInput}`}>
                   <label className='form__label'>Buscar cliente: </label>
                   <input className='form__input  form__input__edit' type='text' placeholder='Nombre o direccion' onInput={(e) => search(e)} />
-                  {/* {customersListSearch &&
-                  <div className={`${styles.searchResults}`}>
-                     {customersListSearch.map(customer => {
-                        return <li className={`${styles.resultItem}`} key={customer.id} onClick={() => { onSelectCustomer(customer.id) }} >{customer.nombre} | {customer.domicilio}</li>
-                     })}
-                  </div>
-               } */}
                </div>
 
                {(customersListSearch.length < 1 && alreadySearch) && <p className='text-center text-secondary'>No se encontraron resultados</p>}
@@ -170,8 +189,8 @@ const AddOrder = () => {
                            </tr>
                         </thead>
                         <tbody className='tbody-nb' style={{ maxHeight: '10px' }} >
-                           {customersListSearch.map((customer) => (
-                              <tr key={customer.id}>
+                           {customersListSearch.map((customer, index) => (
+                              <tr key={index}>
                                  <td data-titulo="ID">{customer.id}</td>
                                  <td data-titulo="Nombre">{customer.nombre} {customer.apellido}</td>
                                  <td data-titulo="Domicilio">{customer.domicilio}</td>
@@ -198,104 +217,68 @@ const AddOrder = () => {
          {Object.keys(selectedCustomer).length > 0 &&
             <div className='card-nb'>
                <div className={styles["order__customer-options"]}>
-                  <span className='back__arrow' onClick={() => { onChooseAnotherCustomer() }}><i class="fas fa-long-arrow-alt-left"></i></span>
-                  <span className='edit__user'><i class="fas fa-user-edit"></i></span>
+                  <span className='back__arrow' onClick={() => { onChooseAnotherCustomer() }}><i className="fas fa-long-arrow-alt-left"></i></span>
+                  <span className='edit__user'><i className="fas fa-user-edit"></i></span>
                </div>
                <form className='form' onSubmit={onSubmitHandler}>
                   <div className='row-nb'>
                      <div className='form__group'>
                         <label className='form__label'>Nombre: </label>
-                        <input className='form__input' value={selectedCustomer.nombre} />
+                        <input className='form__input' value={selectedCustomer.nombre} disabled />
                      </div>
                      <div className='form__group'>
                         <label className='form__label'>Apellido: </label>
-                        <input className='form__input' value={selectedCustomer.apellido} />
+                        <input className='form__input' value={selectedCustomer.apellido} disabled />
                      </div>
                      <div className='form__group'>
-                        <label className='form__label'>Domicilio: </label>
-                        <input className='form__input' value={selectedCustomer.domicilio} />
+                        <label className='form__label'>Telefono: </label>
+                        <input className='form__input' value={selectedCustomer.telefono} disabled />
                      </div>
-
                   </div>
 
                   <div className='row-nb row-nb-3'>
-                     {/* <div className='form__group'>
-                        <label className='form__label'>Referencia: </label>
-                        <input className='form__input form__input__edit' value={referencia} />
-                     </div> */}
                      <div className='form__group'>
-                        <label className='form__label'>Telefono: </label>
-                        <input className='form__input' value={selectedCustomer.telefono} />
+                        <label className='form__label'>Domicilio: </label>
+                        <input className={`form__input`} value={selectedCustomer.domicilio} disabled />
+                        {!newAddress && <small className='form__input-btn' onClick={() => { setAddNewAddress(true); setOnEditMode(true) }} >Cambiar domicilio de entrega</small>}
+                     </div>
+                     <div className='form__group'>
+                        <label className='form__label'>Referencia: </label>
+                        <input className={`form__input ${addReference ? "form__input__edit" : ""}`} disabled={addReference ? false : true} value={selectedCustomer.reference} />
+                        {!addReference && !newAddress && <small className='form__input-btn' onClick={() => setAddReference(true)} disabled={addReference ? false : true} >Agregar referencia</small>}
+                        {addReference && <small className='form__input-btn' >Guardar</small>}
                      </div>
                      <div className='form__group'>
                         <label className='form__label'>Email: </label>
-                        <input className='form__input' value={selectedCustomer.email} />
+                        <input className='form__input' value={selectedCustomer.email} disabled />
                      </div>
                   </div>
+
+                  {/* NEW ADDRESS */}
+                  {newAddress && <div className='row-nb row-nb-3'>
+                     <div className='form__group'>
+                        <label className='form__label'>Domicilio de entrega: </label>
+                        <input className={`form__input ${onEditMode ? "form__input__edit" : ""} ${error ? "is-invalid" : ""} `} value={address} onChange={(e) => setNewAddress(e.target.value)} />
+                        {error && <small className='invalid-feedback'>Debes ingresar un docimilio de entrega</small>}
+                        {onEditMode && (
+                           <Fragment>
+                              <small className='form__input-btn' onClick={() => { onSetNewAddress() }}>Aceptar</small>
+                              <small className='form__input-btn' onClick={() => { setAddNewAddress(false); setOnEditMode(false); setError(false) }}>Cancelar</small>
+                           </Fragment>
+                        )
+                        }
+                     </div>
+                     <div className='form__group'>
+                        <label className='form__label'>Referencia: </label>
+                        <input className={`form__input ${onEditMode ? "form__input__edit" : ""}`} value={referenceNewAddres} onChange={(e) => setReferenceNewAddress(e.target.value)} />
+                     </div>
+                     <div className='form__group'></div>
+                  </div>
+                  }
 
                   <hr></hr>
 
-                  <div className='row-nb'>
-                     <div className='form__group'>
-                        <label className='form__label'>
-                           Producto:
-                        </label>
-                        <select className='form__select form__input__edit'
-                           value={!id_producto ? 'seleccionar' : id_producto}
-                           onChange={(e) => onInputChange(e)}
-                           name='id_producto'>
-                           <option value='seleccionar'>--Seleccionar--</option>
-                           <option value={1}>Gas 10kg</option>
-                           <option value={2}>Gas 15kg</option>
-                           <option value={3}>Gas 45kg</option>
-                           <option value={4}>Gas 30kg</option>
-                           <option value={5}>Carbon 2kg</option>
-                           <option value={6}>Carbon 4kg</option>
-                           <option value={7}>Carbon elegido</option>
-                           <option value={8}>Contenedor</option>
-                           <option value={9}>Obrador</option>
-                           <option value={10}>Leña 7kg</option>
-                           <option value={11}>Leña a ganel</option>
-                        </select>
-                     </div>
-
-                     <div className='row-nb row-nb-3'>
-                        <div className='form__group'>
-                           <label className='form__label'>
-                              Cantidad:
-                           </label>
-                           <input className='form__input form__input__edit'
-                              type='number'
-                              value={cantidad}
-                              onChange={(e) => onInputChange(e)}
-                              name='cantidad' />
-                        </div>
-                        <div className='form__group'>
-                           <label className='form__label'>
-                              Precio:
-                           </label>
-                           <input className='form__input form__input__edit'
-                              type='number'
-                              value={precio}
-                              onChange={(e) => onInputChange(e)}
-                              name='precio' />
-                        </div>
-                        <div className='form__group'>
-                           <label className='form__label'>
-                              Flete:
-                           </label>
-                           <input className='form__input form__input__edit'
-                              type='number'
-                              value={flete}
-                              onChange={(e) => onInputChange(e)}
-                              name='flete' />
-                        </div>
-                     </div>
-                  </div>
-
-                  <div className='row-nb my-0'>
-                     <button className='button success__button mb-3' type='button' onClick={addProductToOrder} >Agregar</button>
-                  </div>
+                  <OrderItems addProductToOrder={addProductToOrder} />
 
                   {orderDetail.length > 0 && <OrderDetail orderDetail={orderDetail} />}
 

@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Backdrop from '../../Backdrop/Backdrop';
 import OrderDetailModal from '../../Modal/OrderDetailModal/OrderDetailModal';
+import Pagination from '../../Products/List/Pagination';
 import api from '../../servicios/api';
 import Order from './Order/Order';
 
@@ -10,6 +11,9 @@ const ListOrders = () => {
    const [orders, setOrders] = useState([]);
    const [showModal, setShowModal] = useState(false);
    const [orderDetail, setOrderDetail] = useState({});
+   const [actualPage, setActualPage] = useState(1);
+
+   const TOTAL_PER_PAGE = 10;
 
    useEffect(() => {
       sendHttpRequest();
@@ -34,6 +38,19 @@ const ListOrders = () => {
       setOrderDetail(order[0]);
       setShowModal(true);
    }
+
+   // Pagnation functionality
+   //Crea un array con los productos a recorrer por pagina
+   let ordersToLoad = orders.slice(
+      (actualPage - 1) * TOTAL_PER_PAGE,
+      actualPage * TOTAL_PER_PAGE
+   );
+
+   //Obtiene el total de paginas
+   const getTotalPages = () => {
+      let totalProducts = orders.length;
+      return Math.ceil(totalProducts / TOTAL_PER_PAGE);
+   };
 
    return (
       <Fragment>
@@ -66,11 +83,21 @@ const ListOrders = () => {
                   </tr>
                </thead>
                <tbody>
-                  {orders.length > 0 ? orders.map(order => {
-                     return <Order order={order} showModal={onShowModal} />
+                  {orders.length > 0 ? ordersToLoad.map((order, index) => {
+                     return <Order order={order} key={index} showModal={onShowModal} />
                   }) : null}
                </tbody>
             </table>
+
+
+            <div className='text-center'>
+               <Pagination
+                  page={actualPage}
+                  total={getTotalPages()}
+                  onChange={(page) => {
+                     setActualPage(page);
+                  }} />
+            </div>
 
          </div>
 
