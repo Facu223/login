@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import api from "../../servicios/api";
 import styles from "./ListEmployees.module.css";
-import Modal from "../../Modals/Modal";
 import Pagination from "../../Products/List/Pagination";
 
 class ListEmployees extends React.Component {
@@ -119,7 +118,7 @@ class ListEmployees extends React.Component {
                            >
                               <Link
                                  to={`/dashboard/empleados/editar/${empleado.id}`}
-                                 className={`button acept__button acept__button-table`}
+                                 className={`button success__button acept__button-table`}
                               >
                                  {/* <i className="far fa-edit"></i> */}
                                  Ver

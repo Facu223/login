@@ -36,7 +36,7 @@ const OrderDetailModal = ({ closeModal, order }) => {
 
       <div className={styles.modal__container}>
 
-         <i class={`fas fa-times ${styles.modal__close}`} onClick={() => { closeModal(false) }} ></i>
+         <i className={`fas fa-times ${styles.modal__close}`} onClick={() => { closeModal(false) }} ></i>
 
          <div className={styles.modal__header}>
             <h3 className={styles["order__customer"]}>{order.cliente.nombre} {order.cliente.apellido}</h3>

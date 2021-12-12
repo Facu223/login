@@ -9,7 +9,7 @@ import DeleteModal from "../../Modal/DeleteModal/DeleteModal";
 
 const ListTrucks = () => {
    const [trucks, setTrucks] = useState([]);
-   const [successDeleted, setSuccesDeleted] = useState(false);
+   // const [successDeleted, setSuccesDeleted] = useState(false);
    const [openModal, setOpenModal] = useState(false);
    const [truckId, setTruckId] = useState("");
    const [actualPage, setActualPage] = useState(1);
@@ -31,26 +31,26 @@ const ListTrucks = () => {
          .then((response) => setTrucks(response.camiones));
 
       return () => { };
-   }, [trucks]);
+   }, []);
 
    const deleteTruck = (id) => {
       setOpenModal(true);
       setTruckId(id);
    };
 
-   const confirmDelete = async () => {
-      setSuccesDeleted(true);
+   // const confirmDelete = async () => {
+   //    setSuccesDeleted(true);
 
-      try {
-         const response = await fetch(`${api}/api/camiones/${truckId}`, {
-            method: "DELETE",
-         });
+   //    try {
+   //       const response = await fetch(`${api}/api/camiones/${truckId}`, {
+   //          method: "DELETE",
+   //       });
 
-         if (response.status === 204) setOpenModal(false);
-      } catch (e) {
-         console.log(e);
-      }
-   };
+   //       if (response.status === 204) setOpenModal(false);
+   //    } catch (e) {
+   //       console.log(e);
+   //    }
+   // };
 
    return (
       <div className="card-nb">
@@ -101,7 +101,7 @@ const ListTrucks = () => {
                               <Link
                                  to={"/dashboard/camiones/editar/" + truck.id}
                                  type="button"
-                                 className={`button acept__button acept__button-table`}
+                                 className={`button success__button acept__button-table`}
                               >
                                  Ver
                               </Link>

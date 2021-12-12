@@ -1,4 +1,3 @@
-// import { Modal } from "bootstrap";
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import Backdrop from "../../Backdrop/Backdrop";
@@ -176,7 +175,7 @@ const EditEmployee = () => {
          </div>
 
          <div className="delete__button__container" onClick={() => { deleteHandler(id) }}>
-            <span className="delete__button"><i class="fas fa-trash-alt"></i></span>
+            <span className="delete__button"><i className="fas fa-trash-alt"></i></span>
          </div>
 
          <form className='form' onSubmit={onSubmitHandler}>

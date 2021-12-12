@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import api from "../../servicios/api";
-import styles from "./NewTruck.module.css";
+// import styles from "./NewTruck.module.css";
 import FormGroup from "../../Employees/FormGroup";
 
 const NewTruck = () => {
@@ -170,11 +170,10 @@ const NewTruck = () => {
                      value={anio}
                      name="anio"
                      onChange={onChangeHandler}
-                     className={`${"form__input__edit"} ${
-                        checkValid(errors.anio)
+                     className={`${"form__input__edit"} ${checkValid(errors.anio)
                            ? "is-invalid form__select"
                            : `form__select`
-                     }`}
+                        }`}
                   >
                      <option value="">--Seleccionar--</option>
                      <option value="2021">2021</option>
