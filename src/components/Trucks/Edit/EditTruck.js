@@ -162,7 +162,7 @@ const EditTruck = () => {
          </div>
 
          <div className="delete__button__container" onClick={() => deleteHandler(id)}>
-            <span className="delete__button"><i class="fas fa-trash-alt"></i></span>
+            <span className="delete__button"><i className="fas fa-trash-alt"></i></span>
          </div>
 
          <form onSubmit={submitHandler} className="form">

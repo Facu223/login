@@ -1,7 +1,6 @@
 import { Fragment } from "react";
 
 const DeleteModal = (props) => {
-   console.log(props);
 
    return (
       <Fragment>

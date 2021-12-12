@@ -121,7 +121,7 @@ class ListCustomers extends React.Component {
                                  >
                                     Borrar
                                  </button> */}
-                                 <Link to={`/dashboard/clientes/editar/${cliente.id}`} className="button acept__button acept__button-table">Ver</Link>
+                                 <Link to={`/dashboard/clientes/editar/${cliente.id}`} className="button success__button acept__button-table">Ver</Link>
                               </div>
                            </td>
                         </tr>

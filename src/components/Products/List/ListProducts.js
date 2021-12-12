@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import api from "../../servicios/api";
 import styles from "./ListProducts.module.css";
 import Pagination from "./Pagination";
-import stylesPagination from "./Pagination.module.css";
+// import stylesPagination from "./Pagination.module.css";
 
 const ListProducts = () => {
    const [products, setProducts] = useState([]);
    const [actualPage, setActualPage] = useState(1);
-   const TOTAL_PER_PAGE = 2;
+   const TOTAL_PER_PAGE = 10;
    const [datosCargados, setDatosCargados] = useState(false);
 
    //Crea un array con los productos a recorrer por pagina
@@ -47,14 +47,14 @@ const ListProducts = () => {
          .then((respuesta) => respuesta.json())
          .then((datosRespuesta) => {
             setDatosCargados(true);
-            setProducts([...products, ...datosRespuesta.productos]);
+            // setProducts([...products, ...datosRespuesta.productos]);
+            setProducts(datosRespuesta.productos);
+
          });
-      console.log("Ejecutando cargarDatos");
    };
 
    useEffect(() => {
       cargarDatos();
-      console.log("Ejecutando use effect");
    }, []);
 
    return (
@@ -89,7 +89,7 @@ const ListProducts = () => {
                               <td data-titulo="ID">{x.id}</td>
                               <td data-titulo="Nombre">{x.nombre}</td>
                               <td data-titulo="Descripción">{x.descripcion}</td>
-                              <td data-titulo="Precio">{x.precio}</td>
+                              <td data-titulo="Precio">${x.precio}</td>
 
                               <td>
                                  <div
@@ -97,7 +97,7 @@ const ListProducts = () => {
                                  >
                                     <Link
                                        to={`/dashboard/productos/editar/${x.id}`}
-                                       className={`button ${styles.edit__button}`}
+                                       className={`button success__button`}
                                     >
                                        Ver
                                     </Link>
