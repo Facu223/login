@@ -2,20 +2,30 @@
    padding: 1.5rem 2.5rem;
    width: 600px;
    position: absolute;
-   top: 35%;
+   top: 50%;
    left: 50%;
    transform: translate(-50%, -50%);
    z-index: 15;
    background-color: #fff;
 }
 
-.modal__close {
+.modal__close-btn {
+   font-size: 25px;
+   cursor: pointer;
+}
+
+.modal__option-btn {
+   cursor: pointer;
+}
+
+.modal__options {
    position: absolute;
    top: 10px;
-   right: 10px;
+   right: 30px;
    font-size: 20px;
-   color: rgb(36, 36, 36);
-   cursor: pointer;
+   display: flex;
+   align-items: center;
+   column-gap: .6rem;
 }
 
 .modal__header {
@@ -24,6 +34,7 @@
    display: flex;
    justify-content: space-between;
    align-items: center;
+   margin-top: 1rem;
 }
 
 .order__customer {

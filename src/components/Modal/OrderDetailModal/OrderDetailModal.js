@@ -36,7 +36,24 @@ const OrderDetailModal = ({ closeModal, order }) => {
 
       <div className={styles.modal__container}>
 
-         <i className={`fas fa-times ${styles.modal__close}`} onClick={() => { closeModal(false) }} ></i>
+         <div className={`text-black-50 ${styles.modal__options}`}>
+            {/* Dropdown */}
+            <div class={`${styles["modal__option-btn"]}`}>
+               <span class="" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-ellipsis-v"></i>
+               </span>
+               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="www.google.com">Editar</a>
+                  <a class="dropdown-item" href="www.google.com">Reasignar</a>
+                  <a class="dropdown-item" href="www.google.com">Cancelar</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item text-danger" href="www.google.com">Eliminar</a>
+               </div>
+            </div>
+
+            <i className={`fas fa-times ${styles["modal__close-btn"]}`} onClick={() => { closeModal(false) }} ></i>
+
+         </div>
 
          <div className={styles.modal__header}>
             <h3 className={styles["order__customer"]}>{order.cliente.nombre} {order.cliente.apellido}</h3>
