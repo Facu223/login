@@ -1,0 +1,28 @@
+.cities__list {
+   list-style: none;
+   padding: 8px 0;
+   margin: 0;
+   margin-top: 8px;
+}
+
+.cities__item {
+   border: 1px solid #ddd;
+   border-bottom: none;
+   padding: 8px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.cities__item:last-of-type {
+   border-bottom: 1px solid #ddd;
+}
+
+.cities__options {
+   display: flex;
+   column-gap: 10px;
+}
+
+.cities__options > i {
+   cursor: pointer;
+}

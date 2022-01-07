@@ -89,6 +89,7 @@ class ListCustomers extends React.Component {
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>Domicilio</th>
+                        <th>Ciudad</th>
                         <th>Telefono</th>
                         <th>E-mail</th>
                         <th>Acciones</th>
@@ -100,27 +101,14 @@ class ListCustomers extends React.Component {
                            <td data-titulo="ID">{cliente.id}</td>
                            <td data-titulo="Nombre">{cliente.nombre}</td>
                            <td data-titulo="Apellido">{cliente.apellido}</td>
-                           <td data-titulo="DNI">{cliente.domicilio}</td>
+                           <td data-titulo="Domicilio">{cliente.domicilio}</td>
+                           <td data-titulo="Ciudad">{cliente.ciudad.nombre}</td>
                            <td data-titulo="Telefono">{cliente.telefono}</td>
-                           <td data-titulo="Telefono">{cliente.email}</td>
+                           <td data-titulo="Email">{cliente.email}</td>
                            <td>
                               <div
                                  className={`${styles.button__group} ${styles.botones}`}
                               >
-                                 {/* <button
-                                    type="button"
-                                    onClick={this.openModal}
-                                    className={`button ${styles.edit__button}`}
-                                 >
-                                    Editar
-                                 </button>
-                                 <button
-                                    onClick={() => this.borrarRegistros(cliente.id)}
-                                    type="button"
-                                    className={`${styles.delete__button} button`}
-                                 >
-                                    Borrar
-                                 </button> */}
                                  <Link to={`/dashboard/clientes/editar/${cliente.id}`} className="button success__button acept__button-table">Ver</Link>
                               </div>
                            </td>

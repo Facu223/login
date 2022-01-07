@@ -60,9 +60,9 @@
    margin: auto;
 }
 
-td {
+/* td {
    text-transform: capitalize;
-}
+} */
 
 th:first-of-type,
 th:last-of-type {

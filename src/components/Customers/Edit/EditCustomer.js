@@ -17,11 +17,12 @@ class EditCustomer extends React.Component {
          cuit: "",
          domicilio: "",
          barrio: "",
-         localidad: "",
+         ciudad: "",
          referencia: "",
          telefono: "",
          email: "",
          errores: [],
+         ciudades: [],
          editMode: false,
          openModal: false,
       };
@@ -30,15 +31,28 @@ class EditCustomer extends React.Component {
 
    componentDidMount() {
       this.httpRequest();
+      this.fetchCities();
    }
 
    httpRequest() {
       fetch(`${api}/api/clientes/${this.customerId}`)
          .then(response => response.json())
          .then(data => {
-            const { id, nombre, apellido, domicilio, barrio, localidad, referencia, cuit, telefono, email } = data.cliente;
-            this.setState({ id, nombre, apellido, domicilio, barrio, localidad, referencia, cuit, telefono, email });
+            const { id, nombre, apellido, domicilio, barrio, ciudad, referencia, cuit, telefono, email } = data.cliente;
+            this.setState({ id, nombre, apellido, domicilio, barrio, ciudad, referencia, cuit, telefono, email });
          })
+   }
+
+   async fetchCities() {
+      try {
+         const response = await fetch(`${api}/api/ciudades`)
+         const data = await response.json();
+
+         this.setState({ ciudades: data.cities })
+
+      } catch (e) {
+         console.log(e);
+      }
    }
 
    cambioValor = (e) => {
@@ -54,7 +68,7 @@ class EditCustomer extends React.Component {
    enviarDatos = async (e) => {
       e.preventDefault();
 
-      const { nombre, apellido, domicilio, telefono, email } = this.state;
+      const { nombre, apellido, domicilio, telefono, email, ciudad } = this.state;
 
       let errores = [];
       if (!nombre) errores.push("error_nombre");
@@ -62,6 +76,7 @@ class EditCustomer extends React.Component {
       if (!domicilio) errores.push("error_domicilio");
       if (!telefono) errores.push("error_telefono");
       if (!email) errores.push("error_email");
+      if (!ciudad) errores.push("error_ciudad");
 
       this.setState({ errores: errores });
       if (errores.length > 0) return false;
@@ -72,6 +87,7 @@ class EditCustomer extends React.Component {
          domicilio: domicilio,
          telefono: telefono,
          email: email,
+         id_ciudad: ciudad
       };
 
       await fetch(`${api}/api/clientes/${this.customerId}`, {
@@ -91,7 +107,6 @@ class EditCustomer extends React.Component {
    };
 
    changeEditMode(inEditMode) {
-      // this.setState((state, props) => this.setState({ editMode: inEditMode }))
       this.setState({ editMode: inEditMode })
    }
 
@@ -104,8 +119,6 @@ class EditCustomer extends React.Component {
    }
 
    async onDeleteHandler(employeeId = this.state.id) {
-      // setSuccesDeleted(true);
-      console.log('asdasda')
 
       try {
          const response = await fetch(`${api}/api/clientes/${employeeId}`, {
@@ -121,7 +134,7 @@ class EditCustomer extends React.Component {
    };
 
    render() {
-      const { id, nombre, apellido, domicilio, barrio, localidad, referencia, cuit, telefono, email, openModal } = this.state;
+      const { id, nombre, apellido, domicilio, barrio, ciudad, referencia, cuit, telefono, email, openModal } = this.state;
       let { editMode } = this.state;
 
       return (
@@ -145,7 +158,6 @@ class EditCustomer extends React.Component {
                      id="nombre"
                      className={`${this.verificarError("error_nombre") ? "is-invalid" : ""} ${editMode ? "form__input__edit" : ""} form__input`}
                      placeholder=""
-                     disabled={!editMode}
                      disabled={!editMode}
                      aria-describedby="helpId"
                   />
@@ -210,22 +222,14 @@ class EditCustomer extends React.Component {
                   </div>
 
                   <div className="form__group">
-                     <label className="form__label">Localidad: </label>
-                     <input
-                        onChange={this.cambioValor}
-                        value={localidad}
-                        type="text"
-                        name="localidad"
-                        id="localidad"
-                        className={`${this.verificarError("error_nombre") ? "is-invalid" : ""} ${editMode ? "form__input__edit" : ""} form__input`}
-                        placeholder=""
-                        disabled={!editMode}
-                        aria-describedby="helpId"
-                     />
-                     <small id="helpId" className="invalid-feedback">
-                        Escribe la localidad del cliente
-                     </small>
+                     <label className="form__label">Ciudad:</label>
+                     <select name="ciudad" className="form__select" value={ciudad.id} onChange={this.cambioValor} disabled={!editMode}>
+                        {this.state.ciudades.map(ciudad => {
+                           return <option className="" key={ciudad.id} value={ciudad.id}>{ciudad.nombre}</option>
+                        })}
+                     </select>
                   </div>
+
                </div>
 
                <div className='row-nb row-nb-3'>

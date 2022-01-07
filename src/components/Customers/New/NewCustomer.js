@@ -1,7 +1,9 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import api from "../../servicios/api";
 import { Redirect } from "react-router-dom";
+import AddLocationModal from "../../Modal/AddLocationModal/AddLocationModal";
+import Backdrop from "../../Backdrop/Backdrop";
 
 class NewCustomer extends React.Component {
    constructor(props) {
@@ -14,11 +16,45 @@ class NewCustomer extends React.Component {
          telefono: "",
          email: "",
          barrio: "",
-         localidad: "",
+         ciudad: "",
          referencia: "",
          errores: [],
          isCharged: false,
+         showModal: false,
+         ciudades: [],
       };
+   }
+
+   componentDidMount() {
+      this.fetchCities();
+   }
+
+   async fetchCities() {
+      try {
+         const response = await (await fetch(`${api}/api/ciudades/`)).json();
+
+         this.setState({ ciudades: response.cities });
+      } catch (e) {
+         console.log(e);
+      }
+   }
+
+   addCity(city) {
+      this.setState({ ciudades: [...this.state.ciudades, city] })
+   }
+
+   updateCitiesArray(ciudades) {
+      this.setState({ ciudades });
+   }
+
+   updateCity(cityToUpdate) {
+      console.log(cityToUpdate);
+      const cities = this.state.ciudades
+
+      const citiesToUpdate = cities.filter(city => city.id !== cityToUpdate.id)
+      citiesToUpdate.push(cityToUpdate);
+
+      this.setState({ ciudades: citiesToUpdate })
    }
 
    cambioValor = (e) => {
@@ -34,17 +70,14 @@ class NewCustomer extends React.Component {
    enviarDatos = async (e) => {
       e.preventDefault();
 
-      const { nombre, apellido, cuit, domicilio, barrio, localidad, telefono, email, referencia } = this.state;
+      const { nombre, apellido, cuit, domicilio, barrio, ciudad, telefono, email, referencia } = this.state;
 
       let errores = [];
       if (!nombre) errores.push("error_nombre");
       if (!apellido) errores.push("error_apellido");
-      if (!cuit) errores.push("error_cuit")
       if (!domicilio) errores.push("error_domicilio");
       if (!telefono) errores.push("error_telefono");
-      if (!email) errores.push("error_email");
-      if (!barrio) errores.push("error_barrio");
-      if (!localidad) errores.push("error_localidad");
+      if (!ciudad) errores.push("error_ciudad");
 
       this.setState({ errores: errores });
       if (errores.length > 0) return false;
@@ -55,13 +88,11 @@ class NewCustomer extends React.Component {
          cuit: cuit,
          domicilio: domicilio,
          barrio: barrio,
-         localidad: localidad,
+         ciudad: ciudad,
          referencia: referencia,
          telefono: telefono,
          email: email,
       };
-
-      console.log(datosEnviar);
 
       await fetch(api + "/api/clientes", {
          method: "POST",
@@ -72,7 +103,6 @@ class NewCustomer extends React.Component {
       })
          .then((respuesta) => respuesta.json())
          .then((datosRespuesta) => {
-            console.log(datosRespuesta);
             if (datosRespuesta.status === 'OK') {
                this.setState({ isCharged: true });
             }
@@ -81,13 +111,32 @@ class NewCustomer extends React.Component {
 
    };
 
+   onCloseModal() {
+      this.setState({ showModal: false });
+   }
+
    render() {
-      const { nombre, apellido, cuit, telefono, domicilio, barrio, localidad, referencia, email, isCharged } =
+      const { nombre, apellido, cuit, telefono, domicilio, barrio, ciudad, referencia, email, isCharged } =
          this.state;
 
       return (
          <div className={"card-nb"}>
-            <div>Nuevo Cliente</div>
+            <div className="d-flex justify-content-between align-items-center">
+               <div className="card__title">Nuevo cliente</div>
+               <div>
+                  {/* Dropdown */}
+                  <div>
+                     <span type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                        <i className="fas fa-ellipsis-v"></i>
+                     </span>
+                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <button className="dropdown-item" type="button" href="www.google.com" onClick={() => this.setState({ showModal: true })}>Agregar ciudad</button>
+                     </div>
+                  </div>
+               </div>
+
+            </div>
+
             <form onSubmit={this.enviarDatos}>
                <div className="form-group">
                   <label className="form__label">Nombre:</label>
@@ -106,7 +155,7 @@ class NewCustomer extends React.Component {
                      aria-describedby="helpId"
                   />
                   <small id="helpId" className="invalid-feedback">
-                     Ecribe el nombre del cliente
+                     Debes ingresar un nombre
                   </small>
                </div>
                <br></br>
@@ -128,7 +177,7 @@ class NewCustomer extends React.Component {
                      aria-describedby="helpId"
                   />
                   <small id="helpId" className="invalid-feedback">
-                     Ecribe el apellido del cliente
+                     Debes ingresar un apellido
                   </small>
                </div>
                <br></br>
@@ -151,7 +200,7 @@ class NewCustomer extends React.Component {
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
-                        Ecribe el domicilio del cliente
+                        Debes ingresar un domiclio
                      </small>
                   </div>
                   <br></br>
@@ -179,23 +228,17 @@ class NewCustomer extends React.Component {
                   <br></br>
 
                   <div className="form__group">
-                     <label className="form__label">Localidad: </label>
-                     <input
-                        onChange={this.cambioValor}
-                        value={localidad}
-                        type="text"
-                        name="localidad"
-                        id="localidad"
-                        className={
-                           (this.verificarError("error_localidad")
-                              ? "is-invalid form__input form__input__edit"
-                              : "") + " form__input form__input__edit"
-                        }
-                        placeholder=""
-                        aria-describedby="helpId"
-                     />
+                     <label className="form__label">Ciudad:</label>
+                     <select name="ciudad" value={ciudad} onChange={this.cambioValor}
+                        className={`form__select form__select__edit ${this.verificarError("error_ciudad") ? "is-invalid" : ""}`}
+                     >
+                        <option defaultChecked="seleccionar" value="seleccionar">--Seleccionar--</option>
+                        {this.state.ciudades.map(ciudad => {
+                           return <option className="" key={ciudad.id} value={ciudad.id}>{ciudad.nombre}</option>
+                        })}
+                     </select>
                      <small id="helpId" className="invalid-feedback">
-                        Escribe la localidad del cliente
+                        Debes seleccionar una ciudad
                      </small>
                   </div>
                   <br></br>
@@ -219,7 +262,7 @@ class NewCustomer extends React.Component {
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
-                        Escribe el cuit o cuil del cliente
+                        Debes ingresar un cuit o cuil del cliente
                      </small>
                   </div>
                   <br></br>
@@ -241,7 +284,7 @@ class NewCustomer extends React.Component {
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
-                        Ecribe el teléfono del empleado
+                        Debes ingresar un numero de contacto
                      </small>
                   </div>
                   <br></br>
@@ -263,7 +306,7 @@ class NewCustomer extends React.Component {
                         aria-describedby="helpId"
                      />
                      <small id="helpId" className="invalid-feedback">
-                        Ecribe el E-mail del empleado
+                        Debes ingresar un email
                      </small>
                   </div>
                   <br></br>
@@ -283,6 +326,20 @@ class NewCustomer extends React.Component {
                   to="/dashboard/clientes"
                />
             ) : null}
+
+            {/* Add location modal */}
+            {this.state.showModal && (
+               <Fragment>
+                  <AddLocationModal
+                     closeModal={this.onCloseModal.bind(this)}
+                     cities={this.state.ciudades}
+                     addCity={this.addCity.bind(this)}
+                     updateCity={this.updateCity.bind(this)}
+                     updateCitiesArray={this.updateCitiesArray.bind(this)}
+                  />
+                  <Backdrop />
+               </Fragment>
+            )}
          </div>
       );
    }
