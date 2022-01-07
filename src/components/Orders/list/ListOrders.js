@@ -66,7 +66,7 @@ const ListOrders = () => {
                </Link>
             </div>
 
-            <h4 className='text-center my-2 text-black-50'>
+            <h4 className='my-2'>
                <span>Lista de pedidos</span>
             </h4>
 

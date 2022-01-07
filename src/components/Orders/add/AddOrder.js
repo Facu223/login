@@ -101,7 +101,6 @@ const AddOrder = () => {
          return [...prevState, item]
       })
 
-      console.log(orderDetail);
    }
 
    const onSetNewAddress = () => {
