@@ -1,0 +1,482 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css");
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap");
+
+*,
+::after,
+::before {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+body {
+   background-color: #eeeeee;
+   font-family: "Lato", sans-serif;
+   font-weight: 400;
+}
+
+.modal-nb {
+   position: absolute;
+   top: 35%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   z-index: 15;
+   border-radius: 5px;
+   background-color: #fff;
+}
+
+.modal-nb h3 {
+   text-align: center;
+   border: none;
+   font-size: 1.3rem;
+   font-weight: 500;
+   color: #fff;
+   padding: 0.8rem;
+   background-color: rgb(42, 88, 163);
+}
+
+.modal-nb p {
+   font-size: 1.2rem;
+   font-weight: 400;
+   color: #333;
+   text-align: center;
+   padding: 2rem;
+}
+
+.modal-nb__buttons {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding: 1rem;
+}
+
+/* Modals */
+.modal__container {
+   padding: 1.5rem 2.5rem;
+   width: 600px;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   z-index: 15;
+   background-color: #fff;
+   border-radius: 4px;
+}
+
+.modal__close-btn {
+   font-size: 20px;
+   cursor: pointer;
+   color: #6b6b6b;
+}
+
+.modal__option-btn {
+   cursor: pointer;
+}
+
+.modal__options {
+   position: absolute;
+   top: 5px;
+   right: 5px;
+   font-size: 10px;
+   display: flex;
+   align-items: center;
+   column-gap: .6rem;
+}
+
+.modal__header {
+   margin-top: 1rem;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.two-modals {
+   z-index: 25;
+}
+
+.card-nb {
+   width: 80%;
+   margin: 5rem auto;
+   position: relative;
+   background-color: #fff;
+   box-shadow: 0px 5px 10px rgb(0 0 0 / 25%);
+   border-radius: 5px;
+}
+
+.button {
+   text-decoration: none;
+   padding: 0.3rem 1.5rem;
+   border: 1px solid transparent;
+   border: none;
+   text-align: center;
+   transition: all 0.2s;
+   border-radius: 4px;
+}
+
+.button__group {
+   display: flex;
+   justify-content: center;
+}
+
+.cancel__button {
+   background-color: white;
+   border-radius: 4px;
+   color: #333;
+   letter-spacing: 0.8px;
+   margin-right: 10px;
+   border: 1px solid #7e7e7e;
+}
+
+.cancel__button:hover {
+   color: inherit;
+   color: rgb(107, 107, 107);
+   /* border: 1px solid #b92222; */
+   border: 1px solid #adadad;
+}
+
+a.acept__button {
+   display: inline-block;
+   margin-bottom: 1rem;
+}
+
+.acept__button {
+   background-color: rgb(42, 88, 163);
+   color: white;
+   letter-spacing: 0.8px;
+   margin-right: 10px;
+}
+
+.acept__button:hover {
+   background-color: #3771ce;
+   color: white;
+   box-shadow: 0 1px 5px rgb(85 133 226);
+}
+
+.acept__button-table {
+   margin: 0!important;
+}
+
+.success__button {
+   color: white;
+   background-color: #37b24d;
+   border-radius: 4px;
+}
+
+.success__button:hover {
+   background-color: #40c057;
+   color: white;
+   box-shadow: 0px 1px 4px 4px rgba(64, 192, 87, 0.4);
+}
+
+.disabled {
+   background-color: #e3e3e3;
+   color: #6d6d6d;
+}
+
+.disabled:hover {
+   background-color: #e3e3e3;
+   color: #6d6d6d;
+   box-shadow: none
+}
+
+/* SEARCH TABLE */
+.search__table {
+   max-height: 500px;
+   overflow: auto;
+}
+
+/* FORMULARIOS */
+.card-nb {
+   width: 70%;
+   padding: 1rem;
+   background-color: #fff;
+   margin: auto;
+   margin-top: 5rem;
+   margin-bottom: 5rem;
+   box-shadow: 0px 2px 10px rgb(0 0 0 / 10%);
+   border: 1px solid #ddd;
+   border-radius: 5px;
+}
+
+.card__header {
+   padding: 0.5rem;
+   text-align: center;
+}
+
+.card__title {
+   font-size: 2rem;
+}
+
+.form {
+   padding: 1rem;
+}
+
+.row-nb {
+   display: flex;
+   justify-content: space-between;
+   column-gap: 1rem;
+}
+
+.row-nb:last-of-type {
+   margin-bottom: 1rem;
+}
+
+/* .row-nb-3 > .form__group {
+   margin-right: 1rem;
+} */
+
+.row-nb > .form__group {
+   flex-basis: 49%;
+}
+
+.form__group {
+   margin-bottom: 1rem;
+}
+
+.form__label {
+   margin-bottom: 0.5rem;
+   font-weight: 700;
+   color: #333;
+}
+
+.form__input,
+.form__select {
+   padding: 0.2rem 0.6rem;
+   font-size: 1.1rem;
+   font-weight: 500;
+   border-radius: 2px;
+   color: #474747;
+   background-color: #f5f5f5;
+   /* outline-color:rgb(42, 88, 163); */
+   border: 1px solid transparent;
+}
+
+.form__input:focus {
+   box-shadow: 0 0 0 2px rgba(4, 58, 245, 0.3);
+   border-radius: 2px;
+   border: 1px solid rgb(42, 88, 163);
+}
+
+.form__input::placeholder {
+   font-size: 1rem;
+   color: #b9b8b8;
+}
+
+.form__input-btn {
+   color: rgb(42, 88, 163);
+   padding: 0.2rem;
+   cursor: pointer;
+}
+
+.form__input-btn:hover {
+   text-decoration: underline rgb(42, 88, 163);
+}
+
+.form__input__edit {
+   border: 1px solid #b8b8b8;
+   background-color: #fff;
+}
+
+.form__select {
+   width: 100%;
+}
+
+/*Pagination styles*/
+.page{
+   background-color: white;
+   color: black;
+   padding: 10px 16px;
+   text-decoration: none;
+ }
+ 
+ .page:hover{
+   background-color: gray;
+   color: white;
+   cursor: pointer;
+ }
+ 
+ .active{
+   color: white;
+   background-color: rgb(42, 88, 163);
+ }
+ 
+ .paginationContainer{
+   text-align: center;
+ }
+
+
+   
+
+/* TABLE */
+td,
+th {
+   /* text-align: center; */
+}
+
+/* Buttons */
+.back__arrow, .edit__user {
+   padding: .8rem 1rem;
+   border-radius: 50%;
+   background-color: #eee;
+}
+
+.back__arrow:hover, .edit__user:hover {
+   background-color: rgb(42, 88, 163);
+   color: white;
+   cursor: pointer;
+}
+
+.delete__button__container {
+   position: absolute;
+   top: 16px;
+   right: 30px;
+}
+
+.delete__button {
+   border-radius: 50%;
+   padding: .8rem 1.2rem;
+   color: #b92222;
+   font-size: 1rem;
+   display: inline-block;
+   transition: all .2s;
+}
+
+.delete__button:hover {
+   background-color: #b92222;
+   color: white;
+   cursor: pointer;
+   box-shadow: 0px 1px 10px #b92222;
+}
+
+.charge{
+   text-align: center;
+   margin-top: 50px;
+   margin-bottom: 30px;
+}
+
+.title__items{
+   display: flex;
+   justify-content: space-around;
+   font-size: 23px;
+}
+
+.container__carga{
+   border: .5px solid rgb(184, 182, 182);
+   padding: 10px;
+   margin-bottom: 15px;
+   text-align: center;
+}
+
+
+/* MEDIA QUERIES */
+@media (max-width: 900px) {
+   .row-nb {
+      flex-direction: column;
+   }
+
+   .card-nb {
+      width: 50%;
+   }
+
+   .row-nb-3 > .form__group {
+      margin-right: 0;
+   }
+
+   .button__group {
+      flex-direction: column;
+      padding: 0;
+   }
+
+   .acept__button, .cancel__button {
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 1rem;
+   }
+
+   .delete__button__container {
+      top: 22px;
+      right: 5px;
+   }
+
+}
+
+/* @media only screen and (max-width: 991px) { */
+   @media only screen and (max-width: 1150px) {
+      .card-nb {
+         width: 50%;
+         margin: auto;
+         margin-top: 5rem;
+      }
+   
+      .centrar {
+         width: 100%;
+      }
+   
+      h4 {
+         text-align: center;
+      }
+   
+      table tr {
+         display: flex;
+         flex-direction: column;
+         margin-bottom: 3em;
+         border: 1px solid rgba(136, 136, 136, 0.5);
+      }
+   
+      table th {
+         display: none;
+      }
+   
+      table td[data-titulo] {
+         display: flex;
+      }
+   
+      table td[data-titulo]::before {
+         content: attr(data-titulo);
+         width: 100px;
+         font-weight: bold;
+      }
+   
+      .padding-button {
+         width: 250px;
+      }
+
+   }
+   
+   @media only screen and (max-width: 767px) {
+      .padding-button {
+         width: 180px;
+      }
+
+      .card-nb {
+         width: 70%;
+      }
+   
+   }
+   
+   @media only screen and (max-width: 541px) {
+      .padding-button {
+         width: 100px;
+      }
+
+      .card-nb {
+         width: 90%;
+      }
+   
+   }
+   
+   @media only screen and (max-width: 563px) {
+      .botones {
+         display: flex;
+      }
+   
+      .new__button {
+         width: 100%;
+      }
+   }
+   
+   @media only screen and (max-width: 350px) {
+      .card2 {
+         padding-right: 250px;
+      }
+   }
