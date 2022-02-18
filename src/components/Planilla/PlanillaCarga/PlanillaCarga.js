@@ -12,7 +12,6 @@ const OrderDetail = ({ orderDetail }) => {
                   <th>Cantidad</th>
                </tr>
                {orderDetail.map((product, index) => {
-                  console.log(product)
                   return (
                      <tr key={index}>
                         <td>{product.producto} {product.descripcion}</td>

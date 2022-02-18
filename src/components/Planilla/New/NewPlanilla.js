@@ -10,10 +10,10 @@ import PlanillaCarga from "../PlanillaCarga/PlanillaCarga";
 
 const NewPlanilla = () => {
   const initialState = {
-    caja_inicial: 0,
+    caja_inicial: "",
     fecha: "",
     repartidor_id: 0,
-    camion: "",
+    camion_id: "",
     carga_inicial: [],
   };
 
@@ -22,7 +22,9 @@ const NewPlanilla = () => {
   const [repartidores, setRepartidores] = useState([]);
   const [camiones, setCamiones] = useState([]);
   const [errors, setErrors] = useState({});
-  const [carga_inicial, setOderDetail] = useState(initialState.carga_inicial);
+  const [carga_inicial, setCarga_inicial] = useState(
+    initialState.carga_inicial
+  );
   const history = useHistory();
 
   /* HANDLERS */
@@ -32,26 +34,13 @@ const NewPlanilla = () => {
     });
   };
 
-  const onChangeHandlerCharge = () => {
+  const onChangeHandlerCarga = () => {
     setNewPlanilla({ ...newPlanilla, carga_inicial });
   };
-
-  useEffect(() => {
-    onChangeHandlerCharge();
-  }, [carga_inicial]);
-
-  //const onChangeHandlerCarga = (e) => {
-  //setNewPlanilla((carga_inicial) => {
-  //return {...carga_inicial, carga_inicial: {
-  //[e.traget.name]: e.target.value
-  //}}
-  //});
-  //};
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
     const requiredFields = ["caja_inicial", "camion", "fecha", "repartidor_id"];
-
     if (Object.keys(validateInputs(newPlanilla, requiredFields)).length) {
       return setErrors(validateInputs(newPlanilla, requiredFields));
     }
@@ -60,6 +49,10 @@ const NewPlanilla = () => {
     cargarDatos();
   };
 
+  useEffect(() => {
+    onChangeHandlerCarga();
+  }, [carga_inicial]);
+
   /* HTTP REQUEST */
   const cargarDatos = async () => {
     carga_inicial.forEach((el) => {
@@ -67,31 +60,37 @@ const NewPlanilla = () => {
       delete el.producto;
     });
 
-    const data = await fetch(`${api}/api/planillas/`, {
-      method: "POST",
-      body: JSON.stringify(newPlanilla),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      const data = await fetch(`${api}/api/planillas/`, {
+        method: "POST",
+        body: JSON.stringify(newPlanilla),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    if (data.status === 201) {
-      return history.push("/dashboard/planillas");
-    }
+      if (data.status === 201) {
+        return history.push("/dashboard/planillas");
+      }
+    } catch (error) {}
   };
 
   const getRepartidores = async () => {
-    const data = await fetch(`${api}/api/empleados/`);
-    const empleados = await data.json();
-    const employees = empleados.empleados;
-    setRepartidores(employees);
+    try {
+      const data = await fetch(`${api}/api/empleados/`);
+      const empleados = await data.json();
+      const employees = empleados.empleados;
+      setRepartidores(employees);
+    } catch (error) {}
   };
 
   const getCamiones = async () => {
-    const data = await fetch(`${api}/api/camiones/`);
-    const camiones = await data.json();
-    const trucks = camiones.camiones;
-    setCamiones(trucks);
+    try {
+      const data = await fetch(`${api}/api/camiones/`);
+      const camiones = await data.json();
+      const trucks = camiones.camiones;
+      setCamiones(trucks);
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -122,10 +121,26 @@ const NewPlanilla = () => {
   const { fecha, caja_inicial } = newPlanilla;
 
   const addProductToOrder = (item) => {
-    if (item.flete === "") item.flete = 0;
-    setOderDetail((prevState) => {
-      return [...prevState, item];
-    });
+    const carga_inicial_parse = Number(carga_inicial.cantidad);
+    const itemCantidadParse = parseInt(item.cantidad);
+    item.cantidad = itemCantidadParse;
+    carga_inicial.cantidad = carga_inicial_parse;
+
+    if (carga_inicial.find((x) => x.id_producto === item.id_producto)) {
+      const newCarga = carga_inicial.map((x) =>
+        x.id_producto === item.id_producto
+          ? {
+              ...x,
+              cantidad: x.cantidad + item.cantidad,
+            }
+          : x
+      );
+      setCarga_inicial(newCarga);
+    } else {
+      setCarga_inicial((prevState) => {
+        return [...prevState, item];
+      });
+    }
   };
 
   return (
@@ -155,10 +170,10 @@ const NewPlanilla = () => {
             <label className="form__label">Camión: </label>
             <select
               className={` form__select ${"form__input__edit"} ${
-                checkValid(errors.camion) ? "is-invalid" : ""
+                checkValid(errors.camion_id) ? "is-invalid" : ""
               }`}
               onChange={onChangeHandler}
-              name={"camion"}
+              name={"camion_id"}
             >
               <option>--Seleccionar--</option>
               {camiones.map((camion) => (
@@ -213,7 +228,11 @@ const NewPlanilla = () => {
             </small>
           </div>
         </div>
-        <PlanillaItems addProductToOrder={addProductToOrder} />
+        <PlanillaItems
+          addProductToOrder={addProductToOrder}
+          carga_inicial={carga_inicial}
+          setCarga_inicial={setCarga_inicial}
+        />
 
         {carga_inicial.length > 0 && (
           <PlanillaCarga orderDetail={carga_inicial} />

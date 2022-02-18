@@ -4,42 +4,47 @@ import LoaderSpinner from "../../LoaderSpinner/LoaderSpinner";
 import api from "../../servicios/api";
 import styles from "./ListProducts.module.css";
 import Pagination from "./Pagination";
-// import stylesPagination from "./Pagination.module.css";
+import ModalCarga from "../.././Modal/ModalCarga/ModalCarga";
+import Backdrop from "../../Backdrop/Backdrop";
 
-const ListProducts = () => {
-  const [products, setProducts] = useState([]);
+const ListPlanilla = () => {
+  const [planillas, setPlanillas] = useState([]);
   const [actualPage, setActualPage] = useState(1);
   const TOTAL_PER_PAGE = 10;
   const [datosCargados, setDatosCargados] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [carga, setCarga] = useState([]);
+  const [idPlanilla, setIdPlanilla] = useState()
+
+  console.log(carga);
 
   //Crea un array con los productos a recorrer por pagina
-  let productsToLoad = products.slice(
+  let planillasToLoad = planillas.slice(
     (actualPage - 1) * TOTAL_PER_PAGE,
     actualPage * TOTAL_PER_PAGE
   );
 
+  const fetchProductInfo = async (id) => {
+    try {
+      const data = await fetch(`${api}/api/planillas/${id}`);
+      const respuesta = await data.json();
+      console.log(respuesta.planillas);
+      const { carga } = respuesta.planillas;
+      setCarga(carga[0].detalle_carga);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const onShowModal = (planillaId) => {
+    fetchProductInfo(planillaId);
+    setShowModal(true);
+  };
+
   //Obtiene el total de paginas
   const getTotalPages = () => {
-    let totalProducts = products.length;
-    return Math.ceil(totalProducts / TOTAL_PER_PAGE);
-  };
-
-  //Elimina producto llamando deleteP()
-  const deleteProduct = (id) => {
-    if (window.confirm("¿Estás seguro que deseas eliminar este producto?"))
-      fetch(`${api}/api/productos/${id}`, {
-        method: "DELETE",
-        header: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }).then(() => deleteP(id));
-  };
-
-  //Elimina un producto
-  const deleteP = (id) => {
-    const newProducts = products.filter((product) => product.id !== id);
-    setProducts(newProducts);
+    let totalPlanillas = planillas.length;
+    return Math.ceil(totalPlanillas / TOTAL_PER_PAGE);
   };
 
   //Traer todos los productos
@@ -48,10 +53,14 @@ const ListProducts = () => {
       .then((respuesta) => respuesta.json())
       .then((datosRespuesta) => {
         setDatosCargados(true);
-        // setProducts([...products, ...datosRespuesta.productos]);
-        setProducts(datosRespuesta.planillas);
+        setPlanillas(datosRespuesta.planillas);
       });
   };
+
+  //Convierte a mayuscula la primera letra de un texto
+  function capitalize(word) {
+    return word[0].toUpperCase() + word.slice(1);
+  }
 
   useEffect(() => {
     cargarDatos();
@@ -73,7 +82,7 @@ const ListProducts = () => {
               </Link>
             </div>
             <h4>Lista de planillas</h4>
-            {products.length === 0 ? (
+            {planillas.length === 0 ? (
               <p style={{ textAlign: "center" }}>No hay datos por listar</p>
             ) : (
               <table className="table">
@@ -81,7 +90,7 @@ const ListProducts = () => {
                   <tr>
                     <th>ID</th>
                     <th>Fecha</th>
-                    <th>Camión (patente)</th>
+                    <th>Camión (Modelo y N° Poliza)</th>
                     <th>Repartidor</th>
                     <th>Caja inicial</th>
                     <th>Carga</th>
@@ -89,24 +98,30 @@ const ListProducts = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {productsToLoad.map((x) => (
+                  {planillasToLoad.map((x) => (
                     <tr key={x.id}>
                       <td data-titulo="ID">{x.id}</td>
                       <td data-titulo="Fecha">{x.fecha}</td>
                       <td data-titulo="Camión (patente)">
-                        {x.empleado.nombre}
+                        {capitalize(x.camion.marca)} - {x.camion.modelo} -{" "}
+                        {x.camion.numero_poliza}
                       </td>
                       <td data-titulo="Nombre del repartidor">
-                        {x.empleado.nombre}
+                        {capitalize(x.empleado.nombre)}{" "}
+                        {capitalize(x.empleado.apellido)}
                       </td>
                       <td data-titulo="Caja inicial">{x.caja_inicial}</td>
                       <td data-titulo="Carga">
-                        <Link
-                          to={`/dashboard/productos/editar/${x.id}`}
+                        <button
+                          onClick={() => {
+                            setIdPlanilla(x.id)
+                            onShowModal(x.id);
+                          }}
+
                           className={`button acept__button`}
                         >
                           Ver carga
-                        </Link>
+                        </button>
                       </td>
                       <td>
                         <div
@@ -118,13 +133,6 @@ const ListProducts = () => {
                           >
                             Ver
                           </Link>
-                          {/* <button
-                                       onClick={() => deleteProduct(x.id)}
-                                       type="button"
-                                       className={`${styles.delete__button} button`}
-                                    >
-                                       Borrar
-                                    </button> */}
                         </div>
                       </td>
                     </tr>
@@ -146,8 +154,10 @@ const ListProducts = () => {
       ) : (
         <LoaderSpinner />
       )}
+      {showModal && <ModalCarga closeModal={setShowModal} carga={carga} idPlanilla={idPlanilla}/>}
+      {showModal && <Backdrop />}
     </>
   );
 };
 
-export default ListProducts;
+export default ListPlanilla;

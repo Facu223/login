@@ -58,7 +58,7 @@ const EditProduct = () => {
     try {
       const data = await fetch(`${api}/api/planillas/${id}`);
       const respuesta = await data.json();
-      console.log(respuesta.planillas);
+      console.log("response", respuesta.planillas);
 
       const {
         carga,
@@ -96,7 +96,6 @@ const EditProduct = () => {
     setCharge((prevState) => {
       return [...prevState, {[e.target.name]: e.target.value}]
     })
-    // setCharge([{[e.target.name]: e.target.value}])
   };
 
   const onSubmitHandler = (e) => {
