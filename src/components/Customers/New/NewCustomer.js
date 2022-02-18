@@ -32,7 +32,6 @@ class NewCustomer extends React.Component {
    async fetchCities() {
       try {
          const response = await (await fetch(`${api}/api/ciudades/`)).json();
-
          this.setState({ ciudades: response.cities });
       } catch (e) {
          console.log(e);

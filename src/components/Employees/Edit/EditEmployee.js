@@ -66,7 +66,6 @@ const EditEmployee = () => {
             licencia_conducir,
             vencimiento_licencia,
          };
-
          setInitialState(employeeData);
       } catch (e) {
          console.log(e);
@@ -142,7 +141,6 @@ const EditEmployee = () => {
 
    const onDeleteHandler = async () => {
       // setSuccesDeleted(true);
-
       try {
          const response = await fetch(`${api}/api/empleados/${employeeId}`, {
             method: "DELETE",

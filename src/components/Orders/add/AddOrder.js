@@ -1,7 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { useHistory } from 'react-router';
-import Backdrop from '../../Backdrop/Backdrop';
-import EditCustomerModal from '../../Modal/EditCustomerModal/EditCustomerModal';
 
 import api from '../../servicios/api';
 import OrderDetail from '../OrderDetail/OrderDetail';
@@ -19,8 +17,6 @@ const AddOrder = () => {
    const [referenceNewAddres, setReferenceNewAddress] = useState();
    let [alreadySearch, setAlreadySearch] = useState(false);
    const [error, setError] = useState(false);
-   const [showEditCustomerModal, setShowEditCustomerModal] = useState(false);
-
    const [orderDetail, setOderDetail] = useState([]);
 
    // Hooks
@@ -38,9 +34,9 @@ const AddOrder = () => {
                'Content-type': 'json/application'
             }
          })
-
          const data = await response.json();
 
+         console.log(data);
       } catch (e) {
          console.log(e)
       }
@@ -73,10 +69,6 @@ const AddOrder = () => {
       } catch (e) {
          console.log(e)
       }
-   }
-
-   const onUpdateCustomer = (customerUpdated) => {
-      setSelectedCustomer(customerUpdated);
    }
 
    const onSelectCustomer = (customerId) => {
@@ -155,8 +147,6 @@ const AddOrder = () => {
          if (response.status === 201) {
             history.push('/dashboard/pedidos')
          }
-
-
       } catch (e) {
          console.log(e);
       }
@@ -223,7 +213,7 @@ const AddOrder = () => {
             <div className='card-nb'>
                <div className={styles["order__customer-options"]}>
                   <span className='back__arrow' onClick={() => { onChooseAnotherCustomer() }}><i className="fas fa-long-arrow-alt-left"></i></span>
-                  <span className='edit__user' onClick={() => { setShowEditCustomerModal(true) }} ><i className="fas fa-user-edit"></i></span>
+                  <span className='edit__user'><i className="fas fa-user-edit"></i></span>
                </div>
                <form className='form' onSubmit={onSubmitHandler}>
                   <div className='row-nb'>
@@ -247,15 +237,11 @@ const AddOrder = () => {
                         <input className={`form__input`} value={selectedCustomer.domicilio} disabled />
                         {!newAddress && <small className='form__input-btn' onClick={() => { setAddNewAddress(true); setOnEditMode(true) }} >Cambiar domicilio de entrega</small>}
                      </div>
-                     {/* <div className='form__group'>
+                     <div className='form__group'>
                         <label className='form__label'>Referencia: </label>
                         <input className={`form__input ${addReference ? "form__input__edit" : ""}`} disabled={addReference ? false : true} value={selectedCustomer.reference} />
                         {!addReference && !newAddress && <small className='form__input-btn' onClick={() => setAddReference(true)} disabled={addReference ? false : true} >Agregar referencia</small>}
                         {addReference && <small className='form__input-btn' >Guardar</small>}
-                     </div> */}
-                     <div className='form__group'>
-                        <label className='form__label'>Localidad: </label>
-                        <input className='form__input' value={selectedCustomer.ciudad.nombre} disabled />
                      </div>
                      <div className='form__group'>
                         <label className='form__label'>Email: </label>
@@ -304,15 +290,6 @@ const AddOrder = () => {
 
             </div>
          }
-
-         {/* Edit customer modal */}
-
-         {showEditCustomerModal && (
-            <Fragment>
-               <EditCustomerModal customer={selectedCustomer} showModal={setShowEditCustomerModal} updateCustomer={(customerUpdated) => { onUpdateCustomer(customerUpdated) }} />
-               <Backdrop />
-            </Fragment>
-         )}
       </Fragment >
    )
 }

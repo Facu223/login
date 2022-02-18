@@ -75,6 +75,7 @@ class EditCustomer extends React.Component {
       if (!apellido) errores.push("error_apellido");
       if (!domicilio) errores.push("error_domicilio");
       if (!telefono) errores.push("error_telefono");
+      if (!email) errores.push("error_email");
       if (!ciudad) errores.push("error_ciudad");
 
       this.setState({ errores: errores });
@@ -88,10 +89,6 @@ class EditCustomer extends React.Component {
          email: email,
          id_ciudad: ciudad
       };
-
-      if (ciudad.id) {
-         datosEnviar.id_ciudad = ciudad.id;
-      }
 
       await fetch(`${api}/api/clientes/${this.customerId}`, {
          method: "PATCH",
