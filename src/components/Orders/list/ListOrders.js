@@ -70,11 +70,11 @@ const ListOrders = () => {
                <span>Lista de pedidos</span>
             </h4>
 
-            <table className='table'>
-               <thead>
+            <table className='table table-hover'>
+               <thead className='text-center'>
                   <tr>
                      <th>N° Pedido</th>
-                     <th>Cliete</th>
+                     <th>Cliente</th>
                      <th>Domicilio de entrega</th>
                      <th>Referencia</th>
                      <th>Localidad</th>
@@ -82,7 +82,7 @@ const ListOrders = () => {
                      <th>Accion</th>
                   </tr>
                </thead>
-               <tbody>
+               <tbody className='text-center'>
                   {orders.length > 0 ? ordersToLoad.map((order, index) => {
                      return <Order order={order} key={index} showModal={onShowModal} />
                   }) : null}

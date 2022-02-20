@@ -21,8 +21,8 @@
 .modal__options {
    position: absolute;
    top: 10px;
-   right: 30px;
-   font-size: 20px;
+   right: 10px;
+   font-size: 18px;
    display: flex;
    align-items: center;
    column-gap: .6rem;
@@ -139,4 +139,30 @@
    width: 100%;
    display: block;
    padding: .8rem;
+}
+
+@media (max-width: 660px) {
+   .modal__container {
+      width: 90%;
+      padding: 1rem 2rem;
+   }
+}
+
+@media (max-width: 541px) {
+   .customer-info__list {
+      flex-direction: column;
+      align-items: flex-start;
+   }
+
+   .modal__order-total {
+      display: block;
+   }
+
+   .total__detail {
+      justify-content: space-between;
+   }
+
+   .total {
+      text-align: center;
+   }
 }
