@@ -348,6 +348,11 @@ th {
    box-shadow: 0px 1px 10px #b92222;
 }
 
+/* Utils */
+.cursor-pointer {
+   cursor: pointer;
+}
+
 /* MEDIA QUERIES */
 @media (max-width: 900px) {
    .row-nb {
