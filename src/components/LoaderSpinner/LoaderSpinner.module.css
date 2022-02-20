@@ -1,0 +1,6 @@
+.container__spinner{
+    z-index: 100;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}

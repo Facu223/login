@@ -21,6 +21,10 @@ import EditProduct from "../Products/Edit/EditProduct";
 import AddOrder from "../Orders/add/AddOrder";
 import ListOrders from "../Orders/list/ListOrders";
 
+import ListPlanilla from '../Planilla/List/ListPlanilla'
+import NewPlanilla from '../Planilla/New/NewPlanilla'
+import EditPlanilla from '../Planilla/Edit/EditPlanilla'
+
 function Dashboard() {
    const [backdropOpen, setOpen] = useState(false);
    const [menuOpen, setMenuOpen] = useState(false);
@@ -62,6 +66,10 @@ function Dashboard() {
 
             <Route path={`${path}/pedidos`} exact component={ListOrders} />
             <Route path={`${path}/pedidos/nuevo`} exact component={AddOrder} />
+
+            <Route path={`${path}/planillas`} exact component={ListPlanilla} />
+            <Route path={`${path}/planillas/nuevo`} exact component={NewPlanilla} />
+            <Route path={`${path}/planillas/editar/:id`} exact component={EditPlanilla}/>
 
          </main>
 
