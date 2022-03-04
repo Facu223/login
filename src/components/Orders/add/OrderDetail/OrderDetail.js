@@ -2,8 +2,8 @@ import React, { Fragment, useEffect, useState } from 'react'
 
 import styles from './OrderDetail.module.css';
 
-const OrderDetail = ({ orderDetail }) => {
-
+const OrderDetail = ({ orderDetail, ...props }) => {
+   // States
    const [total, setTotal] = useState(0);
 
    const calcTotal = () => {
@@ -40,6 +40,7 @@ const OrderDetail = ({ orderDetail }) => {
                   <th>Precio</th>
                   <th>Flete</th>
                   <th>Total</th>
+                  {props.editMode && <th>Acciones</th>}
                </tr>
                {orderDetail.map((product, index) => {
                   return (
@@ -49,6 +50,11 @@ const OrderDetail = ({ orderDetail }) => {
                         <td>${product.precio}</td>
                         <td>${product.flete}</td>
                         <td>${product.itemTotal}</td>
+                        {props.editMode &&
+                           <td className='text-center'>
+                              <i class="fas fa-pen mr-4 text-warning cursor-pointer" style={{ 'margin-right': '15px' }}></i>
+                              <i class="fas fa-minus-circle text-danger cursor-pointer"></i>
+                           </td>}
                      </tr>
                   )
                })}

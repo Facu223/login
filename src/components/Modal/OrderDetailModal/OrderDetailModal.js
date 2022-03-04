@@ -42,8 +42,7 @@ const OrderDetailModal = ({ closeModal, order }) => {
                <span class="" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                   <i class="fas fa-ellipsis-v"></i>
                </span>
-               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="www.google.com">Editar</a>
+               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item" href="www.google.com">Reasignar</a>
                   <a class="dropdown-item" href="www.google.com">Cancelar</a>
                   <div class="dropdown-divider"></div>
@@ -65,7 +64,7 @@ const OrderDetailModal = ({ closeModal, order }) => {
             <ul className={styles["customer-info__list"]}>
                <div className={styles["customer-info__address"]}>
                   <li><strong>Domicilio: </strong> {order.domicilio_entrega}</li>
-                  <li><strong>Localidad: </strong>{order.cliente.localidad} </li>
+                  <li><strong>Localidad: </strong>{order.cliente.ciudad.nombre} </li>
                   <li><strong>Referencia: </strong>{order.referencia} </li>
                </div>
                <div className={styles["customer-info__contact"]}>
